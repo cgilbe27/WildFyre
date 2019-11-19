@@ -13,9 +13,9 @@
         <mat-icon>account_circle</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-input-container>
+    <mat-form-field>
       <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="model.email" #email="ngModel" autocomplete="email" required/>
-    </mat-input-container>
+    </mat-form-field>
     <div *ngIf="errors && errors.email" class="help-block has-error">
       <ul *ngFor="let err of errors.email">
         <li>{{err}}</li>
@@ -44,17 +44,17 @@
         <mat-icon>lock</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-input-container>
+    <mat-form-field>
       <input matInput placeholder="Email" type="email" name="email2" [(ngModel)]="model.email2" #email2="ngModel" autocomplete="email" required/>
-    </mat-input-container>
+    </mat-form-field>
     <div *ngIf="errors && errors.email" class="help-block has-error">
       <ul *ngFor="let err of errors.email">
         <li>{{err}}</li>
       </ul>
     </div>
-    <mat-input-container>
+    <mat-form-field>
       <input matInput placeholder="Username"  type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="username" required/>
-    </mat-input-container>
+    </mat-form-field>
     <div *ngIf="errors && errors.username" class="help-block has-error">
       <ul *ngFor="let err of errors.username">
         <li>{{err}}</li>

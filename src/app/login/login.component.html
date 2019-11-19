@@ -12,16 +12,16 @@
       </div>
 
       <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-        <mat-input-container>
+        <mat-form-field>
           <input matInput placeholder="Username" type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="username" required />
-        </mat-input-container>
+        </mat-form-field>
         <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
       </div>
 
       <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-        <mat-input-container>
+        <mat-form-field>
           <input matInput placeholder="Password" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" autocomplete="current-password" required />
-        </mat-input-container>
+        </mat-form-field>
         <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
       </div>
 

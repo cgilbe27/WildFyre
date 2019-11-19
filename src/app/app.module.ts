@@ -64,7 +64,7 @@ import { RouteService } from './_services/route.service';
 import { Routing } from './app.routing';
 
 // Third Party Modules
-import { Angulartics2Module, Angulartics2Piwik } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
 import { ClipboardModule } from 'ngx-clipboard';
 import 'hammerjs';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -72,9 +72,6 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 
 @NgModule({
   imports: [
-    // forRoot
-    Angulartics2Module.forRoot([ Angulartics2Piwik ]),
-
     // Core Modules
     NgxMasonryModule,
 
@@ -105,8 +102,10 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     ClipboardModule,
     NgxPaginationModule,
     ReCaptchaModule,
-    ShareModule
+    ShareModule,
 
+    // forRoot
+    Angulartics2Module.forRoot()
   ],
   declarations: [
     // Components

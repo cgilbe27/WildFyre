@@ -1,9 +1,6 @@
-
 import {of, Observable } from 'rxjs';
-
 import {map, catchError} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Account, AccountError } from '../_models/account';
 import { Author, AuthorError } from '../_models/author';
 import { Profile, ProfileError } from '../_models/profile';
@@ -26,7 +23,7 @@ export class ProfileService {
       return of(this.account);
     } else {
     return this.httpService.GET('/account/').pipe(
-      map((response: Response) => {
+      map((response) => {
         this.account = Account.parse(response); // cache
         return this.account;
       }));
@@ -35,7 +32,7 @@ export class ProfileService {
 
   getBans(limit: number, offset: number): Observable<SuperBan> {
     return this.httpService.GET('/bans/?limit=' + limit + '&offset=' + offset).pipe(
-      map((response: Response) => {
+      map((response) => {
         this.superBans = SuperBan.parse(response); // cache
         return this.superBans;
       }));
@@ -46,7 +43,7 @@ export class ProfileService {
       return of(this.self);
     } else {
       return this.httpService.GET('/users/').pipe(
-        map((response: Response) => {
+        map((response) => {
           this.self = Author.parse(response);  // cache
           return this.self;
         }));
@@ -58,7 +55,7 @@ export class ProfileService {
       return of(this.userArray[Number(id)]);
     } else {
     return this.httpService.GET(`/users/${id}/`).pipe(
-      map((response: Response) => {
+      map((response) => {
         this.userArray[Number(id)] = Author.parse(response); // cache
         return this.userArray[Number(id)];
       }));
@@ -73,7 +70,7 @@ export class ProfileService {
     };
 
     return this.httpService.PATCH('/users/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         console.log('You leveled up some stats');
 
         return Author.parse(response);
@@ -91,7 +88,7 @@ export class ProfileService {
     };
 
     return this.httpService.PATCH('/account/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         console.log('You have mail!');
 
         return Account.parse(response);
@@ -109,7 +106,7 @@ export class ProfileService {
     };
 
     return this.httpService.PATCH('/account/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         console.log('You have been securely encryptified');
 
         return Account.parse(response);
@@ -126,7 +123,7 @@ export class ProfileService {
      formData.append('avatar', image, image.name);
 
     return this.httpService.PUT_IMAGE('/users/', formData).pipe(
-      map((response: Response) => {
+      map((response) => {
         console.log('You looked in the mirror and got frightened');
         return Profile.parse(response);
       }),catchError((err) => {

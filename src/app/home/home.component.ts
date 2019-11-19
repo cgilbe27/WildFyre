@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
             window.localStorage.setItem('blockedUsers', window.localStorage.getItem('blockedUsers') + String(id + ','));
@@ -147,7 +147,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
             window.localStorage.setItem('blockedUsers', window.localStorage.getItem('blockedUsers').replace(id + ',', ''));
@@ -194,7 +194,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           this.commentService.deleteComment(
             this.currentArea,
@@ -218,7 +218,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result) => {
         this.flagService.sendFlagReport(result.typeOfReport, result.report, result.choice, result.area);
       });
   }
@@ -308,7 +308,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ShareDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { isLink: any; }) => {
         if (result.isLink) {
           this.snackBar.open('Link copied successfully', 'Close');
         }

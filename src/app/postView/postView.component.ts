@@ -17,6 +17,7 @@ import { NavBarService } from '../_services/navBar.service';
 import { PostService } from '../_services/post.service';
 import { ProfileService } from '../_services/profile.service';
 import { RouteService } from '../_services/route.service';
+import { takeUntil } from 'rxjs/operators';
 
 enum TypeOfReport {
   Post,
@@ -65,22 +66,22 @@ export class PostViewComponent implements OnInit, OnDestroy {
       this.blockedUsers.pop();
     }
 
-    this.profileService.getSelf()
-      .takeUntil(this.componentDestroyed)
+    this.profileService.getSelf().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe( (author: Author) => {
         this.userID = author.user;
         this.loggedIn = true;
       });
 
-    this.navBarService.comment
-      .takeUntil(this.componentDestroyed)
+    this.navBarService.comment.pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((comment: CommentData) => {
         this.cdRef.detectChanges();
         if (!this.wait) {
           if (comment.comment !== '' && this.runImageCheck(comment.comment)) {
             if (comment.image) {
-              this.postService.setPicture(comment.image, this.post, this.currentArea, false, comment.comment)
-                .takeUntil(this.componentDestroyed)
+              this.postService.setPicture(comment.image, this.post, this.currentArea, false, comment.comment).pipe(
+                takeUntil(this.componentDestroyed))
                 .subscribe(result2 => {
                   if (!result2.getError()) {
                     this.post.comments.push(result2);
@@ -92,8 +93,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
                   }
               });
             } else {
-              this.postService.comment(this.currentArea, this.post, comment.comment)
-                .takeUntil(this.componentDestroyed)
+              this.postService.comment(this.currentArea, this.post, comment.comment).pipe(
+                takeUntil(this.componentDestroyed))
                 .subscribe();
                 this.navBarService.clearInputs.next(true);
             }
@@ -111,13 +112,13 @@ export class PostViewComponent implements OnInit, OnDestroy {
       this.wait = false;
     });
 
-    this.route.params
-      .takeUntil(this.componentDestroyed)
-      .subscribe(params => {
+    this.route.params.pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((params: { [x: string]: any; }) => {
         this.currentArea = params['area'];
 
-        this.postService.getPost(this.currentArea, params['id'])
-          .takeUntil(this.componentDestroyed)
+        this.postService.getPost(this.currentArea, params['id']).pipe(
+          takeUntil(this.componentDestroyed))
           .subscribe(post => {
             this.post =  post;
             this.commentCount = this.post.comments.length;
@@ -155,9 +156,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   blockUser(id: number) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
             window.localStorage.setItem('blockedUsers', window.localStorage.getItem('blockedUsers') + String(id + ','));
@@ -171,9 +172,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   unblockUser(id: number) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
             window.localStorage.setItem('blockedUsers', window.localStorage.getItem('blockedUsers').replace(id + ',', ''));
@@ -231,9 +232,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
 
   openCommentDeleteDialog(c: Comment) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           this.commentService.deleteComment(
             this.currentArea,
@@ -255,18 +256,18 @@ export class PostViewComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FlagDialogComponent);
     dialogRef.componentInstance.typeOfReport = typeOfFlagReport;
 
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result) => {
         this.flagService.sendFlagReport(result.typeOfReport, result.report, result.choice, result.area);
       });
   }
 
   openPostDeleteDialog() {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           this.postService.deletePost(this.currentArea, this.post.id, false);
           this.snackBar.open('Post deleted successfully', 'Close', {
@@ -309,9 +310,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
       authorName
     ));
     const dialogRef = this.dialog.open(ShareDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
-      .subscribe(result => {
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((result: { isLink: any; }) => {
         if (result.isLink) {
           this.snackBar.open('Link copied successfully', 'Close', {
             duration: 3000
@@ -321,8 +322,8 @@ export class PostViewComponent implements OnInit, OnDestroy {
   }
 
   subscribe(s: boolean) {
-    this.postService.subscribe(this.currentArea, this.post, s)
-      .takeUntil(this.componentDestroyed)
+    this.postService.subscribe(this.currentArea, this.post, s).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { Author } from '../_models/author';
 

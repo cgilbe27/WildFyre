@@ -15,6 +15,7 @@ import { AuthenticationService } from '../_services/authentication.service';
 import { ProfileService } from '../_services/profile.service';
 import { ReasonService } from '../_services/reason.service';
 import { RouteService } from '../_services/route.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'profile.component.html'
@@ -48,18 +49,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.reasonService.getFlagReasons()
-      .takeUntil(this.componentDestroyed)
+    this.reasonService.getFlagReasons().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((choices) => {
         this.choices = choices;
       });
     this.routeService.resetRoutes();
-    this.route.params
-      .takeUntil(this.componentDestroyed)
-      .subscribe((parms) => {
+    this.route.params.pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((parms: { [x: string]: string; }) => {
         if (parms['id']) {
-          this.profileService.getUser(parms['id'])
-            .takeUntil(this.componentDestroyed)
+          this.profileService.getUser(parms['id']).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe((user: Author) => {
               this.self = false;
               this.author = user;
@@ -67,22 +68,22 @@ export class ProfileComponent implements OnInit, OnDestroy {
         } else {
           this.self = true;
 
-          this.profileService.getSelf()
-            .takeUntil(this.componentDestroyed)
+          this.profileService.getSelf().pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe((self: Author) => {
               this.author = self;
               this.model.bio = this.author.bio;
             });
 
-          this.profileService.getAccount()
-            .takeUntil(this.componentDestroyed)
+          this.profileService.getAccount().pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe((self: Account) => {
               this.account = self;
               this.model.email = this.account.email;
             });
 
-          this.profileService.getBans(this.limit, (this.index * this.limit) - this.limit)
-            .takeUntil(this.componentDestroyed)
+          this.profileService.getBans(this.limit, (this.index * this.limit) - this.limit).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe((superBan: SuperBan) => {
               superBan.results.forEach((obj: any) => {
                 this.bans.push(Ban.parse(obj));
@@ -94,8 +95,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
         }
     });
 
-    this.profileService.getAccount()
-      .takeUntil(this.componentDestroyed)
+    this.profileService.getAccount().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((self: Account) => {
         this.account = self;
         this.model.email = this.account.email;
@@ -114,8 +115,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.bans = [];
 
-    this.profileService.getBans(this.limit, (this.offset * page) - this.limit)
-      .takeUntil(this.componentDestroyed)
+    this.profileService.getBans(this.limit, (this.offset * page) - this.limit).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(superBan => {
 
         superBan.results.forEach((obj: any) => {
@@ -140,12 +141,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   openBioDialog() {
     const dialogRef = this.dialog.open(BioDialogComponent);
     dialogRef.componentInstance.model.bio = this.author.bio;
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
-          this.profileService.setBio(this.author, result.bio)
-            .takeUntil(this.componentDestroyed)
+          this.profileService.setBio(this.author, result.bio).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe();
           const snackBarRef = this.snackBar.open('Bio changed successfully', 'Close', {
             duration: 3000
@@ -157,12 +158,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
   openEmailDialog() {
     const dialogRef = this.dialog.open(EmailDialogComponent);
     dialogRef.componentInstance.model.email = this.account.email;
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
-          this.profileService.setEmail(result.email)
-            .takeUntil(this.componentDestroyed)
+          this.profileService.setEmail(result.email).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe();
           const snackBarRef = this.snackBar
             .open('We just sent you a verification email, you must verify your email for it to be set', 'Close', {
@@ -176,8 +177,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(PasswordDialogComponent);
     dialogRef.componentInstance.account = this.account;
     dialogRef.componentInstance.author = this.author;
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           const snackBarRef = this.snackBar.open('Password changed successfully', 'Close', {
@@ -190,13 +191,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
   openPictureDialog() {
     const dialogRef = this.dialog.open(AvatarDialogComponent);
     dialogRef.componentInstance.author = this.author;
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           if (result.profilePicture) {
-          this.profileService.setProfilePicture(result.profilePicture)
-            .takeUntil(this.componentDestroyed)
+          this.profileService.setProfilePicture(result.profilePicture).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe(result2 => {
               if (!result2.getError()) {
               this.author.avatar = result2.avatar;

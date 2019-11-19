@@ -1,7 +1,6 @@
 import {of, Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { HttpService } from './http.service';
 import { Area } from '../_models/area';
 import { Reputation } from '../_models/reputation';
@@ -22,7 +21,7 @@ export class AreaService {
       return of(this.reputation[area]);
     } else {
       return this.httpService.GET('/areas/' + area + '/rep/').pipe(
-        map((response: Response) => {
+        map((response) => {
           this.reputation[area] = Reputation.parse(response);
           return this.reputation[area];
         }));

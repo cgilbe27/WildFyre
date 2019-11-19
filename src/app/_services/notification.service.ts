@@ -1,12 +1,10 @@
 
 import {map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import { SuperNotification } from '../_models/superNotification';
 import { SuperPost } from '../_models/superPost';
 import { HttpService } from './http.service';
-import { NavBarService } from '../_services/navBar.service';
 
 @Injectable()
 export class NotificationService {
@@ -14,8 +12,7 @@ export class NotificationService {
   superPosts: { [area: string]: SuperPost; } = {};
 
   constructor(
-    private httpService: HttpService,
-    private navBarService: NavBarService
+    private httpService: HttpService
   ) { }
 
   deleteNotifications(): void {
@@ -27,7 +24,7 @@ export class NotificationService {
 
   getArchive(area: string, limit: number, offset: number): Observable<SuperPost> {
     return this.httpService.GET('/areas/' + area + '/subscribed/?limit=' + limit + '&offset=' + offset).pipe(
-      map((response: Response) => {
+      map((response) => {
         this.superPosts[area] = SuperPost.parse(response);
 
         return this.superPosts[area];
@@ -51,7 +48,7 @@ export class NotificationService {
       offset = 0;
     }
     return this.httpService.GET('/areas/notification/?limit=' + limit + '&offset=' + offset).pipe(
-      map((response: Response) => {
+      map((response) => {
         this.superNotification = SuperNotification.parse(response);
         return this.superNotification;
       }));

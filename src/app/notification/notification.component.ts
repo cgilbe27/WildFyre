@@ -9,6 +9,7 @@ import { SuperNotification } from '../_models/superNotification';
 import { NavBarService } from '../_services/navBar.service';
 import { NotificationService } from '../_services/notification.service';
 import { RouteService } from '../_services/route.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'notification.component.html'
@@ -81,15 +82,15 @@ export class NotificationComponent implements OnInit, OnDestroy {
     this.routeService.resetRoutes();
     this.routeService.addNextRoute('/notification/' + this.index);
 
-    this.route.params
-      .takeUntil(this.componentDestroyed)
+    this.route.params.pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(params => {
         if (params['index'] !== undefined) {
           this.index = params['index'];
         }
         // get notifications from secure api end point
-        this.notificationService.getSuperNotification(this.limit, (this.index * this.limit) - this.limit)
-          .takeUntil(this.componentDestroyed)
+        this.notificationService.getSuperNotification(this.limit, (this.index * this.limit) - this.limit).pipe(
+          takeUntil(this.componentDestroyed))
           .subscribe(superNotification => {
             this.superNotification = superNotification;
 
@@ -117,8 +118,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
 
   deleteNotifications() {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           this.notificationService.deleteNotifications();
@@ -142,8 +143,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.notifications = [];
 
-    this.notificationService.getSuperNotification(this.limit, (this.offset * page) - this.limit)
-      .takeUntil(this.componentDestroyed)
+    this.notificationService.getSuperNotification(this.limit, (this.offset * page) - this.limit).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(superNotification => {
         this.superNotification = superNotification;
 

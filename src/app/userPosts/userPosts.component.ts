@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgModule, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Area } from '../_models/area';
@@ -7,6 +7,7 @@ import { Post } from '../_models/post';
 import { NavBarService } from '../_services/navBar.service';
 import { PostService } from '../_services/post.service';
 import { RouteService } from '../_services/route.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'userPosts.component.html'
@@ -101,16 +102,16 @@ export class UserPostsComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
     this.routeService.resetRoutes();
     this.routeService.addNextRoute('/posts');
-    this.route.params
-      .takeUntil(this.componentDestroyed)
-      .subscribe(params => {
+    this.route.params.pipe(
+      takeUntil(this.componentDestroyed))
+      .subscribe((params: { [x: string]: number; }) => {
         if (params['index'] !== undefined) {
           this.index = params['index'];
         }
       });
 
-    this.navBarService.currentArea
-      .takeUntil(this.componentDestroyed)
+    this.navBarService.currentArea.pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((currentArea: Area) => {
         if (currentArea.name !== '') {
           this.currentArea = currentArea.name;
@@ -123,8 +124,8 @@ export class UserPostsComponent implements OnInit, OnDestroy {
           this.loading = true;
           const posts: Post[] = [];
 
-          this.postService.getOwnPosts(currentArea.name, this.limit, 0)
-            .takeUntil(this.componentDestroyed)
+          this.postService.getOwnPosts(currentArea.name, this.limit, 0).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe(superPost => {
               superPost.results.forEach((obj: any) => {
                 posts.push(Post.parse(obj));
@@ -157,8 +158,8 @@ export class UserPostsComponent implements OnInit, OnDestroy {
     this.loading = true;
     const posts: Post[] = [];
 
-    this.postService.getOwnPosts(this.currentArea, this.limit, (this.offset * page) - this.limit)
-      .takeUntil(this.componentDestroyed)
+    this.postService.getOwnPosts(this.currentArea, this.limit, (this.offset * page) - this.limit).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(superPost => {
         superPost.results.forEach((obj: any) => {
           posts.push(Post.parse(obj));

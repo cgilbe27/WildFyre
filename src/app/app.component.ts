@@ -1,11 +1,9 @@
-
 import {takeUntil} from 'rxjs/operators';
 import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AreaService } from './_services/area.service';
 import { AuthenticationService } from './_services/authentication.service';
 import { NavBarService } from './_services/navBar.service';
-import { Angulartics2Piwik } from 'angulartics2';
 
 @Component({
   selector: 'app-component',
@@ -19,8 +17,7 @@ export class AppComponent implements OnDestroy {
     private cdRef: ChangeDetectorRef,
     private areaService: AreaService,
     private authenticationService: AuthenticationService,
-    private navBarService: NavBarService,
-    angulartics2Piwik: Angulartics2Piwik
+    private navBarService: NavBarService
   ) {
       if (this.authenticationService.token) {
         this.areaService.getAreas().pipe(

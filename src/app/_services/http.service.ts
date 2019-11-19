@@ -1,6 +1,4 @@
-
 import {throwError,  Observable } from 'rxjs';
-
 import {catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -20,9 +18,9 @@ export class HttpService {
     private authenticationService: AuthenticationService
   ) {
     this.apiURL = 'https://api.wildfyre.net';
-    if (isDevMode()) {
-      this.apiURL = 'http://localhost:8000';
-    }
+    // if (isDevMode()) {
+    //   this.apiURL = 'http://localhost:8000';
+    // }
   }
   // HTTP Requests
   DELETE(passedUrl: string): Observable<void> {

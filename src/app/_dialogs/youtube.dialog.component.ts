@@ -6,14 +6,14 @@ import { MatDialogRef } from '@angular/material';
   <h1 mat-dialog-title>Enter in the YouTube information</h1>
 
     <div mat-dialog-actions>
-      <mat-input-container>
+      <mat-form-field>
         <input matInput name="comment" type="text" name="url"
         [(ngModel)]="model.url" #url="ngModel" placeholder="Url of full youtube link">
-      </mat-input-container>
-      <mat-input-container>
+      </mat-form-field>
+      <mat-form-field>
         <input matInput name="comment" type="text" name="altText"
         [(ngModel)]="model.altText" #altText="ngModel" placeholder="Alt text if the video gets removed">
-      </mat-input-container>
+      </mat-form-field>
     </div>
     <br>
   <div mat-dialog-actions>

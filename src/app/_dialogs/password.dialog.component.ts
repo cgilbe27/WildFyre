@@ -6,6 +6,7 @@ import { Author } from '../_models/author';
 import { PasswordError } from '../_models/password';
 import { AuthenticationService } from '../_services/authentication.service';
 import { ProfileService } from '../_services/profile.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   template: `
@@ -29,10 +30,10 @@ import { ProfileService } from '../_services/profile.service';
       [(ngModel)]="author.name" #username="ngModel" autocomplete="on" readonly />
 
     <div class="form" [ngClass]="{ 'has-error': f.submitted && (!oldPassword.valid || (errors && errors._oldPassword)) }">
-      <mat-input-container>
+      <mat-form-field>
         <input matInput placeholder="Old Password" type="password" name="oldPassword"
           [(ngModel)]="model.oldPassword" #oldPassword="ngModel" autocomplete="current-password" required />
-      </mat-input-container>
+      </mat-form-field>
       <div *ngIf="f.submitted && !oldPassword.valid" class="help-block">Password is required</div>
       <div *ngIf="errors && errors._oldPassword" class="help-block">
         <ul *ngFor="let err of errors._oldPassword">
@@ -42,10 +43,10 @@ import { ProfileService } from '../_services/profile.service';
     </div>
 
     <div class="form" [ngClass]="{ 'has-error': f.submitted && (!newPassword1.valid || (errors && errors._newPassword1)) }">
-      <mat-input-container>
+      <mat-form-field>
         <input matInput placeholder="New Password" type="password" name="newPassword1"
           [(ngModel)]="model.newPassword1" #newPassword1="ngModel" autocomplete="new-password" required />
-      </mat-input-container>
+      </mat-form-field>
       <div *ngIf="f.submitted && !newPassword1.valid" class="help-block">Password is required</div>
       <div *ngIf="errors && errors._newPassword1" class="help-block">
         <ul *ngFor="let err of errors._newPassword1">
@@ -55,10 +56,10 @@ import { ProfileService } from '../_services/profile.service';
     </div>
 
     <div class="form" [ngClass]="{ 'has-error': f.submitted && (!newPassword2.valid || (errors && errors._newPassword2)) }">
-      <mat-input-container>
+      <mat-form-field>
         <input matInput placeholder="New Password (repeat)" type="password" name="newPassword2"
           [(ngModel)]="model.newPassword2" #newPassword2="ngModel" autocomplete="new-password" required />
-      </mat-input-container>
+      </mat-form-field>
       <div *ngIf="f.submitted && !newPassword2.valid" class="help-block">Password is required</div>
       <div *ngIf="errors && errors._newPassword2" class="help-block">
         <ul *ngFor="let err of errors._newPassword2">
@@ -93,17 +94,17 @@ export class PasswordDialogComponent implements OnDestroy {
     }
 
     submitEditPassword() {
-      this.authenticationService.login(this.account.username, this.model.oldPassword)
-        .takeUntil(this.componentDestroyed)
+      this.authenticationService.login(this.account.username, this.model.oldPassword).pipe(
+        takeUntil(this.componentDestroyed))
         .subscribe(result => {
           if (!result.getError()) {
             if (this.model.newPassword1 === this.model.newPassword2) {
-              this.profileService.setPassword(this.model.newPassword1)
-                .takeUntil(this.componentDestroyed)
+              this.profileService.setPassword(this.model.newPassword1).pipe(
+                takeUntil(this.componentDestroyed))
                 .subscribe(result2 => {
                   if (!result2.getError()) {
-                    this.authenticationService.login(this.account.username, this.model.newPassword1)
-                      .takeUntil(this.componentDestroyed)
+                    this.authenticationService.login(this.account.username, this.model.newPassword1).pipe(
+                      takeUntil(this.componentDestroyed))
                       .subscribe(result3 => {
                         if (!result3.getError()) {
                           this.model.oldPassword = '';

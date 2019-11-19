@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone, ViewChild } from '@angular/core';
 import { MatSidenav, MatDialog, MatSnackBar } from '@angular/material';
-import { Observable ,  Subject, interval } from 'rxjs';
+import { Subject, interval } from 'rxjs';
 import { Router } from '@angular/router';
 import { LogoutDialogComponent } from '../_dialogs/logout.dialog.component';
 import { PictureDialogComponent } from '../_dialogs/picture.dialog.component';
@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
   templateUrl: 'navBar.component.html'
 })
 export class NavBarComponent implements OnInit, OnDestroy {
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
 
   activeLinkIndex = 2;
   areas = new Array<Area>(new Area('', '', 0, 0));
@@ -153,7 +153,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.comment = true;
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; picture: any; }) => {
         if (result.bool) {
           this.comment.image = result.picture;
           this.snackBar.open('Image added successfully', 'Close', {
@@ -314,7 +314,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(LogoutDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           this.loggedIn = false;
           this.authenticationService.logout();

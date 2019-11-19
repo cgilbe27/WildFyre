@@ -6,12 +6,13 @@ import { ViewChild } from '@angular/core';
 import { RecoverTransaction, RecoverTransactionError } from '../_models/recoverTransaction';
 import { RegistrationService } from '../_services/registration.service';
 import { ReCaptchaComponent } from 'angular2-recaptcha';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'recover.component.html'
 })
 export class RecoverComponent implements OnDestroy {
-  @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
+  @ViewChild(ReCaptchaComponent, {static: false}) captcha: ReCaptchaComponent;
 
   componentDestroyed: Subject<boolean> = new Subject();
   errors: RecoverTransactionError;
@@ -32,8 +33,8 @@ export class RecoverComponent implements OnDestroy {
   }
 
   recoverPassword() {
-    this.registrationService.recoverPasswordStep1(this.model.email2, this.model.username, this.token)
-      .takeUntil(this.componentDestroyed)
+    this.registrationService.recoverPasswordStep1(this.model.email2, this.model.username, this.token).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (!result.getError()) {
           this.router.navigateByUrl('/recover/password/' + result.transaction);
@@ -50,8 +51,8 @@ export class RecoverComponent implements OnDestroy {
   }
 
   recoverUsername() {
-    this.registrationService.recoverUsername(this.model.email, this.token)
-      .takeUntil(this.componentDestroyed)
+    this.registrationService.recoverUsername(this.model.email, this.token).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (!result.getError()) {
           const snackBarRef = this.snackBar.open('We will contact you via the information provided', 'Close', {

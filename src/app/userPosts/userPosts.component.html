@@ -1,7 +1,7 @@
 <!-- Removed as of D114
-<mat-input-container>
+<mat-form-field>
   <input matInput placeholder="Search Posts" type="text" name="search" (input)="searchInput()" [(ngModel)]="model.postText" #postText="ngModel" autocomplete="off" />
-</mat-input-container>
+</mat-form-field>
 -->
 <mat-card class="refreshButton" (click)="ngOnInit()" *ngIf="totalCount === 0 && !loading">
     No posts, try posting?

@@ -103,7 +103,7 @@ export class DraftsComponent implements OnInit, OnDestroy {
     this.cdRef.detectChanges();
     this.route.params.pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(params => {
+      .subscribe((params: { [x: string]: number; }) => {
         if (params['index'] !== undefined) {
           this.index = params['index'];
         }

@@ -21,10 +21,10 @@ enum TypeOfReport {
       </mat-radio-button>
     </mat-radio-group>
 
-    <mat-input-container>
+    <mat-form-field>
       <textarea matInput name="comment" rows="3" cols="40" type="text" name="report"
       [(ngModel)]="model.report" #report="ngModel" placeholder="Explain what is wrong.."></textarea>
-    </mat-input-container>
+    </mat-form-field>
   </div>
   <br>
   <div mat-dialog-actions>

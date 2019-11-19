@@ -7,12 +7,13 @@ import { RegistrationError } from '../_models/registration';
 import { AuthenticationService } from '../_services/authentication.service';
 import { RegistrationService } from '../_services/registration.service';
 import { ReCaptchaComponent } from 'angular2-recaptcha';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'register.component.html'
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
+  @ViewChild(ReCaptchaComponent, {static: false}) captcha: ReCaptchaComponent;
 
   componentDestroyed: Subject<boolean> = new Subject();
   errors: RegistrationError;
@@ -41,8 +42,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     if (this.model.password === this.model.password2) {
-      this.registrationService.register(this.model.username, this.model.email, this.model.password, this.token)
-        .takeUntil(this.componentDestroyed)
+      this.registrationService.register(this.model.username, this.model.email, this.model.password, this.token).pipe(
+        takeUntil(this.componentDestroyed))
         .subscribe(result => {
           if (!result.getError()) {
             this.router.navigate(['/register/success']);

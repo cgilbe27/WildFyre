@@ -2,7 +2,6 @@
 import {of, Observable } from 'rxjs';
 import {mergeMap, catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Comment, CommentError } from '../_models/comment';
 import { Image, ImageError } from '../_models/image';
 import { Post, PostError } from '../_models/post';
@@ -23,7 +22,7 @@ export class PostService {
 
   private getPosts(area: string): Observable<Post[]> {
     return this.httpService.GET('/areas/' + area + '/?limit=10').pipe(
-      map((response: Response) => {
+      map((response) => {
         const superPost: SuperPost = SuperPost.parse(response);
         const posts: Post[] = [];
 
@@ -49,7 +48,7 @@ export class PostService {
     };
 
     return this.httpService.POST('/areas/' + area + '/' + post.id + '/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         const comment = Comment.parse(response);
 
         post.comments.push(comment);
@@ -86,7 +85,7 @@ export class PostService {
 
     if (!draft && postID === null) {
         return this.httpService.POST('/areas/' + area + '/', body).pipe(
-          map((response: Response) => {
+          map((response) => {
             return Post.parse(response);
           }),
           catchError((error) => {
@@ -97,7 +96,7 @@ export class PostService {
           }),);
       } else if (draft && postID === null) {
         return this.httpService.POST('/areas/' + area + '/drafts/', body).pipe(
-          map((response: Response) => {
+          map((response) => {
             return Post.parse(response);
           }),
           catchError((error) => {
@@ -108,7 +107,7 @@ export class PostService {
           }),);
       } else if (draft && postID !== null) {
         return this.httpService.PATCH('/areas/' + area + '/drafts/' + postID + '/', body).pipe(
-          map((response: Response) => {
+          map((response) => {
             return Post.parse(response);
           }),
           catchError((error) => {
@@ -128,7 +127,7 @@ export class PostService {
       'text': text
     };
     return this.httpService.PUT_IMAGE('/areas/' + area + '/drafts/' + postID +  '/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         return Post.parse(response);
       }),catchError((err) => {
         return of(new PostError(
@@ -156,7 +155,7 @@ export class PostService {
 
   getDrafts(area: string, limit: number, offset: number): Observable<SuperPost> {
       return this.httpService.GET('/areas/' + area + '/drafts/?limit=' + limit + '&offset=' + offset).pipe(
-        map((response: Response) => {
+        map((response) => {
           this.superPosts[area] = SuperPost.parse(response);
 
           return this.superPosts[area];
@@ -201,7 +200,7 @@ export class PostService {
 
   getOwnPosts(area: string, limit: number, offset: number): Observable<SuperPost> {
       return this.httpService.GET('/areas/' + area + '/own/?limit=' + limit + '&offset=' + offset).pipe(
-        map((response: Response) => {
+        map((response) => {
           this.superPosts[area] = SuperPost.parse(response);
 
           return this.superPosts[area];
@@ -216,7 +215,7 @@ export class PostService {
     }
 
     return this.httpService.GET(url + postID + '/').pipe(
-      map((response: Response) => {
+      map((response) => {
         return Post.parse(response);
       }));
   }
@@ -232,7 +231,7 @@ export class PostService {
     if (draft) {
       formData.append('text', post.text);
       return this.httpService.PUT_IMAGE('/areas/' + area + '/drafts/' + post.id +  '/', formData).pipe(
-        map((response: Response) => {
+        map((response) => {
           return Post.parse(response);
         }),catchError((err) => {
           return of(new PostError(
@@ -243,7 +242,7 @@ export class PostService {
     } else {
       formData.append('text', commentText);
       return this.httpService.POST_IMAGE('/areas/' + area + '/' + post.id +  '/', formData).pipe(
-        map((response: Response) => {
+        map((response) => {
           this.navBarService.clearInputs.next(true);
           return Comment.parse(response);
         }),catchError((err) => {
@@ -262,7 +261,7 @@ export class PostService {
     formData.append('image', image, image.name);
     formData.append('comment', comment);
     return this.httpService.PUT_IMAGE('/areas/' + area + '/drafts/' + post.id + '/img/' + slot + '/', formData).pipe(
-      map((response: Response) => {
+      map((response) => {
         return Image.parse(response);
       }),catchError((err) => {
         if (err.status === 404 || err.status === 0) {
@@ -295,7 +294,7 @@ export class PostService {
     };
 
     return this.httpService.PUT('/areas/' + area + '/' + post.id + '/subscribe/', body).pipe(
-      map((response: Response) => {
+      map((response) => {
         if (subscribe) {
           console.log('You started following someone in the woods');
         } else {

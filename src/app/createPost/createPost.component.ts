@@ -51,7 +51,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
           this.route.params.pipe(
             takeUntil(this.componentDestroyed))
-            .subscribe(params => {
+            .subscribe((params: { [x: string]: number; }) => {
               if (params['id'] !== undefined) {
                 this.isDraft = true;
 
@@ -234,7 +234,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; }) => {
         if (result.bool) {
           this.postService.deletePost(this.currentArea.name, this.post.id, true);
           this.snackBar.open('Draft deleted successfully', 'Close', {
@@ -249,7 +249,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(PictureDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; picture: any; }) => {
         if (this.post.text === '') {
           this.post.text += '.';
         }
@@ -316,7 +316,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: { bool: any; picture: any; comment: string; slot: number; }) => {
         if (this.post.text === '') {
           this.post.text += '.';
         }
@@ -381,7 +381,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(YouTubeDialogComponent);
     dialogRef.afterClosed().pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(result => {
+      .subscribe((result: any) => {
         if (result.url) {
           result.url = result.url
           .replace('https://', '')

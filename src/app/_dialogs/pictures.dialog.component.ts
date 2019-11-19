@@ -16,9 +16,9 @@ declare const Compressor: any;
   </div>
 
   Comment:
-  <mat-input-container>
+  <mat-form-field>
     <input matInput type="text" name="comment" [(ngModel)]="model.comment" #comment="ngModel" />
-  </mat-input-container>
+  </mat-form-field>
 
   <div mat-dialog-actions>
     <button mat-button mat-dialog-close="true" (click)="returnInformation(true)">Add additional image</button>
