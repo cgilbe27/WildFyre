@@ -1,0 +1,6 @@
+{
+  "phabricator.uri" : "https://phabricator.wildfyre.net/",
+  "load" : [
+    "arc-tslint"
+  ]
+}

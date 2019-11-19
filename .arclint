@@ -1,0 +1,31 @@
+{
+  "exclude": ["(^dist/)", "(node_modules/)"],
+  "linters": {
+    "filename": {
+      "type": "filename"
+    },
+
+    "spelling": {
+      "type": "spelling"
+    },
+
+    "generated": {
+      "type": "generated"
+    },
+
+    "merge-conflict": {
+      "type": "merge-conflict"
+    },
+
+    "chmod": {
+      "type": "chmod"
+    },
+
+    "typescript": {
+      "type": "tslint",
+      "include": "(\\.ts$)",
+      "exclude": ["(test.*.ts$)", "(\\.spec.ts$)"],
+      "flags" : ["--project", "tslint.json"]
+    }
+  }
+}

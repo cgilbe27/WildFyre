@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>WildFyre</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <!-- Theme color -->
+  <meta name="theme-color" content="#ed763e" />
+  <!-- Progressive web app manifest -->
+  <link rel="manifest" href="assets/manifest.json" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- bootstrap css -->
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- polyfill(s) for older browsers -->
+  <script src="./assets/shim.min.js"></script>
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    // _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//analytics.wildfyre.net/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '2']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Piwik Code -->
+
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+      // Registration was successful
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }).catch(function(err) {
+      // Registration failed :(
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  }
+</script>
+</head>
+<body>
+  <app-component><mat-progress-spinner></mat-progress-spinner></app-component>
+  <noscript>
+    <style>
+    app-component {
+      display: none;
+    }
+    </style>
+    <span>
+      WildFyre requires JavaScript to be enabled in your browser.
+    </span>
+  </noscript>
+</body>
+</html>

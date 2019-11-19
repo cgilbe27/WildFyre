@@ -1,0 +1,37 @@
+<mat-card class="login-card">
+  <a class="logoLink" routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
+  <mat-card-content>
+    <div class="alert alert-info">
+      Welcome to WildFyre!<br />
+      Try not to get burned
+    </div>
+    <h2>Login</h2>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+      <div *ngIf="errors" class="alert alert-danger">
+        {{errors}}
+      </div>
+
+      <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <mat-input-container>
+          <input matInput placeholder="Username" type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="username" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+      </div>
+
+      <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+        <mat-input-container>
+          <input matInput placeholder="Password" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" autocomplete="current-password" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+      </div>
+
+      <div class="form-group">
+        <button *ngIf="!loading" class="wideButtons" mat-raised-button color="accent" [disabled]="loading"><b>Login</b></button>
+        <br>
+        <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+      </div>
+    </form>
+    Can't login? <a routerLink="/recover" routerLinkActive="active">Recover it Here</a><br>
+    Don't have an account? <a routerLink="/register" routerLinkActive="active">Register Here</a>
+  </mat-card-content>
+</mat-card>

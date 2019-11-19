@@ -1,0 +1,81 @@
+<mat-card class="register-card">
+  <a class="logoLink" routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
+  <mat-card-content>
+    <div class="alert alert-info">
+      Usernames must use Letters, Digits and @/./+/-/_ only.<br>
+      Passwords must contain at least 8 characters and be alphanumeric (At least 1 letter and 1 number)
+    </div>
+    <h2>Register</h2>
+    <form name="form" id="signup-form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+      <div *ngIf="errors && errors.non_field_errors" class="alert alert-danger">
+        <ul *ngFor="let err of errors.non_field_errors">
+          <li>{{err}}</li>
+        </ul>
+      </div>
+
+      <div class="form" [ngClass]="{ 'has-error': f.submitted && (!username.valid || (errors && errors.username)) }">
+        <mat-input-container>
+          <input matInput placeholder="Username" type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="on" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+        <div *ngIf="errors && errors.username" class="help-block">
+          <ul *ngFor="let err of errors.username">
+            <li>{{err}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form" [ngClass]="{ 'has-error': f.submitted && (!email.valid || (errors && errors.email)) }">
+        <mat-input-container>
+          <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="model.email" #email="ngModel" autocomplete="on" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+        <div *ngIf="errors && errors.email" class="help-block">
+          <ul *ngFor="let err of errors.email">
+            <li>{{err}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form" [ngClass]="{ 'has-error': f.submitted && (!password.valid || (errors && errors.password)) }">
+        <mat-input-container>
+          <input matInput placeholder="Password" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" autocomplete="on" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+        <div *ngIf="errors && errors.password" class="help-block">
+          <ul *ngFor="let err of errors.password">
+            <li>{{err}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form" [ngClass]="{ 'has-error': f.submitted && (!password2.valid || (errors && errors.password)) }">
+        <mat-input-container>
+          <input matInput placeholder="Password (repeat)" type="password" name="password2" [(ngModel)]="model.password2" #password2="ngModel" autocomplete="on" required />
+        </mat-input-container>
+        <div *ngIf="f.submitted && !password2.valid" class="help-block">Second password is required</div>
+        <div *ngIf="errors && errors.password" class="help-block">
+          <ul *ngFor="let err of errors.password">
+            <li>{{err}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="captcha">
+        <re-captcha (captchaResponse)="setCaptchaResponse($event)" site_key="6LcXViIUAAAAABZF263l-SJh3rZAe95Sx2LPN-Dc"></re-captcha>
+        <div *ngIf="errors && errors.captcha" class="help-block has-error">
+          <ul *ngFor="let err of errors.captcha">
+            <li>{{err}}</li>
+          </ul>
+        </div>
+      </div>
+      <br>
+      <div class="form">
+        By clicking Register, you agree to our <a href="https://wildfyre.net/index.php/terms-and-conditions/">Terms</a>
+          and that you have read our <a href="https://wildfyre.net/index.php/privacy-policy/">Privacy Policy</a>.
+        <button class="wideButtons" mat-raised-button color="accent" [disabled]="loading">Register</button>
+        <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

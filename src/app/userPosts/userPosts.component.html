@@ -1,0 +1,66 @@
+<!-- Removed as of D114
+<mat-input-container>
+  <input matInput placeholder="Search Posts" type="text" name="search" (input)="searchInput()" [(ngModel)]="model.postText" #postText="ngModel" autocomplete="off" />
+</mat-input-container>
+-->
+<mat-card class="refreshButton" (click)="ngOnInit()" *ngIf="totalCount === 0 && !loading">
+    No posts, try posting?
+    <button class="wideButtons" mat-button>Refresh <i class="material-icons">refresh</i></button>
+</mat-card>
+<br><br>
+<mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+
+<ngx-masonry [options]="{ horizontalOrder: true }" *ngIf="currentArea">
+  <ngx-masonry-item class="brick" *ngFor="let post of backupPosts[currentArea]  | paginate: { id: 'server', itemsPerPage: limit, currentPage: index, totalItems: totalCount }; let i = index">
+      <mat-card class="userPostsGrid" (click)="goto(post.id)">
+          <font size="0.1">
+            <ng-container *ngIf="!post.anonym"><i class="material-icons">visibility_on</i></ng-container>
+            <ng-container *ngIf="post.anonym"><i class="material-icons">visibility_off</i></ng-container>
+            <ng-container *ngIf="imageArray[currentArea][i] || post.image"><i class="material-icons">image</i></ng-container>
+            <span class="mainText" innerHTML="{{post.text | slice:0:200 | marked: post}}"></span><ng-container *ngIf="post.text.length > 200">...</ng-container>
+            <hr>
+            {{post.created}}
+        </font>
+      </mat-card>
+  </ngx-masonry-item>
+</ngx-masonry>
+
+<!-- Removed as of D114
+<masonry *ngIf="!checked && searching">
+  <mat-card class="userPostsGrid" style="margin: 0 auto; text-align: center;" *ngIf="searchArray.length === 0">
+    No posts match this search
+  </mat-card>
+  <masonry-brick class="brick" *ngFor="let post of searchArray; let i = index">
+      <mat-card class="userPostsGrid" (click)="goto('fun', post.id)">
+          <font size="0.1">
+            <ng-container *ngIf="funImageArray[i]">
+              <h1><i class="material-icons">image</i></h1>
+            </ng-container>
+            <span class="mainText" [innerHTML]="post.text | slice:0:200 | marked"></span><ng-container *ngIf="post.text.length > 200">...</ng-container>
+            <hr>
+            {{post.created}}
+        </font>
+      </mat-card>
+  </masonry-brick>
+</masonry>
+
+<masonry *ngIf="checked && searching">
+  <mat-card class="userPostsGrid" style="margin: 0 auto; text-align: center;" *ngIf="searchArray.length === 0">
+    No posts match this search
+  </mat-card>
+  <masonry-brick class="brick" *ngFor="let post of searchArray; let i = index">
+    <mat-card class="userPostsGrid" (click)="goto('information', post.id)">
+      <font size="0.1">
+        <ng-container *ngIf="infoImageArray[i]">
+          <h1><i class="material-icons">image</i></h1>
+        </ng-container>
+        <span class="mainText" [innerHTML]="post.text | slice:0:200 | marked"></span><ng-container *ngIf="post.text.length > 200">...</ng-container>
+        <hr>
+        {{post.created}}
+    </font>
+    </mat-card>
+  </masonry-brick>
+</masonry>
+-->
+
+<pagination-controls *ngIf="totalCount !== 0 && !loading" (pageChange)="getPosts($event)" id="server"></pagination-controls>

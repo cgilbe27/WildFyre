@@ -1,0 +1,14 @@
+<mat-card class="example-card">
+  <mat-card-content>
+    <a routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
+    <div class="alert alert-info">
+      Registration Successful!<br>
+      We sent a verification email to you.
+      You can now log in!
+    </div>
+    <br>
+    <div class="form">
+      <button mat-raised-button color="accent" [disabled]="loading" (click)="letsGo()">Lets Go!</button>
+    </div>
+  </mat-card-content>
+</mat-card>

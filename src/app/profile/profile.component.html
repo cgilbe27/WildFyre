@@ -1,0 +1,50 @@
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item (click)="viewProfile()"><mat-icon>public</mat-icon>View Public Profile</button>
+  <button mat-menu-item (click)="openBioDialog()"><mat-icon>mode_edit</mat-icon>Bio</button>
+  <button mat-menu-item (click)="openEmailDialog()"><mat-icon>mode_edit</mat-icon>Email</button>
+  <button mat-menu-item (click)="openPasswordDialog()"><mat-icon>mode_edit</mat-icon>Password</button>
+  <button mat-menu-item (click)="openPictureDialog()"><mat-icon>mode_edit</mat-icon>Avatar</button>
+</mat-menu>
+<mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+<div class="alert alert-danger" *ngIf="author?.banned">
+  <h2>You are currently banned</h2>
+</div>
+<br *ngIf="author?.banned">
+<div *ngFor="let ban of bans | paginate: { id: 'server', itemsPerPage: limit, currentPage: index, totalItems: totalCount }">
+  <div class="alert alert-danger" *ngIf="author?.banned">
+    Reason: {{getReason(ban.reason)}}<br>
+    <ng-container>{{ban.comment}}</ng-container><br>
+    You can not
+    <ng-container *ngIf="ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag)"> post, comment, or flag.</ng-container>
+    <ng-container *ngIf="ban.ban_post && !(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))"> post</ng-container>
+    <ng-container *ngIf="((ban.ban_post && ban.ban_comment) || (ban.ban_post && ban.ban_flag)) && !(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))"> or</ng-container>
+    <ng-container *ngIf="ban.ban_comment && !(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))"> comment</ng-container>
+    <ng-container *ngIf="(ban.ban_flag && ban.ban_comment) && !(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))"> or</ng-container>
+    <ng-container *ngIf="ban.ban_flag && !(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))"> flag</ng-container><ng-container *ngIf="!(ban.ban_all || (ban.ban_post && ban.ban_comment && ban.ban_flag))">.</ng-container>
+    <br>
+    <ng-container>{{ban.timestamp}}</ng-container><br>
+    <hr>
+    Expires: {{ban.expiry}}
+  </div>
+  <br>
+</div>
+<pagination-controls *ngIf="(bans.length !== 0)" (pageChange)="getBans($event)" id="server"></pagination-controls>
+
+<mat-card class="example-card">
+  <button mat-icon-button [matMenuTriggerFor]="appMenu"><i class="material-icons">more_vert</i></button>
+  <a [href]="author?.avatar"><img class="pfp" *ngIf="author?.avatar" [src]="author?.avatar" alt="Avatar of {{author?.name}}"/></a>
+  <a href="/assets/logo.png"><img class="pfp" *ngIf="!author?.avatar" src="/assets/logo.png" alt="Avatar of {{author?.name}}"/></a>
+  <div class="parentContainer">
+    <div class="user">
+      <br>
+      <font id="name" size="5">{{author?.name}}</font><br>
+      <ng-container>
+        <span id="email"><a href="mailto:{{account?.email}}">{{account?.email}}</a></span>
+      </ng-container>
+    </div>
+  </div>
+</mat-card>
+<mat-card class="content">
+  <span id="bio" [innerHTML]="author?.bio | marked"></span>
+</mat-card>
+<div id="userID">ID: {{author?.user}}</div>

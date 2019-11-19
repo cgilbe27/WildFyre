@@ -1,0 +1,25 @@
+<div id="topNavBack" (click)="back()"><i class="material-icons">arrow_back</i></div>
+<mat-card class="refreshButton" (click)="ngOnInit()" *ngIf="totalCount === 0 && !loading">
+    No drafts, try saving one?
+    <button class="wideButtons" mat-button>Refresh <i class="material-icons">refresh</i></button>
+</mat-card>
+<br><br>
+
+<mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+
+<ngx-masonry [options]="{ horizontalOrder: true }" *ngIf="currentArea">
+  <ngx-masonry-item class="brick" *ngFor="let post of backupPosts[currentArea]  | paginate: { id: 'server', itemsPerPage: limit, currentPage: index, totalItems: totalCount }; let i = index">
+      <mat-card class="userPostsGrid" (click)="goto(post.id)">
+          <font size="0.1">
+            <ng-container *ngIf="!post.anonym"><i class="material-icons">visibility_on</i></ng-container>
+            <ng-container *ngIf="post.anonym"><i class="material-icons">visibility_off</i></ng-container>
+            <ng-container *ngIf="imageArray[currentArea][i]"><i class="material-icons">image</i></ng-container>
+            <span class="mainText" innerHTML="{{post.text | slice:0:200 | marked: post}}"></span><ng-container *ngIf="post.text.length > 200">...</ng-container>
+            <hr>
+            {{post.created}}
+        </font>
+      </mat-card>
+  </ngx-masonry-item>
+</ngx-masonry>
+
+<pagination-controls *ngIf="totalCount !== 0 && !loading" (pageChange)="getDrafts($event)" id="server"></pagination-controls>

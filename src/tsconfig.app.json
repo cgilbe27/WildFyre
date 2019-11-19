@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "es6",
+      "dom",
+      "es2017"
+    ],
+    "outDir": "../out-tsc/app",
+    "target": "es5",
+    "module": "es6",
+    "baseUrl": "",
+    "types": [ ]
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}

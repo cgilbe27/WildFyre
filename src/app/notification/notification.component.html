@@ -1,0 +1,25 @@
+<mat-card class="example-card">
+  <button class="wideButtons" mat-button (click)="loadArchive()"><i class="material-icons">folder</i> Archive</button>
+  <hr *ngIf="(notifications.length !== 0) && !loading">
+  <button class="wideButtons" (click)="deleteNotifications()" *ngIf="(notifications.length !== 0) && !loading" mat-button><i class="material-icons">delete</i>Delete all Notifications</button>
+</mat-card>
+<mat-card class="content" (click)="ngOnInit()" *ngIf="(notifications.length === 0) && !loading">
+    <div class="notifContent">
+      No more notifications, try engaging more?
+    </div>
+    <button class="wideButtons" mat-button>Refresh <i class="material-icons">refresh</i></button>
+</mat-card>
+<mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+<div *ngFor="let notification of notifications | paginate: { id: 'server', itemsPerPage: limit, currentPage: index, totalItems: totalCount }">
+  <mat-card class="content" (click)="goto(notification.area, notification.post.id, notification.comments)">
+    <div class="notifCount">
+      <h2>{{notification.comments.length}}</h2>
+    </div>
+    <div class="notifContent">
+      <ng-container class="notifications">{{notification.post.text | slice:0:31}}</ng-container><ng-container *ngIf="notification.post.text.length > 32">…</ng-container>
+      <br>
+      –{{notification.post.author.name}}
+    </div>
+  </mat-card>
+</div>
+  <pagination-controls *ngIf="(notifications.length !== 0)" (pageChange)="getNotifications($event)" id="server"></pagination-controls>

@@ -1,0 +1,91 @@
+.imageUpload {
+  &-button {
+    width: 100%;
+    font-family: 'Mukta', sans-serif;
+    border: 1px solid #EA6C40;
+    border-radius: 4px;
+    font-weight: 700;
+    position: relative;
+    & input[type="file"]{
+      -webkit-appearance:none;
+      position:absolute;
+      top:0;
+      left:0;
+      opacity:0;
+      width: 100%;
+      height: 100%;
+    }
+    &-group {
+      height: 25vh;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      background: transparent !important;
+      width: 100%;
+    }
+  }
+  &-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 100vw;
+    max-width: 1000px;
+  }
+  &-image {
+    height: 50vh;
+    max-width: 1000px;
+  }
+  &-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #A2A2A2;
+    margin: 0;
+    padding: 0;
+    max-width: 1000px;
+    overflow-y: auto;
+  }
+  &-post {
+    &-group {
+      width: 100%;
+    }
+    &-row {
+      width: 100%;
+      flex-wrap: wrap;
+
+      &-icons {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+    }
+    &-card {
+      width: 47.5%;
+      height: 15vh;
+      padding-left: 2%;
+      padding-right: 2%;
+      margin-bottom: 5%;
+      background: linear-gradient(0deg, #A2A2A2, #A2A2A2), linear-gradient(180deg, #A2A2A2 0%, #d3d3d3 99.99%);
+      box-shadow: 0px 0.986257px 7.39693px rgba(0, 0, 0, 0.3);
+      &:nth-child(odd) {
+        margin-right: 5%;
+      }
+    }
+  }
+  &-subtitle {
+    text-align: left;
+    font-family: 'Mukta', sans-serif;
+    color: #A2A2A2;
+    font-weight: 500;
+    font-size: 2rem;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-title {
+    font-size: 2rem;
+    text-align: left;
+    font-family: 'Mukta', sans-serif;
+    font-weight: 500;
+    max-width: 1000px;
+  }
+}

@@ -1,0 +1,18 @@
+<div id="topNavBack" (click)="back()"><i class="material-icons">arrow_back</i></div>
+<mat-card class="example-card">
+  <button mat-button class="wideButtons" (click)="share()"><mat-icon>share</mat-icon>Share Profile</button>
+  <div class="alert alert-danger" *ngIf="author?.banned">
+    User is currently banned
+  </div>
+  <a [href]="author?.avatar"><img class="pfp" *ngIf="author?.avatar" [src]="author?.avatar" alt="Avatar of {{author?.name}}"/></a>
+  <a href="/assets/logo.png"><img class="pfp" *ngIf="!author?.avatar" src="/assets/logo.png" alt="Avatar of {{author?.name}}"/></a>
+  <div class="parentContainer">
+    <div class="user">
+      <font id="name" size="5">{{author?.name}}</font><br>
+    </div>
+  </div>
+</mat-card>
+<mat-card class="content">
+  <span id="bio" [innerHTML]="author?.bio | marked"></span>
+</mat-card>
+<div id="userID">ID: {{author?.user}}</div>

@@ -1,0 +1,76 @@
+<mat-card class="example-card" (click)="loadDrafts()">
+  <button class="wideButtons" mat-button><i class="material-icons">folder</i> Drafts</button>
+</mat-card>
+<mat-card class="example-card">
+  <div *ngIf="errors && errors.non_field_errors" class="alert alert-danger">
+    <ul *ngFor="let err of errors.non_field_errors">
+      <li>{{err}}</li>
+    </ul>
+  </div>
+  <h4>Preview:</h4> <br><br>
+  <button *ngIf="post?.image" class="wideButtons" mat-button (click)="deleteImage()"><i class="material-icons">delete</i> Delete Main Image</button>
+  <a *ngIf="post?.image" href="{{post?.image}}"><img src="{{post?.image}}" /></a>
+
+
+  <span class="mainText" innerHTML="{{post?.text | marked: post}}"></span>
+</mat-card>
+<mat-card class="content">
+  <div class="creationEditor">
+    <h4 *ngIf="post?.additional_images.length != 0">Attachments:</h4>
+    <div *ngFor="let image of post?.additional_images">
+      <button *ngIf="image" mat-button (click)="deleteImages(image)"><i class="material-icons">delete</i> Delete Image</button>
+      <button *ngIf="image" mat-button (click)="addImage(image)"><i class="material-icons">add</i> Add Image</button>
+      <img class="additionalImg" src="{{image?.image}}" />
+      {{image?.comment}}
+      <hr>
+    </div>
+    <button mat-button [matMenuTriggerFor]="appMenu"><i class="material-icons">text_fields</i></button>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item (click)="addHeader(1)"><span class="mainText" [innerHTML]="'# h1' | marked"></span></button>
+      <button mat-menu-item (click)="addHeader(2)"><span class="mainText" [innerHTML]="'## h2' | marked"></span></button>
+      <button mat-menu-item (click)="addHeader(3)"><span class="mainText" [innerHTML]="'### h3' | marked"></span></button>
+      <button mat-menu-item (click)="addHeader(4)"><span class="mainText" [innerHTML]="'#### h4' | marked"></span></button>
+      <button mat-menu-item (click)="addHeader(5)"><span class="mainText" [innerHTML]="'##### h5' | marked"></span></button>
+      <button mat-menu-item (click)="addHeader(6)"><span class="mainText" [innerHTML]="'###### h6' | marked"></span></button>
+    </mat-menu>
+    <button mat-button (click)="addBold()"><i class="material-icons">format_bold</i></button>
+    <button mat-button (click)="addItalics()"><i class="material-icons">format_italic</i></button>
+    <button mat-button (click)="addStrikethrough()"><i class="material-icons">strikethrough_s</i></button>
+    <button mat-button (click)="addUnorderedList()"><i class="material-icons">format_list_bulleted</i></button>
+    <button mat-button (click)="addOrderedList()"><i class="material-icons">format_list_numbered</i></button>
+    <button mat-button (click)="addBlockQoutes()"><i class="material-icons">format_quote</i></button>
+    <button mat-button (click)="addCode()"><i class="material-icons">code</i></button>
+    <button mat-button (click)="addTable()"><i class="material-icons">border_all</i></button>
+    <button mat-button (click)="addHorizontalRule()"><i class="material-icons">remove</i></button>
+    <button mat-button (click)="openPictureDialog()"><i class="material-icons">insert_photo</i></button>
+    <button mat-button (click)="openPicturesDialog()"><i class="material-icons">collections</i></button>
+    <button mat-button (click)="openYoutubeDialog()"><i class="material-icons">slideshow</i></button>
+  </div>
+  <hr>
+  <div class="toggle">
+    Post Anonymously <mat-slide-toggle
+    class="example-margin"
+    color="#263238"
+    [checked]="post?.anonym"
+    (change)="makeAnonymous($event)"></mat-slide-toggle>
+  </div>
+  <hr>
+  <div class="form-group">
+    <textarea id="createPostInput" matInput rows="7" cols="80" type="text" name="post" [(ngModel)]="post.text" #comment="ngModel"></textarea>
+    <br>
+    <div *ngIf="errors && errors._text" class="help-block">
+      <ul *ngFor="let err of errors._text">
+        <li>{{err}}</li>
+      </ul>
+    </div>
+    Current Area: {{currentArea?.displayname}}
+    <br><br>
+    <button *ngIf="!post?.id" class="wideButtons" mat-raised-button (click)="createPost(false)" color="accent" [disabled]="loading"><b>Create</b></button>
+    <button *ngIf="post?.id" class="wideButtons" mat-raised-button (click)="publishDraft()" color="accent" [disabled]="loading"><b>Create</b></button>
+    <br><br>
+    <button class="wideButtons" mat-raised-button (click)="createPost(true)" color="primary" [disabled]="loading"><b>Save Draft</b></button>
+    <br><br>
+    <button *ngIf="isDraft" class="wideButtons" mat-raised-button (click)="openDraftDeleteDialog()" color="warn" [disabled]="loading"><b>Delete</b></button>
+    <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+  </div>
+</mat-card>

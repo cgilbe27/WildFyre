@@ -1,0 +1,22 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "WildFyre",
+  "scope": "/",
+  "display": "standalone",
+  "start_url": "/?pk_campaign=manifest-webapp",
+  "short_name": "WildFyre",
+  "icons": [
+    {
+    "src": "/assets/logo.png",
+    "sizes": "48x48 72x72 96x96 128x128 216x216 512x512",
+    "type": "image/png"
+    }
+  ],
+  "theme_color": "#ed763e",
+  "description": "",
+  "orientation": "any",
+  "background_color": "#263238",
+  "related_applications": [],
+  "prefer_related_applications": false
+}
