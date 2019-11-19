@@ -1,7 +1,7 @@
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
 import { Link } from '../_models/link';
 import { NavBarService } from '../_services/navBar.service';
 
@@ -74,8 +74,8 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-      this.navBarService.link
-        .takeUntil(this.componentDestroyed)
+      this.navBarService.link.pipe(
+        takeUntil(this.componentDestroyed))
         .subscribe((link: Link) => {
           this.link = link;
         });
@@ -101,8 +101,8 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
       };
 
       // Wait 1 second to avoid race conditions
-      Observable.interval(2000)
-        .takeUntil(this.componentDestroyed)
+      interval(2000).pipe(
+        takeUntil(this.componentDestroyed))
         .subscribe(x => {
           this.dialogRef.close(message);
       });

@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { RecoverTransaction, RecoverTransactionError } from '../_models/recoverTransaction';
 import { RegistrationService } from '../_services/registration.service';

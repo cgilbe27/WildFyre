@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { RegistrationError } from '../_models/registration';
 import { AuthenticationService } from '../_services/authentication.service';

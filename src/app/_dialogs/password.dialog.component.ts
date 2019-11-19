@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Account } from '../_models/account';
 import { Author } from '../_models/author';
 import { PasswordError } from '../_models/password';

@@ -1,7 +1,9 @@
+
+import {takeUntil} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { ConfirmDeletionDialogComponent } from '../_dialogs/confirmDeletion.dialog.component';
 import { FlagDialogComponent } from '../_dialogs/flag.dialog.component';
 import { ShareDialogComponent } from '../_dialogs/share.dialog.component';
@@ -70,15 +72,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.routeService.resetRoutes();
 
-    this.navBarService.comment
-      .takeUntil(this.componentDestroyed)
+    this.navBarService.comment.pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((comment: CommentData) => {
         this.cdRef.detectChanges();
         if (!this.wait) {
           if (comment.comment !== '' && this.runImageCheck(comment.comment)) {
             if (comment.image) {
-              this.postService.setPicture(comment.image, this.post, this.currentArea, false, comment.comment)
-                .takeUntil(this.componentDestroyed)
+              this.postService.setPicture(comment.image, this.post, this.currentArea, false, comment.comment).pipe(
+                takeUntil(this.componentDestroyed))
                 .subscribe(result2 => {
                   if (!result2.getError()) {
                     this.post.comments.push(result2);
@@ -90,8 +92,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                   }
               });
             } else {
-              this.postService.comment(this.currentArea, this.post, comment.comment)
-                .takeUntil(this.componentDestroyed)
+              this.postService.comment(this.currentArea, this.post, comment.comment).pipe(
+                takeUntil(this.componentDestroyed))
                 .subscribe();
                 this.navBarService.clearInputs.next(true);
             }
@@ -109,8 +111,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.wait = false;
     });
 
-    this.profileService.getSelf()
-      .takeUntil(this.componentDestroyed)
+    this.profileService.getSelf().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe( (author: Author) => {
         this.userID = author.user;
         this.loggedIn = true;
@@ -127,8 +129,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   blockUser(id: number) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
@@ -143,8 +145,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   unblockUser(id: number) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           if (window.localStorage.getItem('blockedUsers')) {
@@ -190,8 +192,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   openCommentDeleteDialog(c: Comment) {
     const dialogRef = this.dialog.open(ConfirmDeletionDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
           this.commentService.deleteComment(
@@ -214,8 +216,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FlagDialogComponent);
     dialogRef.componentInstance.typeOfReport = typeOfFlagReport;
 
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         this.flagService.sendFlagReport(result.typeOfReport, result.report, result.choice, result.area);
       });
@@ -224,15 +226,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   refresh(reload: boolean) {
     this.wait = true;
     this.loading = true;
-    this.navBarService.currentArea
-      .takeUntil(this.componentDestroyed)
+    this.navBarService.currentArea.pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe((currentArea: Area) => {
         if (currentArea.name !== '') {
           this.currentArea = currentArea.name;
 
           if ((reload === true || this.areaCheck !== currentArea.name) && currentArea.name !== '') {
-            this.postService.getNextPost(currentArea.name)
-              .takeUntil(this.componentDestroyed)
+            this.postService.getNextPost(currentArea.name).pipe(
+              takeUntil(this.componentDestroyed))
               .subscribe(nextPost => {
                 if (nextPost) {
                   this.post = nextPost;
@@ -254,8 +256,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
           } else if (currentArea.name === '') {
           } else {
-            this.postService.getPost(this.currentArea, this.post.id, false)
-              .takeUntil(this.componentDestroyed)
+            this.postService.getPost(this.currentArea, this.post.id, false).pipe(
+              takeUntil(this.componentDestroyed))
               .subscribe(post => {
                 this.post = post;
                 this.commentCount = this.post.comments.length;
@@ -304,8 +306,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         authorName
       ));
     const dialogRef = this.dialog.open(ShareDialogComponent);
-    dialogRef.afterClosed()
-      .takeUntil(this.componentDestroyed)
+    dialogRef.afterClosed().pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.isLink) {
           this.snackBar.open('Link copied successfully', 'Close');
@@ -341,8 +343,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   subscribe(s: boolean) {
-    this.postService.subscribe(this.currentArea, this.post, s)
-      .takeUntil(this.componentDestroyed)
+    this.postService.subscribe(this.currentArea, this.post, s).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe();
   }
 }

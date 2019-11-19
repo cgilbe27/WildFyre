@@ -1,9 +1,9 @@
-﻿import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import {takeUntil} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/catch';
-import { Subject } from 'rxjs/Subject';
-import { AuthError } from '../_models/auth';
+import { Subject } from 'rxjs';
 import { AuthenticationService } from '../_services/authentication.service';
 import { NavBarService } from '../_services/navBar.service';
 import { NotificationService } from '../_services/notification.service';
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private routeService: RouteService
   ) {
-    const snackBarRef = this.snackBar.open('Authentication Required', 'Close', {
+    this.snackBar.open('Authentication Required', 'Close', {
       duration: 3000
     });
   }
@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password)
-      .takeUntil(this.componentDestroyed)
+    this.authenticationService.login(this.model.username, this.model.password).pipe(
+      takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (!result.getError()) {
-          this.notificationService.getSuperNotification(10, 0)
-            .takeUntil(this.componentDestroyed)
+          this.notificationService.getSuperNotification(10, 0).pipe(
+            takeUntil(this.componentDestroyed))
             .subscribe(superNotification => {
               this.navBarService.notifications.next(superNotification.count);
           });

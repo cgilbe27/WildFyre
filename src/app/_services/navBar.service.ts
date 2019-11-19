@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { Area } from '../_models/area';
 import { CommentData } from '../_models/commentData';
 import { Link } from '../_models/link';

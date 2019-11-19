@@ -1,8 +1,11 @@
+
+import {throwError,  Observable } from 'rxjs';
+
+import {catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { isDevMode } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './authentication.service';
 
@@ -24,56 +27,56 @@ export class HttpService {
   // HTTP Requests
   DELETE(passedUrl: string): Observable<void> {
     // DELETE to api
-    return this.http.delete(this.apiURL + passedUrl, this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.delete(this.apiURL + passedUrl, this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   GET(passedUrl: string): Observable<any> {
     // get GET from api
-    return this.http.get(this.apiURL + passedUrl, this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.get(this.apiURL + passedUrl, this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   OPTIONS(passedUrl: string): Observable<any> {
     // OPTIONS to api
-    return this.http.options(this.apiURL + passedUrl, this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.options(this.apiURL + passedUrl, this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   PATCH(passedUrl: string, body: any): Observable<any> {
     // PATCH to api
-    return this.http.patch(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.patch(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   POST(passedUrl: string, body: any): Observable<any> {
     // POST to api
-    return this.http.post(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.post(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   POST_IMAGE(passedUrl: string, body: any): Observable<any> {
     // POST to api
-    return this.http.post(this.apiURL + passedUrl, body, this.getOptionsForImage())
-      .catch((error: any) => this.handleError(error));
+    return this.http.post(this.apiURL + passedUrl, body, this.getOptionsForImage()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   POST_NO_TOKEN(passedUrl: string, body: any): Observable<any> {
     // POST to api without an Authorization header
-    return this.http.post(this.apiURL + passedUrl, body, this.getOptionsNoToken())
-      .catch((error: any) => this.handleError(error));
+    return this.http.post(this.apiURL + passedUrl, body, this.getOptionsNoToken()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   PUT(passedUrl: string, body: any): Observable<any> {
     // PUT to api
-    return this.http.put(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions())
-      .catch((error: any) => this.handleError(error));
+    return this.http.put(this.apiURL + passedUrl, JSON.stringify(body), this.getOptions()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   PUT_IMAGE(passedUrl: string, body: any): Observable<any> {
     // PUT to api
-    return this.http.put(this.apiURL + passedUrl, body, this.getOptionsForImage())
-      .catch((error: any) => this.handleError(error));
+    return this.http.put(this.apiURL + passedUrl, body, this.getOptionsForImage()).pipe(
+      catchError((error: any) => this.handleError(error)));
   }
 
   // Handling methods
@@ -134,7 +137,7 @@ export class HttpService {
         break;
 
       default:
-        return Observable.throw(error);
+        return throwError(error);
     }
 
     // Show snack Snackbar
@@ -147,7 +150,7 @@ export class HttpService {
     }
 
     // Throw the Observable for the request
-    return Observable.throw(error);
+    return throwError(error);
   }
 
   getOptions(): any {

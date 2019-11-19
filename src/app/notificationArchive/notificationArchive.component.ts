@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgModule, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Area } from '../_models/area';
 import * as C from '../_models/constants';
 import { Post } from '../_models/post';

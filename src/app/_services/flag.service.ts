@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Comment } from '../_models/comment';
 import { HttpService } from './http.service';
 import { Post } from '../_models/post';

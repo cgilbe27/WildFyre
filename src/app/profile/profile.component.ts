@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { AvatarDialogComponent } from '../_dialogs/avatar.dialog.component';
 import { BioDialogComponent } from '../_dialogs/bio.dialog.component';
 import { EmailDialogComponent } from '../_dialogs/email.dialog.component';
