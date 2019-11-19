@@ -1,0 +1,78 @@
+<mat-card class="register-card">
+  <a class="logoLink" routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
+  <mat-card-content>
+    <h2>Recover</h2>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle="true">
+        <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b>Recover your Username</b>
+      </mat-panel-title>
+      <mat-panel-description>
+        <hr>
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" name="email" [(ngModel)]="model.email" #email="ngModel" autocomplete="email" required/>
+    </mat-form-field>
+    <div *ngIf="errors && errors.email" class="help-block has-error">
+      <ul *ngFor="let err of errors.email">
+        <li>{{err}}</li>
+      </ul>
+    </div>
+    <div class="captcha" style="transform: scale(0.80);transform-origin: 0 0;">
+      <re-captcha (captchaResponse)="setCaptchaResponse($event)" site_key="6LcXViIUAAAAABZF263l-SJh3rZAe95Sx2LPN-Dc"></re-captcha>
+      <div *ngIf="errors && errors.captcha" class="help-block has-error">
+        <ul *ngFor="let err of errors.captcha">
+          <li>{{err}}</li>
+        </ul>
+      </div>
+    </div>
+    <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+    <mat-action-row>
+      <button class="wideButtons" mat-raised-button color="accent" [disabled]="loading" (click)="recoverUsername()">Submit</button>
+    </mat-action-row>
+      </mat-expansion-panel>
+      <mat-expansion-panel hideToggle="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <b>Recover your Password</b>
+      </mat-panel-title>
+      <mat-panel-description>
+        <hr>
+        <mat-icon>lock</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-form-field>
+      <input matInput placeholder="Email" type="email" name="email2" [(ngModel)]="model.email2" #email2="ngModel" autocomplete="email" required/>
+    </mat-form-field>
+    <div *ngIf="errors && errors.email" class="help-block has-error">
+      <ul *ngFor="let err of errors.email">
+        <li>{{err}}</li>
+      </ul>
+    </div>
+    <mat-form-field>
+      <input matInput placeholder="Username"  type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="username" required/>
+    </mat-form-field>
+    <div *ngIf="errors && errors.username" class="help-block has-error">
+      <ul *ngFor="let err of errors.username">
+        <li>{{err}}</li>
+      </ul>
+    </div>
+    <div class="captcha" style="transform:scale(0.80);transform-origin:0 0">
+      <re-captcha (captchaResponse)="setCaptchaResponse($event)" site_key="6LcXViIUAAAAABZF263l-SJh3rZAe95Sx2LPN-Dc"></re-captcha>
+      <div *ngIf="errors && errors.captcha" class="help-block has-error">
+        <ul *ngFor="let err of errors.captcha">
+          <li>{{err}}</li>
+        </ul>
+      </div>
+    </div>
+    <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+    <mat-action-row>
+      <button class="wideButtons" mat-raised-button color="accent" [disabled]="loading" (click)="recoverPassword()">Submit</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>

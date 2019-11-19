@@ -4,12 +4,7 @@ export class NotificationPost {
   static parse(obj: any) {
     return new NotificationPost(
       obj.id,
-      (() => {
-        if (obj.author === null) {
-          return  new Author(498, 'Anonymous', 'https://static.wildfyre.net/anonym.svg', null, false);
-        }
-        return Author.parse(obj.author);
-      })(), // Call method
+      obj.author === null ? new Author(498, 'Anonymous', 'https://static.wildfyre.net/anonym.svg', null, false) : Author.parse(obj.author),
       obj.text
     );
   }

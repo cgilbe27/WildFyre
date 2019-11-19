@@ -11,6 +11,10 @@ export class SuperPost {
         obj.results.forEach((post: any) => {
           posts.push(Post.parse(post));
         });
+        // Sort posts
+        posts.sort((a: Post, b: Post) => {
+          return b.created.getTime() - a.created.getTime();
+        });
         return posts;
       })()  // Call method
     );
@@ -21,13 +25,7 @@ export class SuperPost {
     public next: string,
     public previous: string,
     public results: Post[]
-  ) {
-
-    // Sort posts
-    results.sort((a: Post, b: Post) => {
-      return b.created.getTime() - a.created.getTime();
-    });
-   }
+  ) { }
 
   getError(): SuperPostError {
     return null;

@@ -1,13 +1,11 @@
 import {Author} from './author';
 
 export class Comment {
-  public created: Date;
-
   static parse(obj: any) {
     return new Comment(
       obj.id,
       obj.author,
-      obj.created,
+      String(new Date(obj.created)),
       obj.text,
       obj.image
     );
@@ -16,12 +14,10 @@ export class Comment {
   constructor(
     public id: number,
     public author: Author,
-    created: string,
+    public created: string,
     public text: string,
     public image: string
-  ) {
-    this.created = new Date(created);
-  }
+  ) { }
 
   getError(): CommentError {
     return null;

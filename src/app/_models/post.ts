@@ -8,23 +8,13 @@ export class Post {
   static parse(obj: any) {
     return new Post(
       obj.id,
-      (() => {
-        if (obj.author === null) {
-          return  new Author(498, 'Anonymous', 'https://static.wildfyre.net/anonym.svg', null, false);
-        }
-        return Author.parse(obj.author);
-      })(), // Call method
+      obj.author === null ? new Author(498, 'Anonymous', 'https://static.wildfyre.net/anonym.svg', null, false) : Author.parse(obj.author),
       obj.anonym,
       obj.subscribed,
       obj.created,
       obj.active,
       obj.text,
-      (() => {
-        if (obj.image === null) {
-          return '';
-        }
-        return obj.image;
-      })(), // Call method
+      obj.image === null ? "" : obj.image,
       (() => {
         const additional_images: Image[] = [];
         obj.additional_images.forEach((additional_image: any) => {

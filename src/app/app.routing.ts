@@ -1,19 +1,19 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
-import { Component404Component } from './404component/404.component';
-import { DraftsComponent } from './drafts/drafts.component';
-import { CreatePostComponent } from './createPost/createPost.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { NotificationArchiveComponent } from './notificationArchive/notificationArchive.component';
-import { NotificationComponent } from './notification/notification.component';
-import { RecoverComponent } from './recover/recover.component';
-import { RecoverPasswordComponent } from './recoverPassword/recoverPassword.component';
-import { RegisterComponent } from './register/register.component';
-import { RegisterSuccessComponent } from './registerSuccess/registerSuccess.component';
-import { PostViewComponent } from './postView/postView.component';
-import { ProfileComponent } from './profile/profile.component';
-import { ProfileViewComponent } from './profileView/profileView.component';
-import { UserPostsComponent } from './userPosts/userPosts.component';
+import { Component404Component } from './_shared/404component/404.component';
+import { DraftsComponent } from './_shared/drafts/drafts.component';
+import { CreatePostComponent } from './_shared/createPost/createPost.component';
+import { HomeComponent } from './_shared/home/home.component';
+import { LoginComponent } from './_shared/login/login.component';
+import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
+import { NotificationComponent } from './_shared/notification/notification.component';
+import { RecoverComponent } from './_shared/recover/recover.component';
+import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassword.component';
+import { RegisterComponent } from './_shared/register/register.component';
+import { RegisterSuccessComponent } from './_shared/registerSuccess/registerSuccess.component';
+import { PostViewComponent } from './_shared/postView/postView.component';
+import { ProfileComponent } from './_shared/profile/profile.component';
+import { ProfileViewComponent } from './_shared/profileView/profileView.component';
+import { UserPostsComponent } from './_shared/userPosts/userPosts.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 const appRoutes: Routes = [
