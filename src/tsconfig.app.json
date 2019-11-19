@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "downlevelIteration": true,
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -11,8 +12,8 @@
       "es2017"
     ],
     "outDir": "../out-tsc/app",
-    "target": "es5",
-    "module": "es6",
+    "target": "es2015",
+    "module": "esnext",
     "baseUrl": "",
     "types": [ ]
   },
