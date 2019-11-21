@@ -1,3 +1,38 @@
+h1 {
+  font-size: 6rem;
+  text-align: left;
+  font-family: "Mukta", sans-serif;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 4rem;
+  font-family: "Mukta", sans-serif;
+  color: #A2A2A2;
+  font-weight: 400;
+}
+
+input {
+  font-size: 4rem;
+  color: #A2A2A2;
+  font-family: "Mukta", sans-serif;
+  font-weight: 400;
+}
+
+@media (max-width: 1000px) {
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  input {
+    font-size: 2rem;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */
 
 a {
@@ -9,7 +44,11 @@ a.mat-tab-link {
 }
 
 body {
-  background: #fafafa;
+  background: transparent !important;
+  width: 100%;
+  height: 100vh;
+  max-width: 1000px;
+  overflow-x: hidden;
 }
 
 button[type="submit"] {
@@ -38,42 +77,42 @@ div div mat-option span {
 }
 
 div div mat-option#mat-option-1.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-2.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-3.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-4.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-5.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-6.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div div mat-option#mat-option-7.mat-option.mat-selected {
-  color: #ed763e;
+  color: #EA6C40;
   font-size: 20px;
 }
 
 div span.mat-select-underline {
-  background-color: #ed763e;
+  background-color: #EA6C40;
   font-size: 20px;
 }
 
@@ -86,7 +125,7 @@ div.mat-dialog-actions {
 }
 
 div.mat-select-arrow {
-  color: #ed763e;
+  color: #EA6C40;
 }
 
 div.mat-slide-toggle-bar {
@@ -109,10 +148,6 @@ font span span ul {
   display: table-footer-group;
 }
 
-h1, h2 {
-  text-align: center;
-}
-
 hr {
   border: none;
   height: 2px;
@@ -121,7 +156,12 @@ hr {
 }
 
 html {
-  background: #fafafa;
+  background: #ffffff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 img {
@@ -164,7 +204,7 @@ mat-select {
 mat-select div.mat-select-trigger {
   width: 120px;
   padding-bottom: 4px;
-  border-bottom: 2px solid #ed763e;
+  border-bottom: 2px solid #EA6C40;
 }
 
 mat-sidenav.sideNav {
@@ -198,7 +238,7 @@ pagination-controls#server {
 }
 
 pagination-controls#server pagination-template ul.ngx-pagination li.current{
-	background: #ed763e;
+	background: #EA6C40;
 }
 
 span {
@@ -211,6 +251,10 @@ span.mat-button-wrapper {
   display: contents;
 }
 
+span.markdown p a {
+  display: flex;
+}
+
 span.markdown table {
     border-collapse: collapse;
     width: 100%;
@@ -221,7 +265,7 @@ span.markdown tbody tr td {
 }
 
 span.markdown tbody tr:nth-child(even){
-  background-color: #f2f2f2
+  background-color: transparent;
 }
 
 span.markdown thead tr th, span.markdown tbody tr th td {
@@ -230,12 +274,12 @@ span.markdown thead tr th, span.markdown tbody tr th td {
 }
 
 span.markdown thead tr th {
-    background-color: #ed763e;
+    background-color: #EA6C40;
     color: #263238;
 }
 
 span.mat-select-arrow {
-  color: #ed763e;
+  color: #EA6C40;
 }
 
 span.result {
@@ -313,8 +357,8 @@ ul.ngx-pagination {
   margin-right: 5vw;
   margin-left: 5vw;
   word-wrap: break-word;
-  background-color: #ed763e;
-  border: 2px solid #ed763e;
+  background-color: #EA6C40;
+  border: 2px solid #EA6C40;
 }
 
 .example-card.mat-card {
@@ -332,7 +376,7 @@ ul.ngx-pagination {
   margin-right: 5%;
   margin-left: 5%;
   word-wrap: break-word;
-  background-color: #ed763e;
+  background-color: #EA6C40;
   border: 2px solid #4f5b62;
 }
 
@@ -418,23 +462,9 @@ ul.ngx-pagination {
   height: 50px;
 }
 
-.mat-tab-nav-bar {
-  overflow: auto !important;
-  opacity: 0.99;
-}
-
 .markdown {
-    display: block;
-    font-family: Arial, Helvetica, sans-serif;
-    padding: 1px;
-    margin: 0 0 0px;
-    line-height: 1;
-    color: black;
     word-break: break-word;
     word-wrap: break-word;
-    background-color: white;
-    border: 0px solid #ccc;
-    border-radius: 0px;
     white-space: pre-wrap;       /* Since CSS 2.1 */
 }
 
@@ -497,7 +527,7 @@ ul.ngx-pagination {
   margin-right: 5%;
   margin-left: 5%;
   word-wrap: break-word;
-  background-color: #ed763e;
+  background-color: #EA6C40;
   border: 2px solid #4f5b62;
 }
 
@@ -528,7 +558,7 @@ ul.ngx-pagination {
 }
 
 .userPostsGrid {
-  border: 2px solid #ed763e;
+  border: 2px solid #EA6C40;
 }
 
 .wideButtons {
@@ -945,4 +975,95 @@ ul.ngx-pagination {
     #navBMobile {
         display: none;
     }
+}
+
+
+a {
+  font-family: 'Mukta', sans-serif !important;
+  color: #A2A2A2;
+}
+
+p {
+  font-family: 'Mukta', sans-serif !important;
+  /* color:#A2A2A2; */
+}
+
+input, select, textarea{
+  color: #A2A2A2 !important;
+  font-family: 'Mukta', sans-serif !important;
+  font-weight: 400 !important;
+  background: transparent !important;
+}
+
+textarea {
+  resize: none;
+}
+
+textarea:focus, input:focus {
+  color: #A2A2A2 !important;
+  font-family: 'Mukta', sans-serif !important;
+  background: transparent !important;
+}
+
+/* Change the white to any color ;) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+    box-shadow: 0 0 0 30px white inset !important;
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+    -webkit-text-fill-color: #A2A2A2 !important;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+  margin-bottom: 0rem !important;
+  margin-top: 0rem !important;
+}
+
+.alert-danger {
+  background-color: #171717 !important;
+}
+
+.ngx-pagination {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.ngx-pagination li:not(.small-screen) {
+  display: flex !important;
+}
+
+li.small-screen {
+  display: none;
+}
+
+.navBar-container {
+  width: 100%;
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #171717;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+  background-color: #000000 !important;
+}
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+  background-color: #A2A2A2 !important;
+}
+
+ng-component {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.navBar-container div {
+  cursor: pointer;
+}
+
+#social a:hover {
+  color: #EA6C40;
 }

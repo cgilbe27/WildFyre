@@ -1,37 +1,60 @@
-<mat-card class="login-card">
-  <a class="logoLink" routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
-  <mat-card-content>
-    <div class="alert alert-info">
-      Welcome to WildFyre!<br />
-      Try not to get burned
+<!-- Login  Component -->
+<div id="login">
+  <div *ngIf="!loading" fxLayout="column" fxLayoutAlign="center center" class="login-container">
+    <div fxLayout="column" fxLayoutAlign="start center" *ngIf="loginForm" [formGroup]="loginForm">
+      <div fxLayout="row" fxFlexOffset="2rem">
+        <img routerLink="/" class="login-image" src="/assets/logo.png" alt="WildFyre" />
+      </div>
+      <div fxLayout="row" fxFlexOffset="2rem">
+        <h1 class="login-title">Welcome to WildFyre!</h1>
+      </div>
+      <div fxLayout="row">
+        <h2 class="login-subtitle">Explore the fair side of social media</h2>
+      </div>
+      <div *ngIf="errors && errors.non_field_errors" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.non_field_errors">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="2rem" class="login-input">
+        <input matInput placeholder="Username" class="login-input login-title" type="text" autocomplete="username" formControlName="usernamel" required />
+      </div>
+      <div *ngIf="submitted && !loginForm.controls.usernamel.valid">
+        <p>Username is required</p>
+      </div>
+      <div *ngIf="errors && errors.username" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.username">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="1rem" class="login-input">
+        <input matInput placeholder="Password" class="login-input login-title" type="password" autocomplete="current-password" formControlName="passwordl" required />
+      </div>
+      <div *ngIf="submitted && !loginForm.controls.passwordl.valid">
+        <p>Password is required</p>
+      </div>
+      <div *ngIf="errors && errors.password" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.password">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div fxLayout="row" class="login-button" fxFlexOffset="2rem">
+        <button mat-stroked-button [disabled]="submitted" class="login-button" (click)="login()">Let's Go!</button>
+      </div>
+      <div fxLayout="row" class="login-button" fxFlexOffset="2rem">
+        <button mat-flat-button class="login-button" style="background: #EA6C40;color: #ffffff;" routerLink="/register">Register</button>
+      </div>
+
+      <div *ngIf="submitted" fxLayoutAlign="center center" fxFlexOffset="2rem">
+        <mat-progress-spinner></mat-progress-spinner>
+      </div>
+      <div fxLayout="row" fxFlexOffset="2rem" fxLayoutAlign="start center" style="width: 100%">
+        <a routerLink="/recover/username" style="padding-right: 2rem;cursor: pointer;">Forgot Username?</a>
+        <a routerLink="/recover/password" style="cursor: pointer;">Forgot Password?</a>
+      </div>
     </div>
-    <h2>Login</h2>
-    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
-      <div *ngIf="errors" class="alert alert-danger">
-        {{errors}}
-      </div>
-
-      <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
-        <mat-form-field>
-          <input matInput placeholder="Username" type="text" name="username" [(ngModel)]="model.username" #username="ngModel" autocomplete="username" required />
-        </mat-form-field>
-        <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
-      </div>
-
-      <div *ngIf="!loading" class="form" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-        <mat-form-field>
-          <input matInput placeholder="Password" type="password" name="password" [(ngModel)]="model.password" #password="ngModel" autocomplete="current-password" required />
-        </mat-form-field>
-        <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
-      </div>
-
-      <div class="form-group">
-        <button *ngIf="!loading" class="wideButtons" mat-raised-button color="accent" [disabled]="loading"><b>Login</b></button>
-        <br>
-        <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
-      </div>
-    </form>
-    Can't login? <a routerLink="/recover" routerLinkActive="active">Recover it Here</a><br>
-    Don't have an account? <a routerLink="/register" routerLinkActive="active">Register Here</a>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

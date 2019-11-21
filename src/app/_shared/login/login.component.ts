@@ -1,5 +1,6 @@
 import {takeUntil} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -7,15 +8,20 @@ import { AuthenticationService } from '../../_services/authentication.service';
 import { NavBarService } from '../../_services/navBar.service';
 import { NotificationService } from '../../_services/notification.service';
 import { RouteService } from '../../_services/route.service';
+import { Login } from '../../_models/login';
+import { Auth, AuthError } from '../../_models/auth';
 
 @Component({
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   componentDestroyed: Subject<boolean> = new Subject();
-  errors: string;
-  loading = false;
+  errors: AuthError;
+  loading = true;
+  loginForm: FormGroup;
   model: any = {};
+  submitted = false;
 
   constructor(
     private router: Router,
@@ -35,7 +41,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.routeService.resetRoutes();
     this.authenticationService.logout();
 
+    this.loginForm = new FormGroup({
+      'usernamel': new FormControl(''),
+      'passwordl': new FormControl(''),
+    });
+
     console.log('Turning up the heat');
+    this.loading = false;
   }
 
   ngOnDestroy() {
@@ -44,24 +56,42 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.loading = true;
-    this.authenticationService.login(this.model.username, this.model.password).pipe(
-      takeUntil(this.componentDestroyed))
-      .subscribe(result => {
-        if (!result.getError()) {
-          this.notificationService.getSuperNotification(10, 0).pipe(
-            takeUntil(this.componentDestroyed))
-            .subscribe(superNotification => {
-              this.navBarService.notifications.next(superNotification.count);
-          });
-          this.navBarService.loggedIn.next(true);
-          this.navBarService.areaVisible.next(true);
-          this.router.navigate(['/']);
-          this.loading = false;
-        }
-    }, err  => {
-      this.errors = 'Unable to log in with provided credentials.';
-      this.loading = false;
-    });
+    this.errors = null;
+    this.submitted = true;
+
+    if (this.loginForm.valid) {
+      this.authenticationService.login(new Login(this.loginForm.controls.usernamel.value, this.loginForm.controls.passwordl.value)).pipe(
+        takeUntil(this.componentDestroyed))
+        .subscribe((result: Auth) => {
+          if (!result.getError()) {
+            this.notificationService.getSuperNotification(10, 0).pipe(
+              takeUntil(this.componentDestroyed))
+              .subscribe(superNotification => {
+                this.navBarService.notifications.next(superNotification.count);
+
+                // interval(2000 * 60).pipe(
+                //   takeUntil(this.componentDestroyed))
+                //   .subscribe(x => {
+                //     this.notificationService.getSuperNotification(10, 0).pipe(
+                //       takeUntil(this.componentDestroyed))
+                //       .subscribe(superNotification => {
+                //         this.navBarService.notifications.next(superNotification.count);
+                //     });
+                // });
+            });
+            this.navBarService.loggedIn.next(true);
+            this.router.navigate(['/']);
+            this.submitted = false;
+          } else {
+            this.errors = result.getError();
+            this.submitted = false;
+          }
+      });
+    } else {
+      this.snackBar.open('Your information is incorrect', 'Close', {
+        duration: 3000
+      });
+      this.submitted = false;
+    }
   }
 }

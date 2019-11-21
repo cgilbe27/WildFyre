@@ -3,13 +3,13 @@ import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { isDevMode } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import { Auth, AuthError} from '../_models/auth';
+import { Login } from '../_models/login';
 
 @Injectable()
 export class AuthenticationService {
   private apiURL: string;
-  public token: string;
+  public token: Auth = null;
 
   constructor(
     private http: HttpClient
@@ -23,28 +23,34 @@ export class AuthenticationService {
     // }
   }
 
-  login(username: string, password: string): Observable<Auth> {
-    const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };
+  login(login: Login): Observable<Auth> {
+    if (this.token !== null) {
+      return of(this.token);
+    } else {
+      const options = { headers: new HttpHeaders({ 'Content-Type': 'application/json'}) };
 
-    return this.http.post(this.apiURL + '/account/auth/', JSON.stringify({ username: username, password: password }), options).pipe(
-      map((response: any) => {
-        // set token property
-        this.token = response.token;
-        // store username and token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify({ username: username, token: this.token }));
+      return this.http.post(this.apiURL + '/account/auth/', JSON.stringify(login), options).pipe(
+        map((response: any) => {
+          // set token property
+          this.token = new Auth(response);
+          // store username and token in local storage to keep user logged in between page refreshes
+          localStorage.setItem('currentUser', JSON.stringify({ username: login.username, token: this.token.token }));
 
-        return Auth.parse(response);
-      }),
-      catchError((error) => {
-        const body = JSON.parse(error._body);
-        return of(
-          new AuthError(
-            body.non_field_errors || null,
-            body.username || null,
-            body.password || null
-          )
-        );
-      }),);
+          return Auth.parse(response);
+        }),
+        catchError((error: any) => {
+          console.log(error)
+          const body = error.error;
+          return of(
+            new AuthError(
+              body.non_field_errors || null,
+              body.detail || null,
+              body.username || null,
+              body.password || null
+            )
+          );
+        }));
+    }
   }
 
   logout(): void {

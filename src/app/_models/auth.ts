@@ -1,7 +1,11 @@
 export class Auth {
   static parse(obj: any) {
-    return new Auth();
+    return new Auth(obj.token);
   }
+
+  constructor(
+    public token: string
+  ) { }
 
   getError(): AuthError {
     return null;
@@ -11,9 +15,10 @@ export class Auth {
 export class AuthError extends Auth {
   constructor(
     public non_field_errors?: string[],
-    public _username?: string[],
-    public _password?: string[]
-  ) { super(); }
+    public detail?: string,
+    public username?: string[],
+    public password?: string[]
+  ) { super(null); }
 
   getError(): AuthError {
     return this;

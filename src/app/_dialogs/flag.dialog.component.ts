@@ -61,7 +61,7 @@ export class FlagDialogComponent {
         'typeOfReport': this.typeOfReport,
         'report': this.model.report,
         'choice': this.clickedChoice,
-        'area': this.areaService.currentAreaName
+        'area': this.areaService.currentArea.name
       };
 
       this.dialogRef.close(message);

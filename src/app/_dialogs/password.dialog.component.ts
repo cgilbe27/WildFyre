@@ -7,6 +7,7 @@ import { PasswordError } from '../_models/password';
 import { AuthenticationService } from '../_services/authentication.service';
 import { ProfileService } from '../_services/profile.service';
 import { takeUntil } from 'rxjs/operators';
+import { Login } from '../_models/login';
 
 @Component({
   template: `
@@ -94,7 +95,7 @@ export class PasswordDialogComponent implements OnDestroy {
     }
 
     submitEditPassword() {
-      this.authenticationService.login(this.account.username, this.model.oldPassword).pipe(
+      this.authenticationService.login(new Login(this.account.username, this.model.oldPassword)).pipe(
         takeUntil(this.componentDestroyed))
         .subscribe(result => {
           if (!result.getError()) {
@@ -103,7 +104,7 @@ export class PasswordDialogComponent implements OnDestroy {
                 takeUntil(this.componentDestroyed))
                 .subscribe(result2 => {
                   if (!result2.getError()) {
-                    this.authenticationService.login(this.account.username, this.model.newPassword1).pipe(
+                    this.authenticationService.login(new Login(this.account.username, this.model.newPassword1)).pipe(
                       takeUntil(this.componentDestroyed))
                       .subscribe(result3 => {
                         if (!result3.getError()) {

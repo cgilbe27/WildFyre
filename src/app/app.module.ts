@@ -1,7 +1,8 @@
 // Angular Modules
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule, MatExpansionModule,
   MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatProgressSpinnerModule, MatRadioModule,
@@ -62,11 +63,14 @@ import { ReasonService } from './_services/reason.service';
 import { RegistrationService } from './_services/registration.service';
 import { RouteService } from './_services/route.service';
 import { Routing } from './app.routing';
+import { VariableService } from './_services/variable.service';
 
 // Third Party Modules
 import { Angulartics2Module } from 'angulartics2';
 import { ClipboardModule } from 'ngx-clipboard';
 import 'hammerjs';
+import { ImageCropperModule } from 'ngx-img-cropper';
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 
@@ -79,6 +83,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
+    FlexLayoutModule,
     HttpClientModule,
     MatButtonModule,
     MatCardModule,
@@ -96,10 +101,12 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
+    ReactiveFormsModule,
     Routing,
 
     // Third Party Modules
     ClipboardModule,
+    ImageCropperModule,
     NgxPaginationModule,
     ReCaptchaModule,
     ShareModule,
@@ -151,12 +158,14 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     FlagService,
     HttpService,
     NavBarService,
+    NgxImageCompressService,
     NotificationService,
     PostService,
     ProfileService,
     ReasonService,
     RegistrationService,
-    RouteService
+    RouteService,
+    VariableService
   ],
   entryComponents: [
     AvatarDialogComponent,

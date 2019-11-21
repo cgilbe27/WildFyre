@@ -10,6 +10,7 @@ import { AreaService } from '../../_services/area.service';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { NavBarService } from '../../_services/navBar.service';
 import { NotificationService } from '../../_services/notification.service';
+import { VariableService } from '../../_services/variable.service';
 import { BootController } from '../../../boot-control';
 import { takeUntil } from 'rxjs/operators';
 
@@ -57,7 +58,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
     private areaService: AreaService,
     private authenticationService: AuthenticationService,
     private notificationService: NotificationService,
-    private navBarService: NavBarService
+    private navBarService: NavBarService,
+    private variableService: VariableService
   ) {
     this.routeLinks = [
       {label: 'Profile', link: '/profile/', index: '0'},
@@ -115,7 +117,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
     });
 
-    if (this.authenticationService.token) {
+    if (this.authenticationService.token !== null) {
       this.login();
       this.loggedIn = true;
     } else {
@@ -258,7 +260,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
         this.cdRef.detectChanges();
     });
 
-    interval(2000 * 60).pipe(
+    interval(1000 * 60).pipe(
       takeUntil(this.componentDestroyed))
       .subscribe(x => {
         this.notificationService.getSuperNotification(10, 0).pipe(
@@ -295,7 +297,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
               this.areas.push(area);
 
               this.currentArea = this.areas[0];
-              this.areaService.currentAreaName = this.currentArea.name;
+              this.variableService.currentArea.next(this.currentArea);
               this.navBarService.currentArea.next(this.currentArea);
               this.cdRef.detectChanges();
           });
@@ -306,7 +308,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
 
   onChange(area: Area) {
     this.currentArea = area;
-    this.areaService.currentAreaName = this.currentArea.name;
+    this.variableService.currentArea.next(this.currentArea);
     this.navBarService.currentArea.next(this.currentArea);
   }
 
