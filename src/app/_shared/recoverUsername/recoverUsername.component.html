@@ -1,0 +1,45 @@
+<!-- Recover Username Component -->
+<div id="recover-username">
+  <div *ngIf="!loading" fxLayout="column" class="recover-container">
+    <div fxLayout="row" fxFlexOffset="2rem" style="width: 100%;margin-left: -1rem;" (click)="switchView('login')">
+      <i class="material-icons" style="font-size: 40px;cursor: pointer;">keyboard_arrow_left</i>
+    </div>
+    <div fxLayout="row" fxFlexOffset="2rem">
+      <h1 class="recover-title">Recover Username</h1>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start center" *ngIf="recoverUsernameForm" [formGroup]="recoverUsernameForm">
+      <div *ngIf="errors && errors.non_field_errors" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.non_field_errors">
+          <p>{{err}}</p>
+        </div>
+      </div>
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="2rem" class="recover-input">
+        <input matInput placeholder="Email" class="recover-input recover-title" style="font-size: 4rem;" type="email" autocomplete="current-email" formControlName="emailru" required />
+      </div>
+      <div *ngIf="submitted && !recoverUsernameForm.controls.emailru.valid">
+        <p>Email is required</p>
+      </div>
+      <div *ngIf="errors && errors.email" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.email">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="column" fxFlexOffset="2rem" class="recover-input">
+        <re-captcha (captchaResponse)="setCaptchaResponse($event)" site_key="6LcXViIUAAAAABZF263l-SJh3rZAe95Sx2LPN-Dc"></re-captcha>
+        <div *ngIf="errors && errors.captcha" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+          <div *ngFor="let err of errors.captcha">
+            <p>{{err}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" class="recover-button" fxFlexOffset="2rem">
+        <button mat-flat-button class="recover-button" style="background: #EA6C40;color: #ffffff;" [disabled]="submitted" (click)="recoverUsername()">Send Email</button>
+      </div>
+      <div *ngIf="submitted" fxLayoutAlign="center center" fxFlexOffset="2rem">
+        <mat-progress-spinner></mat-progress-spinner>
+      </div>
+    </div>
+  </div>
+</div>

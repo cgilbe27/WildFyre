@@ -43,10 +43,10 @@ export class AuthenticationService {
           const body = error.error;
           return of(
             new AuthError(
-              body.non_field_errors || null,
-              body.detail || null,
-              body.username || null,
-              body.password || null
+              body.non_field_errors,
+              body.detail,
+              body.username,
+              body.password
             )
           );
         }));

@@ -3,7 +3,7 @@
     <mat-option *ngFor="let area of areas" [value]="area">{{area.displayname}}</mat-option>
   </mat-select>
   <div id="spreadRep" *ngIf="loggedIn">
-    {{currentArea.spread}}<i class="material-icons">settings_input_antenna</i>
+    {{currentReputation.spread}}<i class="material-icons">settings_input_antenna</i>
     {{currentArea.rep}}<i class="material-icons">stars</i>
   </div>
   <button id="topNavMenu" mat-button (click)="sidenav.open()"><i class="material-icons">menu</i></button>

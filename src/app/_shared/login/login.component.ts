@@ -30,11 +30,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private navBarService: NavBarService,
     private notificationService: NotificationService,
     private routeService: RouteService
-  ) {
-    this.snackBar.open('Authentication Required', 'Close', {
-      duration: 3000
-    });
-  }
+  ) { }
 
   ngOnInit() {
     // reset login status

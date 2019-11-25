@@ -6,6 +6,7 @@ import { LogoutDialogComponent } from '../../_dialogs/logout.dialog.component';
 import { PictureDialogComponent } from '../../_dialogs/picture.dialog.component';
 import { Area } from '../../_models/area';
 import { CommentData } from '../../_models/commentData';
+import { Reputation } from '../../_models/reputation';
 import { AreaService } from '../../_services/area.service';
 import { AuthenticationService } from '../../_services/authentication.service';
 import { NavBarService } from '../../_services/navBar.service';
@@ -22,7 +23,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav', {static: true}) sidenav: MatSidenav;
 
   activeLinkIndex = 2;
-  areas = new Array<Area>(new Area('', '', 0, 0));
+  areas = new Array<Area>(new Area('', ''));
   areaReputation: { [area: string]: number; } = { };
   areaSpread: { [area: string]: number; } = { };
   areaVisible = true;
@@ -30,6 +31,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
   commentDisabled = false;
   componentDestroyed: Subject<boolean> = new Subject();
   currentArea: Area = this.areas[0];
+  currentReputation: Reputation;
   expanded = false;
   hasPost = false;
   heightText: string;
@@ -286,15 +288,13 @@ export class NavBarComponent implements OnInit, OnDestroy {
           this.areaService.getAreaRep(areas[i].name).pipe(
             takeUntil(this.componentDestroyed))
             .subscribe(result => {
-              let area;
-              area = new Area(
+              this.areas.push(new Area(
                 areas[i].name,
-                areas[i].displayname,
-                result.reputation,
-                result.spread
-              );
+                areas[i].displayname
+              ));
 
-              this.areas.push(area);
+              this.currentReputation = new Reputation(result.reputation,
+                result.spread);
 
               this.currentArea = this.areas[0];
               this.variableService.currentArea.next(this.currentArea);

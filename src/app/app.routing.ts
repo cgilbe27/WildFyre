@@ -6,8 +6,9 @@ import { HomeComponent } from './_shared/home/home.component';
 import { LoginComponent } from './_shared/login/login.component';
 import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
 import { NotificationComponent } from './_shared/notification/notification.component';
-import { RecoverComponent } from './_shared/recover/recover.component';
 import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassword.component';
+import { RecoverPassword2Component } from './_shared/recoverPassword2/recoverPassword2.component';
+import { RecoverUsernameComponent } from './_shared/recoverUsername/recoverUsername.component';
 import { RegisterComponent } from './_shared/register/register.component';
 import { RegisterSuccessComponent } from './_shared/registerSuccess/registerSuccess.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
@@ -30,8 +31,10 @@ const appRoutes: Routes = [
   { path: 'posts', component: UserPostsComponent, canActivate: [AuthGuard] },
   { path: 'posts/:index', component: UserPostsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'recover', component: RecoverComponent },
-  { path: 'recover/password/:trans', component: RecoverPasswordComponent },
+  { path: 'recover', redirectTo: '', pathMatch: 'full' },
+  { path: 'recover/password', component: RecoverPasswordComponent },
+  { path: 'recover/password/:trans', component: RecoverPassword2Component },
+  { path: 'recover/username', component: RecoverUsernameComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'register/success', component: RegisterSuccessComponent },
   { path: 'user/:id', component: ProfileViewComponent },

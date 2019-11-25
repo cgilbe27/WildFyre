@@ -1,0 +1,40 @@
+.register {
+  &-button {
+    width: 100%;
+    font-family: 'Mukta', sans-serif;
+    border: 1px solid #EA6C40;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  &-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 100%;
+    height: 100vh;
+    max-width: 1000px;
+  }
+  &-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #A2A2A2;
+  }
+  &-subtitle {
+    text-align: left;
+  }
+  &-title {
+    text-align: left;
+  }
+  &-image {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .recover {
+    &-image {
+      max-width: 75px;
+    }
+  }
+}

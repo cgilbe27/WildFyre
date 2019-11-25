@@ -1,4 +1,93 @@
-<mat-card class="register-card">
+<!-- Register  Component -->
+<div id="register">
+  <div *ngIf="!loading" fxLayout="column" class="register-container">
+    <div fxLayout="row" fxFlexOffset="2rem" style="width: 100%;margin-left: -1rem;" (click)="switchView('landing')">
+      <i class="material-icons" style="font-size: 40px;cursor: pointer;">keyboard_arrow_left</i>
+    </div>
+    <div fxLayout="row" fxFlexOffset="2rem">
+      <h1 class="register-title">Register</h1>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start center" *ngIf="registerForm" [formGroup]="registerForm">
+      <div *ngIf="errors && errors.non_field_errors" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.non_field_errors">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="2rem" class="register-input">
+        <input matInput placeholder="Username" class="register-input register-title" style="font-size: 4rem;" type="text" autocomplete="username" formControlName="usernamer" required />
+      </div>
+      <div *ngIf="submitted && !registerForm.controls.usernamer.valid">
+        <p>Username is required</p>
+      </div>
+      <div *ngIf="errors && errors.username" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.username">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="1rem" class="register-input">
+        <input matInput placeholder="Email" class="register-input register-title" style="font-size: 4rem;" type="email" autocomplete="current-email" formControlName="emailr" required />
+      </div>
+      <div *ngIf="submitted && !registerForm.controls.emailr.valid">
+        <p>Email is required</p>
+      </div>
+      <div *ngIf="errors && errors.email" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.email">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="1rem" class="register-input">
+        <input matInput placeholder="Password" class="register-input register-title" style="font-size: 4rem;" type="password" autocomplete="current-password" formControlName="passwordr" required />
+      </div>
+      <div *ngIf="submitted && !registerForm.controls.passwordr.valid">
+        <p>Password is required</p>
+      </div>
+      <div *ngIf="errors && errors.password" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.password">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="row" fxFlexOffset="1rem" class="register-input">
+        <input matInput placeholder="Password again" class="register-input register-title" style="font-size: 4rem;" type="password" autocomplete="current-password" formControlName="password2r" required />
+      </div>
+      <div *ngIf="submitted && !registerForm.controls.password2r.valid">
+        <p>Second password is required</p>
+      </div>
+      <div *ngIf="errors && errors.password" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.password">
+          <p>{{err}}</p>
+        </div>
+      </div>
+
+      <div *ngIf="!submitted" fxLayout="column" fxFlexOffset="1rem" class="register-input">
+        <re-captcha (captchaResponse)="setCaptchaResponse($event)" site_key="6LcXViIUAAAAABZF263l-SJh3rZAe95Sx2LPN-Dc"></re-captcha>
+        <div *ngIf="errors && errors.captcha" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+          <div *ngFor="let err of errors.captcha">
+            <p>{{err}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="column" fxFlexOffset="2rem">
+      <p>Usernames must use Letters, Digits, Spaces, @, /, ., /, +, /, -, and _ only.</p>
+      <p>Passwords must contain at least 8 characters and be alphanumeric (At least 1 letter and 1 number)</p>
+      <p>By logging in, you agree to our <a target="_blank" rel="noopener" style="color: #EA6C40;" href="https://wildfyre.net/terms-and-conditions/">Terms and Conditions</a>
+         and that you have read our <a target="_blank" rel="noopener" style="color: #EA6C40;" href="https://wildfyre.net/privacy-policy/">Privacy Policy</a>.</p>
+    </div>
+
+    <div *ngIf="!submitted" fxLayout="row" class="register-button" fxFlexOffset="2rem" style="margin-bottom: 2rem;" >
+      <button mat-flat-button class="register-button" style="background: #EA6C40;color: #ffffff;" [disabled]="submitted" (click)="register()">Let's Go!</button>
+    </div>
+    <div *ngIf="submitted" fxLayoutAlign="center center" fxFlexOffset="2rem">
+      <mat-progress-spinner></mat-progress-spinner>
+    </div>
+  </div>
+</div>
+
+<!-- <mat-card class="register-card">
   <a class="logoLink" routerLink="/" routerLinkActive="active"><img class="logo" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre"></a>
   <mat-card-content>
     <div class="alert alert-info">
@@ -73,9 +162,9 @@
       <div class="form">
         By clicking Register, you agree to our <a href="https://wildfyre.net/index.php/terms-and-conditions/">Terms</a>
           and that you have read our <a href="https://wildfyre.net/index.php/privacy-policy/">Privacy Policy</a>.
-        <button class="wideButtons" mat-raised-button color="accent" [disabled]="loading">Register</button>
-        <mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
+        <button class="wideButtons" mat-raised-button color="accent" [disabled]="submitted">Register</button>
+        <mat-progress-spinner *ngIf="submitted"></mat-progress-spinner>
       </div>
     </form>
   </mat-card-content>
-</mat-card>
+</mat-card> -->

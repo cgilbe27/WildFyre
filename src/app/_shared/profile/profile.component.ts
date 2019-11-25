@@ -148,7 +148,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.profileService.setBio(this.author, result.bio).pipe(
             takeUntil(this.componentDestroyed))
             .subscribe();
-          const snackBarRef = this.snackBar.open('Bio changed successfully', 'Close', {
+          this.snackBar.open('Bio changed successfully', 'Close', {
             duration: 3000
           });
         }
@@ -165,7 +165,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           this.profileService.setEmail(result.email).pipe(
             takeUntil(this.componentDestroyed))
             .subscribe();
-          const snackBarRef = this.snackBar
+          this.snackBar
             .open('We just sent you a verification email, you must verify your email for it to be set', 'Close', {
             duration: 3000
           });
@@ -181,7 +181,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       takeUntil(this.componentDestroyed))
       .subscribe(result => {
         if (result.bool) {
-          const snackBarRef = this.snackBar.open('Password changed successfully', 'Close', {
+          this.snackBar.open('Password changed successfully', 'Close', {
             duration: 3000
           });
         }
@@ -202,13 +202,13 @@ export class ProfileComponent implements OnInit, OnDestroy {
               if (!result2.getError()) {
               this.author.avatar = result2.avatar;
             } else {
-              const snackBarRef = this.snackBar.open('Your image file must be below 512KiB in size', 'Close', {
+              this.snackBar.open('Your image file must be below 512KiB in size', 'Close', {
                 duration: 3000
               });
             }
             });
           } else {
-            const snackBarRef = this.snackBar.open('You did not select a valid image file', 'Close', {
+            this.snackBar.open('You did not select a valid image file', 'Close', {
               duration: 3000
             });
           }

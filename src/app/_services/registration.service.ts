@@ -26,12 +26,14 @@ export class RegistrationService {
         // Step 1 successful
         return RecoverTransaction.parse(response);
       }),
-      catchError((error: { non_field_errors: string[]; email: string[]; captcha: string[]; }) => {
+      catchError((error: any) => {
+        const body = error.error;
         return of(
           new RecoverTransactionError(
-            error.non_field_errors,
-            error.email,
-            error.captcha
+            body.non_field_errors,
+            body.username,
+            body.email,
+            body.captcha
           )
         );
       }));

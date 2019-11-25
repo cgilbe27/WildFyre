@@ -9,7 +9,7 @@ export class NavBarService {
   areaVisible: BehaviorSubject<boolean> = new BehaviorSubject(false);
   clearInputs: BehaviorSubject<boolean> = new BehaviorSubject(false);
   comment: BehaviorSubject<CommentData> = new BehaviorSubject(new CommentData('', null));
-  currentArea: BehaviorSubject<Area> = new BehaviorSubject(new Area('', '', 0, 0));
+  currentArea: BehaviorSubject<Area> = new BehaviorSubject(new Area('', ''));
   hasPost: BehaviorSubject<boolean> = new BehaviorSubject(false);
   isVisibleSource: BehaviorSubject<string> = new BehaviorSubject('');
   link: BehaviorSubject<Link> = new BehaviorSubject(new Link('', '', ''));
