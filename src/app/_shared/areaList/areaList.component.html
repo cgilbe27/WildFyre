@@ -1,0 +1,26 @@
+<!-- Area List Component -->
+<div id="areaList" style="margin-bottom: 25vh;">
+  <div fxLayout="column" class="home-container">
+    <div style="margin-top: 2rem;">
+      <h2 class="home-title">{{title}}</h2>
+      <!-- <div *ngIf="currentView === view().home" fxLayout="row">
+        <div class="home-area-card" (click)="goto(allArea)" fxLayoutAlign="center center">
+          <h4 style="color: #ffffff;">All Areas</h4>
+        </div>
+      </div> -->
+      <div *ngFor="let area of areas">
+        <div fxLayout="row">
+          <div [id]="area.name" class="home-area-card" (click)="goto(area)" fxLayoutAlign="center center">
+            <div>
+              <h4 style="color: #ffffff;">{{area.displayname}}</h4>
+            </div>
+          </div>
+          <div *ngIf="currentView === view().home" (click)="goto(area, true)" class="home-area-card-add" fxLayoutAlign="center center">
+            <i style="color: #ffffff;" class="material-icons">add</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-nav-bar></app-nav-bar>

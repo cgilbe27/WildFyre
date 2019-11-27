@@ -52,7 +52,6 @@ export class PostService {
         const comment = Comment.parse(response);
 
         post.comments.push(comment);
-        this.navBarService.clearInputs.next(true);
         return comment;
       }),
       catchError((err) => {
@@ -162,6 +161,10 @@ export class PostService {
       }));
   }
 
+  getAllPosts(area: string): Observable<Post[]> {
+    return of(this.queuedPosts[area]);
+  }
+
   getNextPost(area: string): Observable<Post> {
     if (!this.used[area]) {
       this.used[area] = [];
@@ -243,7 +246,6 @@ export class PostService {
       formData.append('text', commentText);
       return this.httpService.POST_IMAGE('/areas/' + area + '/' + post.id +  '/', formData).pipe(
         map((response) => {
-          this.navBarService.clearInputs.next(true);
           return Comment.parse(response);
         }),catchError((err) => {
           return of(new CommentError(

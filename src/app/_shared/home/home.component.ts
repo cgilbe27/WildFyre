@@ -31,7 +31,7 @@ enum TypeOfReport {
   templateUrl: 'home.component.html',
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private systemAuthor: Author = new Author(375, 'WildFyre', '', '', false);
+  private systemAuthor: Author = new Author(375, 'WildFyre', false, '', '');
   areaCheck: string;
   blockedUsers: string[];
   blanketText = `<span class="markdown fyre-blanket"><p>Fyre Blanket</p></span>`;
@@ -84,7 +84,6 @@ export class HomeComponent implements OnInit, OnDestroy {
                 .subscribe(result2 => {
                   if (!result2.getError()) {
                     this.post.comments.push(result2);
-                    this.navBarService.clearInputs.next(true);
                   } else {
                     this.snackBar.open('Your image file must be below 512KiB in size', 'Close', {
                       duration: 3000
@@ -95,7 +94,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               this.postService.comment(this.currentArea, this.post, comment.comment).pipe(
                 takeUntil(this.componentDestroyed))
                 .subscribe();
-                this.navBarService.clearInputs.next(true);
             }
             this.commentCount += 1;
             this.cdRef.detectChanges();
@@ -105,7 +103,6 @@ export class HomeComponent implements OnInit, OnDestroy {
               , 'Close', {
               duration: 3000
             });
-            this.navBarService.clearInputs.next(false);
         }
       }
       this.wait = false;
@@ -317,7 +314,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   spread(spread: boolean) {
     this.loading = true;
-    this.navBarService.clearInputs.next(true);
     this.cdRef.detectChanges();
     this.postService.spread(
       this.currentArea,

@@ -3,7 +3,6 @@ import {map, catchError} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Account, AccountError } from '../_models/account';
 import { Author, AuthorError } from '../_models/author';
-import { Profile, ProfileError } from '../_models/profile';
 import { SuperBan } from '../_models/superBan';
 import { HttpService } from './http.service';
 
@@ -74,12 +73,18 @@ export class ProfileService {
         console.log('You leveled up some stats');
 
         return Author.parse(response);
-      }),catchError((err) => {
-        return of(new AuthorError(
-          JSON.parse(err._body).non_field_errors,
-          JSON.parse(err._body).text
-        ));
-      }),);
+      }),
+      catchError((error: any) => {
+        const body = error.error;
+        return of(
+          new AuthorError(
+            body.non_field_errors,
+            body.detail,
+            body.avatar,
+            body.bio
+          )
+        );
+      }));
   }
 
   setEmail(email: any): Observable<Account> {
@@ -92,12 +97,18 @@ export class ProfileService {
         console.log('You have mail!');
 
         return Account.parse(response);
-      }),catchError((err) => {
-        return of(new AccountError(
-          JSON.parse(err._body).non_field_errors,
-          JSON.parse(err._body).text
-        ));
-      }),);
+      }),
+      catchError((error: any) => {
+        const body = error.error;
+        return of(
+          new AccountError(
+            body.non_field_errors,
+            body.detail,
+            body.username,
+            body.email
+          )
+        );
+      }));
   }
 
   setPassword(password: any): Observable<Account> {
@@ -110,27 +121,39 @@ export class ProfileService {
         console.log('You have been securely encryptified');
 
         return Account.parse(response);
-      }),catchError((err) => {
-        return of(new AccountError(
-          JSON.parse(err._body).non_field_errors,
-          JSON.parse(err._body).text
-        ));
-      }),);
+      }),
+      catchError((error: any) => {
+        const body = error.error;
+        return of(
+          new AccountError(
+            body.non_field_errors,
+            body.detail,
+            body.username,
+            body.email
+          )
+        );
+      }));
   }
 
-  setProfilePicture(image: any): Observable<Profile> {
+  setProfilePicture(image: any): Observable<Author> {
      const formData: FormData = new FormData();
      formData.append('avatar', image, image.name);
 
     return this.httpService.PUT_IMAGE('/users/', formData).pipe(
       map((response) => {
         console.log('You looked in the mirror and got frightened');
-        return Profile.parse(response);
-      }),catchError((err) => {
-        return of(new ProfileError(
-          JSON.parse(err._body).non_field_errors,
-          JSON.parse(err._body).text
-        ));
-      }),);
+        return Author.parse(response);
+      }),
+      catchError((error: any) => {
+        const body = error.error;
+        return of(
+          new AuthorError(
+            body.non_field_errors,
+            body.detail,
+            body.avatar,
+            body.bio
+          )
+        );
+      }));
   }
 }

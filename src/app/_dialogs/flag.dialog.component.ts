@@ -57,13 +57,16 @@ export class FlagDialogComponent {
     }
 
     sendReport() {
-      const message = {
-        'typeOfReport': this.typeOfReport,
-        'report': this.model.report,
-        'choice': this.clickedChoice,
-        'area': this.areaService.currentArea.name
-      };
+      this.areaService.currentArea
+        .subscribe(currentArea => {
+          const message = {
+            'typeOfReport': this.typeOfReport,
+            'report': this.model.report,
+            'choice': this.clickedChoice,
+            'area': currentArea.name
+          };
 
-      this.dialogRef.close(message);
+          this.dialogRef.close(message);
+        });
   }
 }

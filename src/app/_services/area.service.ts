@@ -1,22 +1,19 @@
-import {of, Observable } from 'rxjs';
-import {map} from 'rxjs/operators';
+import { BehaviorSubject, Observable, forkJoin } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
-import { VariableService } from './variable.service';
 import { Area } from '../_models/area';
 import { Reputation } from '../_models/reputation';
+import { map, merge } from 'rxjs/operators';
 
 @Injectable()
 export class AreaService {
-  public currentArea: Area;
-  public currentReputation: Reputation;
-  public areas: Area[];
-  public reputation: { [area: string]: Reputation; } = { };
-
+  public currentArea: BehaviorSubject<Area> = new BehaviorSubject(undefined);
+  public currentReputation: BehaviorSubject<Reputation> = new BehaviorSubject(undefined);
+  public areas: BehaviorSubject<Area[]> = new BehaviorSubject([]);
+  public reputation: BehaviorSubject<{ [area: string]: Reputation; }> = new BehaviorSubject({});
 
   public constructor(
-    private httpService: HttpService,
-    private variableService: VariableService
+    private httpService: HttpService
   ) { }
 
   // getArea(s: string): Observable<Area> {
@@ -44,45 +41,48 @@ export class AreaService {
   //   }
   // }
 
-  getAreaRep(area: string): Observable<Reputation> {
-    if (!this.reputation[area]) {
-      return this.httpService.GET('/areas/' + area + '/rep/').pipe(
-        map((response) => {
-          this.reputation[area] = Reputation.parse(response);
+  getAreaRep(areas: Area[]) {
+    this.reputation.subscribe(reputation => {
+      let rep: Observable<any>[] = [];
 
-          this.variableService.currentRepution.next(this.reputation[area]);
-          this.variableService.repution.next(this.reputation);
+      for (let i = 0; i < areas.length; i++) {
+        if (reputation[areas[i].name] === undefined) {
+          rep.push(this.httpService.GET('/areas/' + areas[i].name + '/rep/'));
+        }
+      }
+      if (rep != []) {
+        forkJoin(rep).subscribe(({
+          next: value => {
+            let arr: { [area: string]: Reputation; } = {};
 
-          return this.reputation[area];
+            for (let i = 0; i < value.length; i++) {
+              arr[areas[i].name] = Reputation.parse(value[i])
+            }
+
+            this.currentReputation.next(arr[areas[0].name]);
+            this.reputation.next(arr);
+          }
         }));
-    } else {
-      this.variableService.repution.next(this.reputation);
-
-      return of(this.reputation[area]);
-    }
+      }
+    });
   }
 
-  getAreas(): Observable<Area[]> {
+  getAreas() {
     // get areas from api
-    if (!this.areas) {
-      return this.httpService.GET('/areas/').pipe(
-        map(response => {
-          const areas: Area[] = [];
+    this.areas.subscribe(areas => {
+      if (areas.length === 0) {
+        this.httpService.GET('/areas/')
+          .subscribe(response => {
+            for (let i = 0; i < response.length; i++) {
+              let area = Area.parse(response[i]);
+              areas.push(area)
+            }
 
-          for (let i = 0; i < response.length; i++) {
-            areas.push(Area.parse(response[i]))
-          }
-
-          this.areas = areas;
-          this.variableService.areas.next(this.areas);
-          this.variableService.currentArea.next(this.areas[0]);
-
-          return areas;
-        }));
-    } else {
-      this.variableService.areas.next(this.areas);
-
-      return of(this.areas);
-    }
+            this.getAreaRep(areas)
+            this.areas.next(areas);
+            this.currentArea.next(areas[0]);
+          });
+      }
+    });
   }
 }

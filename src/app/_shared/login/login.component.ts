@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   errors: AuthError;
   loading = true;
   loginForm: FormGroup;
-  model: any = {};
   submitted = false;
 
   constructor(

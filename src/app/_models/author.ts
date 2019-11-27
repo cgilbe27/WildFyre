@@ -3,18 +3,18 @@ export class Author {
     return new Author(
       obj.user,
       obj.name,
+      obj.banned,
       obj.avatar,
-      obj.bio,
-      obj.banned
+      obj.bio
     );
   }
 
   constructor(
     public user: number,
     public name: string,
-    public avatar: string,
-    public bio: string,
-    public banned: boolean
+    public banned: boolean,
+    public avatar?: string | string[],
+    public bio?: string | string[]
   ) { }
 
   getError(): AuthorError {
@@ -25,7 +25,9 @@ export class Author {
 export class AuthorError extends Author {
   constructor(
     public non_field_errors?: string[],
-    public _text?: string[]
+    public detail?: string,
+    public avatar?: string[],
+    public bio?: string[]
   ) {
     super(null, null, null, null, null);
   }

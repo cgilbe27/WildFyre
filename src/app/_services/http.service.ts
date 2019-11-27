@@ -154,7 +154,8 @@ export class HttpService {
   getOptions(): any {
     const header: { [name: string]: string | string[]; } = {};
     header['Content-Type'] = 'application/json';
-    if (this.authenticationService.token.token ) {
+
+    if (this.authenticationService.token.token) {
       header['Authorization'] = `Token ${this.authenticationService.token.token}`;
     }
 
@@ -162,7 +163,7 @@ export class HttpService {
   }
 
   getOptionsForImage(): any {
-    return { headers: new HttpHeaders({ 'Authorization': 'Token ' + this.authenticationService.token.token}) };
+    return { headers: new HttpHeaders({ 'Authorization': `Token ${this.authenticationService.token.token}`}) };
   }
 
   getOptionsNoToken(): any {

@@ -1,13 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { ViewChild } from '@angular/core';
-import { AuthenticationService } from '../../_services/authentication.service';
-import { RegistrationService } from '../../_services/registration.service';
-import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { takeUntil } from 'rxjs/operators';
+import { AuthenticationService } from '../../_services/authentication.service';
+import { NavBarService } from '../../_services/navBar.service';
+import { NotificationService } from '../../_services/notification.service';
+import { RegistrationService } from '../../_services/registration.service';
+import { RouteService } from '../../_services/route.service';
+import { ReCaptchaComponent } from 'angular2-recaptcha';
+import { Login } from '../../_models/login';
+import { Auth, AuthError } from '../../_models/auth';
 
 @Component({
   templateUrl: 'register.component.html',
@@ -27,7 +31,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private registrationService: RegistrationService
+    private navBarService: NavBarService,
+    private notificationService: NotificationService,
+    private registrationService: RegistrationService,
+    private routeService: RouteService
   ) { }
 
   ngOnInit() {
@@ -48,6 +55,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.componentDestroyed.complete();
   }
 
+  back() {
+    if (this.routeService.routes.length === 0) {
+      this.router.navigateByUrl('');
+    } else {
+      this.router.navigateByUrl(this.routeService.getNextRoute());
+    }
+  }
+
   register() {
     this.errors = null;
     this.submitted = true;
@@ -62,8 +77,23 @@ export class RegisterComponent implements OnInit, OnDestroy {
           takeUntil(this.componentDestroyed))
           .subscribe(result => {
             if (!result.getError()) {
-              this.router.navigate(['/register/success']);
-              this.submitted = false;
+              this.authenticationService.login(new Login(this.registerForm.controls.usernamer.value, this.registerForm.controls.passwordr.value)).pipe(
+                takeUntil(this.componentDestroyed))
+                .subscribe((result: Auth) => {
+                  if (!result.getError()) {
+                    this.notificationService.getSuperNotification(10, 0).pipe(
+                      takeUntil(this.componentDestroyed))
+                      .subscribe(superNotification => {
+                        this.navBarService.notifications.next(superNotification.count);
+                    });
+                    this.navBarService.loggedIn.next(true);
+                    this.router.navigate(['/']);
+                    this.submitted = false;
+                  } else {
+                    this.errors = result.getError();
+                    this.submitted = false;
+                  }
+              });
             } else {
               this.errors = result.getError();
               this.submitted = false;

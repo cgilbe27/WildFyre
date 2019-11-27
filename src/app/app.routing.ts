@@ -1,8 +1,9 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
+import { AreaListResolver } from './_resolvers/areaList.resolver';
 import { Component404Component } from './_shared/404component/404.component';
+import { AreaListComponent } from './_shared/areaList/areaList.component';
 import { DraftsComponent } from './_shared/drafts/drafts.component';
 import { CreatePostComponent } from './_shared/createPost/createPost.component';
-import { HomeComponent } from './_shared/home/home.component';
 import { LoginComponent } from './_shared/login/login.component';
 import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
 import { NotificationComponent } from './_shared/notification/notification.component';
@@ -18,7 +19,7 @@ import { UserPostsComponent } from './_shared/userPosts/userPosts.component';
 import { AuthGuard } from './_guards/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: AreaListComponent, canActivate: [AuthGuard], resolve: {areas: AreaListResolver} },
   { path: 'areas/:area/:id', component: PostViewComponent },
   { path: 'areas/:area/:id/:comments', component: PostViewComponent },
   { path: 'create', component: CreatePostComponent, canActivate: [AuthGuard] },
@@ -31,11 +32,11 @@ const appRoutes: Routes = [
   { path: 'posts', component: UserPostsComponent, canActivate: [AuthGuard] },
   { path: 'posts/:index', component: UserPostsComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'recover', redirectTo: '', pathMatch: 'full' },
-  { path: 'recover/password', component: RecoverPasswordComponent },
-  { path: 'recover/password/:trans', component: RecoverPassword2Component },
-  { path: 'recover/username', component: RecoverUsernameComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'recover', redirectTo: '', pathMatch: 'full' }, //done
+  { path: 'recover/password', component: RecoverPasswordComponent }, //done
+  { path: 'recover/password/:trans', component: RecoverPassword2Component }, //done
+  { path: 'recover/username', component: RecoverUsernameComponent }, //done
+  { path: 'register', component: RegisterComponent }, //done
   { path: 'register/success', component: RegisterSuccessComponent },
   { path: 'user/:id', component: ProfileViewComponent },
 

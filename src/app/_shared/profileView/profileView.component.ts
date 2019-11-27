@@ -57,7 +57,7 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
   share() {
     this.navBarService.link.next(
       new Link('https://client.wildfyre.net/user/' + this.author.user,
-      this.author.bio.slice(0, 100),
+      String(this.author.bio).slice(0, 100),
       this.author.name
     ));
     const dialogRef = this.dialog.open(ShareDialogComponent);

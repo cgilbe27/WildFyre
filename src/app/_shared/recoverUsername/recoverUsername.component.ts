@@ -5,9 +5,9 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { ViewChild } from '@angular/core';
 import { RegistrationService } from '../../_services/registration.service';
+import { RouteService } from '../../_services/route.service';
 import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { takeUntil } from 'rxjs/operators';
-import { RouteService } from '../../_services/route.service';
 
 @Component({
   templateUrl: 'recoverUsername.component.html',

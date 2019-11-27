@@ -64,6 +64,7 @@ export class RecoverPasswordComponent implements OnInit, OnDestroy {
         takeUntil(this.componentDestroyed))
         .subscribe(result => {
           if (!result.getError()) {
+            this.routeService.addNextRoute('/recover/password');
             this.router.navigateByUrl('/recover/password/' + result.transaction);
             this.submitted = false;
           } else {

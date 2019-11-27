@@ -11,10 +11,12 @@ import { NgModule } from '@angular/core';
 
 // Core Components
 import { AppComponent } from './app.component';
+import { AreaListComponent } from './_shared/areaList/areaList.component';
 import { Component404Component } from './_shared/404component/404.component';
 import { CreatePostComponent } from './_shared/createPost/createPost.component';
 import { DraftsComponent } from './_shared/drafts/drafts.component';
 import { HomeComponent } from './_shared/home/home.component';
+import { ImageUploadComponent } from './_shared/imageUpload/imageUpload.component';
 import { LoginComponent } from './_shared/login/login.component';
 import { NavBarComponent } from './_shared/navBar/navBar.component';
 import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
@@ -48,6 +50,10 @@ import { ShareModule } from './_modules/ng2share/share.module';
 
 // Core Pipes
 import { MarkedPipe } from './_pipes/marked.pipe';
+
+// Core Resolvers
+import { AreaListResolver } from './_resolvers/areaList.resolver';
+import { ProfileResolver } from './_resolvers/profile.resolver';
 
 // Core Services
 import { AreaService } from './_services/area.service';
@@ -118,10 +124,12 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
   declarations: [
     // Components
     AppComponent,
+    AreaListComponent,
     Component404Component,
     DraftsComponent,
     CreatePostComponent,
     HomeComponent,
+    ImageUploadComponent,
     LoginComponent,
     NavBarComponent,
     NotificationArchiveComponent,
@@ -153,6 +161,11 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     MarkedPipe
     ],
   providers: [
+    // Resolvers
+    AreaListResolver,
+    ProfileResolver,
+
+    // Services
     AreaService,
     AuthGuard,
     AuthenticationService,

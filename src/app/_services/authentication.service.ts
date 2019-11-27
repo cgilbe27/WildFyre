@@ -32,6 +32,7 @@ export class AuthenticationService {
       return this.http.post(this.apiURL + '/account/auth/', JSON.stringify(login), options).pipe(
         map((response: any) => {
           // set token property
+          console.log(response)
           this.token = new Auth(response);
           // store username and token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify({ username: login.username, token: this.token.token }));
@@ -39,7 +40,6 @@ export class AuthenticationService {
           return Auth.parse(response);
         }),
         catchError((error: any) => {
-          console.log(error)
           const body = error.error;
           return of(
             new AuthError(

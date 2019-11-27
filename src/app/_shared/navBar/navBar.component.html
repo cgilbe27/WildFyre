@@ -1,90 +1,21 @@
-<nav [style.width]="width" id="topNav" mat-tab-nav-bar aria-label="Navigation links">
-  <mat-select id="areaSelect" *ngIf="loggedIn" [disabled]="!areaVisible" [(ngModel)]="currentArea" (ngModelChange)="onChange($event)">
-    <mat-option *ngFor="let area of areas" [value]="area">{{area.displayname}}</mat-option>
-  </mat-select>
-  <div id="spreadRep" *ngIf="loggedIn">
-    {{currentReputation.spread}}<i class="material-icons">settings_input_antenna</i>
-    {{currentArea.rep}}<i class="material-icons">stars</i>
+<!-- Nav Bar Component-->
+<div id="navBar" *ngIf="activeLinkIndex !== -1">
+  <div class="navBar-container" fxLayoutAlign="space-around center">
+    <div fxLayout="column" fxLayoutAlign="center center" (click)="switchRoute('home');">
+      <i class="material-icons" [style.color]="activeLinkIndex === 1 ? '#ffffff' : ''">home</i>
+      <p style="margin: 0;" [style.color]="activeLinkIndex === 1 ? '#ffffff' : ''">Home</p>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" (click)="switchRoute('notifications');">
+      <i class="material-icons" [style.color]="activeLinkIndex === 2 ? '#ffffff' : ''">notifications_none</i>
+      <p style="margin: 0;" [style.color]="activeLinkIndex === 2 ? '#ffffff' : ''"><ng-container *ngIf="notificationLength !== 0">{{ getNotificationLength(notificationLength) }}</ng-container> Notifications</p>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" (click)="switchRoute('my-posts');">
+      <i class="material-icons" [style.color]="activeLinkIndex === 3 ? '#ffffff' : ''">content_copy</i>
+      <p style="margin: 0;" [style.color]="activeLinkIndex === 3 ? '#ffffff' : ''">My Posts</p>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="center center" (click)="switchRoute('profile');">
+      <i class="material-icons" [style.color]="activeLinkIndex === 4 ? '#ffffff' : ''">perm_identity</i>
+      <p style="margin: 0;" [style.color]="activeLinkIndex === 4 ? '#ffffff' : ''">Profile</p>
+    </div>
   </div>
-  <button id="topNavMenu" mat-button (click)="sidenav.open()"><i class="material-icons">menu</i></button>
-</nav>
-
-<nav [style.display]="styleDesktop" id="navB" mat-tab-nav-bar aria-label="Navigation links">
-  <a mat-tab-link
-    *ngFor="let routeLink of routeLinks; let i = index"
-    [routerLink]="routeLink.link"
-    [active]="activeLinkIndex === i"
-    (click)="activeLinkIndex = i">
-    {{routeLink.label}}
-    <div class="numberCircle" *ngIf="(i === 1) && notificationLength !== 0">{{getNotificationLength(notificationLength)}}</div>
-  </a>
-</nav>
-
-<nav [style.display]="styleMobile" id="navBMobile" mat-tab-nav-bar aria-label="Navigation links">
-  <a mat-tab-link
-    *ngFor="let routeLink of mobileRouteLinks; let i = index"
-    [routerLink]="routeLink.link"
-    [active]="activeLinkIndex === i"
-    (click)="activeLinkIndex = i">
-    <div class="mobileButtons" [innerHtml]="routeLink.label"></div>
-    <div class="numberCircle" *ngIf="(i === 1) && notificationLength !== 0">{{getNotificationLength(notificationLength)}}</div>
-  </a>
-</nav>
-
-<div *ngIf="expanded && loggedIn && stylePage" id="focusTouchZone" (click)="contractBox()"></div>
-<textarea [class.disabled]="commentDisabled" [style.height]="styleHeightTextarea" [style.bottom]="styleBottomTextarea" *ngIf="loggedIn && stylePage && hasPost" class="commentBox" (click)="expandBox()" name="comment" rows="{{rowsExapanded}}" cols="40" type="text" [(ngModel)]="comment.comment" placeholder="Post a Comment"></textarea>
-<button [style.height]="styleHeightEditor" [style.bottom]="styleBottomEditor" *ngIf="expanded && loggedIn && stylePage && hasPost" id="editorButton" (click)="$event.stopPropagation();" mat-button color="accent" [disabled]="loading" [matMenuTriggerFor]="commentMenu"><i class="material-icons">text_format</i></button>
-<button [style.height]="styleHeightSend" [style.bottom]="styleBottomSend" *ngIf="loggedIn && stylePage && hasPost" id="commentButton" mat-button color="accent" [disabled]="loading" (click)="postComment()"><i class="material-icons">send</i></button>
-
-<mat-menu #commentMenu="matMenu">
-  <button mat-menu-item (click)="addBold()"><i class="material-icons">format_bold</i> Bold</button>
-  <button mat-menu-item (click)="addItalics()"><i class="material-icons">format_italic</i> Italic</button>
-  <button mat-menu-item (click)="addStrikethrough()"><i class="material-icons">strikethrough_s</i> Strikethrough</button>
-  <button mat-menu-item (click)="addBlockQoutes()"><i class="material-icons">format_quote</i> Quote</button>
-  <button *ngIf="comment.image === null" mat-menu-item (click)="addImage()"><i class="material-icons">image</i> Add Image</button>
-  <button *ngIf="comment.image !== null" mat-menu-item (click)="deleteImage()"><i class="material-icons">image</i> Delete Image</button>
-</mat-menu>
-
-<mat-sidenav-container>
-  <mat-sidenav class="sideNav" align="end" #sidenav>
-    <mat-nav-list>
-      <a mat-list-item href="https://wildfyre.net/index.php/about-us/">
-        About Us
-      </a>
-      <a mat-list-item href="https://phabricator.wildfyre.net">
-        Open Source!
-      </a>
-      <a mat-list-item href="https://wildfyre.net/index.php/frequently-asked-questions/">
-        FAQ
-      </a>
-      <a mat-list-item href="https://wildfyre.net/index.php/terms-and-conditions/">
-        Terms and Conditions
-      </a>
-      <a mat-list-item href="https://wildfyre.net/index.php/privacy-policy/">
-        Privacy Policy
-      </a>
-      <a mat-list-item *ngIf="loggedIn" (click)="openLogoutDialog()">
-        Logout
-      </a>
-      <hr>
-      <a href="https://wildfyre.net/">
-        <img class="sideNavlogo" width="200px" height="200px" src="https://static.wildfyre.net/wildfyre.png" alt="WildFyre">
-      </a>
-      <div class="iconContainer">
-        <a href="https://www.facebook.com/wildfyreapp/"><img class="icons" width="32px" height="32px" src="../assets/Facebook.png" alt="WildFyre Facebook"></a>
-        <a href="https://twitter.com/wildfyreapp"><img class="icons" width="32px" height="32px" src="../assets/Twitter.png" alt="WildFyre Telegram"></a>
-        <a href="https://t.me/WildFyreChat"><img class="icons" width="32px" height="32px" src="../assets/Telegram.png" alt="WildFyre Twitter"></a>
-      </div>
-      <br>
-      <a href="mailto:bugs@wildfyre.net">
-        <em>Please report any and all bugs to bugs@wildfyre.net</em>
-      </a>
-      <hr>
-      <div class="iconContainer">
-        <em>Copyright © 2017-2019 WildFyre</em>
-      </div>
-    </mat-nav-list>
-  </mat-sidenav>
-<br><br><br>
-<!-- <router-outlet></router-outlet> -->
-</mat-sidenav-container>
+</div>

@@ -9,8 +9,8 @@ export class Account {
 
   constructor(
     public id: number,
-    public username: string,
-    public email: string
+    public username?: string | string[],
+    public email?: string | string[]
   ) { }
 
   getError(): AccountError {
@@ -21,7 +21,9 @@ export class Account {
 export class AccountError extends Account {
   constructor(
     public non_field_errors?: string[],
-    public _text?: string[]
+    public detail?: string,
+    public username?: string[],
+    public email?: string[]
   ) {
     super(null, null, null);
   }

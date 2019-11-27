@@ -1,0 +1,70 @@
+.home {
+  &-area {
+    &-card {
+      cursor: pointer;
+      width: 100%;
+      height: 100px;
+      margin-top: 5%;
+      background: linear-gradient(0deg, #A2A2A2, #A2A2A2), linear-gradient(180deg, #A2A2A2 0%, #d3d3d3 99.99%);
+      box-shadow: 0px 0.986257px 7.39693px rgba(0, 0, 0, 0.3);
+      &-add {
+        cursor: pointer;
+        width: 150px;
+        height: 100px;
+        margin-left: 5vw;
+        margin-top: 5%;
+        background: linear-gradient(0deg, #A2A2A2, #A2A2A2), linear-gradient(180deg, #A2A2A2 0%, #d3d3d3 99.99%);
+        box-shadow: 0px 0.986257px 7.39693px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+  &-content {
+    &-container {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  }
+  &-input {
+    font-size: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    color: #A2A2A2;
+    margin: 0;
+    padding: 0;
+    max-width: 1000px;
+    overflow-y: auto;
+  }
+  &-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 100%;
+    max-width: 1000px;
+  }
+  &-subtitle {
+    text-align: left;
+    font-family: 'Mukta', sans-serif;
+    font-weight: 500;
+    font-size: 2rem;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &-title {
+    font-size: 3rem;
+    text-align: left;
+    font-family: 'Mukta', sans-serif;
+    font-weight: 600;
+    max-width: 1000px;
+  }
+  &-comment {
+    &-container {
+      width: 100%;
+      max-width: 1000px;
+    }
+  }
+}
