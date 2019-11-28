@@ -50,7 +50,7 @@ export class AreaService {
           rep.push(this.httpService.GET('/areas/' + areas[i].name + '/rep/'));
         }
       }
-      if (rep != []) {
+      if (rep !== []) {
         forkJoin(rep).subscribe(({
           next: value => {
             let arr: { [area: string]: Reputation; } = {};

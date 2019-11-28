@@ -33,10 +33,10 @@ export class ProfileViewComponent implements OnInit, OnDestroy {
         const id = params['id'];
 
         // Get post from secure api end point
-        this.profileService.getUser(id).pipe(
+        this.profileService.userArray.pipe(
           takeUntil(this.componentDestroyed))
           .subscribe(author => {
-            this.author =  author;
+            this.author =  author[id];
         });
     });
   }

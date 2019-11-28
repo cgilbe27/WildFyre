@@ -1,113 +1,114 @@
-<mat-progress-spinner *ngIf="loading"></mat-progress-spinner>
-<br>
-<mat-card class="example-card" style="background: #263238;" *ngIf="!loading && isBlockedUser(post.author?.user)">
-  <div id="topNavBack" (click)="back()"><i class="material-icons">arrow_back</i></div>
-  <span class="mainText" innerHTML="{{blanketText}}"></span>
-  <mat-card (click)="gotoUser(post?.author?.user)" class="parentContainer1">
-    <div class="parentContainer fyre-blanket">
-      <img class="pfp2" (click)="gotoUser(post?.author?.user)" *ngIf="post?.author?.avatar" [src]="post?.author?.avatar" alt="Avatar of {{post?.author?.name}}"/>
-      <img class="pfp2" (click)="gotoUser(post?.author?.user)" *ngIf="!post?.author?.avatar" src="/assets/logo.png" alt="Avatar of {{post?.author?.name}}"/>
-      <ng-container class="user">
-        <br>
-      <i><small><a routerLink="/user/{{post?.author?.user}}" class="dateText" (click)="gotoUser(post?.author?.user)" routerLinkActive="active">{{post?.author?.name}}</a><br> <p>{{post?.created}}</p></small></i>
-    </ng-container>
-    </div>
-  </mat-card>
-
-  <div class="postEditing">
-    <div class="commentCircle" *ngIf="post?.comments?.length !== 0">{{getCommentLength(post?.comments?.length)}}</div>
-    <button *ngIf="!post?.subscribed" mat-icon-button (click)="subscribe(true)"><i class="material-icons" style="color: #ffffff;">turned_in_not</i></button>
-    <button *ngIf="post?.subscribed" mat-icon-button (click)="subscribe(false)"><i class="material-icons" style="color: #ffffff;">turned_in</i></button>
-    <button mat-icon-button [matMenuTriggerFor]="appMenu"><i class="material-icons" style="color: #ffffff;">more_vert</i></button>
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item type="button" (click)="ngOnInit()"><mat-icon>refresh</mat-icon>Refresh Post</button>
-      <button *ngIf="!(post?.author?.user == userID) && loggedIn" mat-menu-item type="button" (click)="unblockUser(post?.author?.user)"><mat-icon>check</mat-icon>Unblock User</button>
-    </mat-menu>
-  </div>
-  <br>
-</mat-card>
-<mat-card class="example-card" *ngIf="!loading && !isBlockedUser(post.author?.user)">
-  <div id="topNavBack" (click)="back()"><i class="material-icons">arrow_back</i></div>
-  <a *ngIf="post?.image" href="{{post?.image}}"><img src="{{post?.image}}" /></a>
-  <span class="mainText" innerHTML="{{post?.text | marked: post}}"></span>
-  <mat-card (click)="gotoUser(post?.author?.user)" class="parentContainer1">
-    <div class="parentContainer">
-      <img class="pfp2" (click)="gotoUser(post?.author?.user)" *ngIf="post?.author?.avatar" [src]="post?.author?.avatar" alt="Avatar of {{post?.author?.name}}"/>
-      <img class="pfp2" (click)="gotoUser(post?.author?.user)" *ngIf="!post?.author?.avatar" src="/assets/logo.png" alt="Avatar of {{post?.author?.name}}"/>
-      <ng-container class="user">
-        <br>
-      <i><small><a routerLink="/user/{{post?.author?.user}}" class="dateText" (click)="gotoUser(post?.author?.user)" routerLinkActive="active">{{post?.author?.name}}</a><br> <p>{{post?.created}}</p></small></i>
-    </ng-container>
-    </div>
-  </mat-card>
-
-  <div class="postEditing">
-    <div class="commentCircle" *ngIf="post?.comments?.length !== 0">{{getCommentLength(post?.comments?.length)}}</div>
-    <button *ngIf="!post?.subscribed" mat-icon-button (click)="subscribe(true)"><i class="material-icons">turned_in_not</i></button>
-    <button *ngIf="post?.subscribed" mat-icon-button (click)="subscribe(false)"><i class="material-icons">turned_in</i></button>
-    <button mat-icon-button [matMenuTriggerFor]="appMenu"><i class="material-icons">more_vert</i></button>
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item type="button" (click)="ngOnInit()"><mat-icon>refresh</mat-icon>Refresh Post</button>
-      <button mat-menu-item type="button" (click)="share()"><mat-icon>share</mat-icon>Share Post</button>
-      <button *ngIf="post?.author?.user == userID" mat-menu-item color="warn" (click)="openPostDeleteDialog()"><mat-icon>delete</mat-icon>Delete Post</button>
-      <button *ngIf="!(post?.author?.user == userID) && loggedIn" mat-menu-item (click)="openFlagDialog(null, 0)"><mat-icon>flag</mat-icon>Flag Post</button>
-      <button *ngIf="!(post?.author?.user == userID) && loggedIn" mat-menu-item type="button" (click)="blockUser(post?.author?.user)"><mat-icon>block</mat-icon>Block User</button>
-    </mat-menu>
-  </div>
-  <br>
-</mat-card>
-
-<mat-list>
-  <div *ngFor="let comment of post?.comments">
-    <div [class]="notificationIndication(comment?.id) ? 'toNotif': ''"></div>
-    <mat-card *ngIf="isBlockedUser(comment.author?.user)" [style.border]="notificationIndication(comment?.id)" style="background: #263238;" class="content">
-      <div class="commentEditing" style="background: #263238;">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu"><i class="material-icons" style="color: #ffffff;">more_vert</i></button>
-        <mat-menu #appMenu="matMenu">
-          <button *ngIf="!(comment?.author?.user == userID) && loggedIn" mat-menu-item type="button" (click)="unblockUser(comment?.author?.user)"><mat-icon>check</mat-icon>Unblock User</button>
-        </mat-menu>
+<!-- Home Component -->
+<div id="home">
+  <div fxLayout="column" class="home-content-container">
+    <div fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;height: 10vh;padding-left: 2rem;padding-right: 2rem;position: fixed;top: 0;left: 0;">
+      <div fxLayout="row" fxLayoutAlign="start center" (click)="back()" style="width: 50%;cursor: pointer;">
+        <i class="material-icons" style="font-size: 40px;">keyboard_arrow_left</i>
+        <h1 class="profile-title">Home</h1>
+        <h1 class="profile-title" fxFlexOffset="1rem" style="margin: 0;color: #A2A2A2"><ng-container *ngIf="currentArea">{{currentArea.displayname}}</ng-container></h1>
       </div>
-      <div class="commentText" innerHTML="{{blanketText}}"></div>
-      <mat-card (click)="gotoUser(comment.author?.user)" class="parentContainer1">
-        <div class="parentContainer fyre-blanket" style="width: 100%; height: 50px; margin-top: 15px;">
-          <img class="pfp2" (click)="gotoUser(comment.author?.user)" *ngIf="comment.author?.avatar" [src]="comment.author?.avatar" alt="Avatar of {{comment.author?.name}}"/>
-          <img class="pfp2" (click)="gotoUser(comment.author?.user)" *ngIf="!comment.author?.avatar" src="/assets/logo.png" alt="Avatar of {{comment.author?.name}}"/>
-          <ng-container class="user">
-            <br>
-            <i><small><a class="dateText" routerLink="/user/{{comment.author?.user}}" (click)="gotoUser(comment.author?.user)" routerLinkActive="active">{{comment.author?.name}}</a><br> <p>{{comment.created}}</p></small></i>
-          </ng-container>
-        </div>
-      </mat-card>
-    </mat-card>
 
-    <mat-card *ngIf="!isBlockedUser(comment.author?.user)" [style.border]="notificationIndication(comment?.id)" class="content">
-      <div class="commentEditing">
-        <button mat-icon-button [matMenuTriggerFor]="appMenu"><i class="material-icons">more_vert</i></button>
-        <mat-menu #appMenu="matMenu">
-          <button mat-menu-item type="button" (click)="share(comment.id)"><mat-icon>share</mat-icon>Share Comment</button>
-          <button *ngIf="comment.author?.user == userID" mat-menu-item color="warn" (click)="openCommentDeleteDialog(comment)"><mat-icon>delete</mat-icon>Delete Comment</button>
-          <button *ngIf="!(comment.author?.user == userID) && loggedIn" mat-menu-item (click)="openFlagDialog(comment, 1)"><mat-icon>flag</mat-icon>Flag Comment</button>
-          <button *ngIf="!(comment?.author?.user == userID) && loggedIn" mat-menu-item type="button" (click)="blockUser(comment?.author?.user)"><mat-icon>block</mat-icon>Block User</button>
-        </mat-menu>
+      <div fxLayoutAlign="end center" style="width: 50%;cursor: pointer;">
+        <h2 fxLayout="row" class="home-subtitle" (click)="info($event)">Info</h2>
+        <i class="material-icons" style="font-size: 40px;padding-left: 1rem;" (click)="copylink()">link</i>
+        <ng-container *ngIf="post?.author !== undefined && selfObj !== undefined">
+          <i *ngIf="post?.author?.user === selfObj?.user" class="material-icons" style="font-size: 40px;padding-left: 1rem;" (click)="openPostDeleteDialog()">delete</i>
+        </ng-container>
       </div>
-      <div class="commentText" innerHTML="{{comment.text | marked: post : comment}}"></div>
-      <a target="_blank" rel="noopener" href="{{comment?.image}}"><img class="wfImages" *ngIf="comment?.image" src="{{comment?.image}}" /></a>
-      <mat-card (click)="gotoUser(comment.author?.user)" class="parentContainer1">
-        <div class="parentContainer">
-          <img class="pfp2" (click)="gotoUser(comment.author?.user)" *ngIf="comment.author?.avatar" [src]="comment.author?.avatar" alt="Avatar of {{comment.author?.name}}"/>
-          <img class="pfp2" (click)="gotoUser(comment.author?.user)" *ngIf="!comment.author?.avatar" src="/assets/logo.png" alt="Avatar of {{comment.author?.name}}"/>
-          <ng-container class="user">
-            <br>
-            <i><small><a class="dateText" routerLink="/user/{{comment.author?.user}}" (click)="gotoUser(comment.author?.user)" routerLinkActive="active">{{comment.author?.name}}</a><br> <p>{{comment.created}}</p></small></i>
-          </ng-container>
+    </div>
+
+    <div *ngIf="post.image" class="home-content-image" style="margin-top: 10vh;">
+      <a rel="noopener" target="_blank" href="{{post.image}}"><img style="max-height: 40vh;object-fit: contain;" src="{{post.image}}" /></a>
+    </div>
+
+    <div *ngIf="!post.image" class="home-content-image" style="margin-top:5vh;">
+    </div>
+
+    <div style="background: transparent;padding-left: 2rem;padding-right: 2rem;margin-top: 5vh;margin-bottom: 25vh;border-bottom: 1px solid rgb(211, 211, 211);" [innerHTML]="post.text | marked: post"></div>
+
+    <!-- Comment Component -->
+      <div id="comment-list" *ngIf="post.id !== 0 && post.comments.length !== 0" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="column" class="home-comment-container">
+          <div style="margin-top: 5vh;margin-bottom: 25vh;">
+            <p style="padding-left: 2rem;"><strong style="color: #000000;">Comments:</strong></p>
+            <div *ngFor="let comment of post?.comments" fxLayout="column" style="border-bottom: 1px solid #d3d3d3;" [matMenuTriggerFor]="appMenu">
+              <mat-menu #appMenu="matMenu">
+                <button mat-menu-item (click)="copylink(comment)"><p><strong style="color: #000000;">Copy Link</strong></p></button>
+                <ng-container *ngIf="comment?.author !== undefined && selfObj !== undefined">
+                  <button (click)="openCommentDeleteDialog(comment)" *ngIf="comment?.author?.user === selfObj?.user" mat-menu-item><p><strong style="color: #000000;">Delete Comment</strong></p></button>
+                  <button *ngIf="comment?.author?.user !== selfObj?.user" mat-menu-item><p><strong style="color: #000000;">Report Comment</strong></p></button>
+                </ng-container>
+              </mat-menu>
+              <div [id]="comment.id" [ngStyle]="{'background-color': (getCommentBackground(comment.id) ? '#f1f1f1' : '#ffffff')}" fxLayout="column" style="padding-top: 1rem;" class="home-container">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                  <img class="icon-circle" (click)="gotoUser(comment.author.user)" *ngIf="comment.author.avatar" [src]="comment.author.avatar" alt="Avatar of {{comment.author.name}}"/>
+                  <img class="icon-circle" (click)="gotoUser(comment.author.user)" *ngIf="!comment.author.avatar" src="/assets/logo.png" alt="Avatar of {{comment.author.name}}"/>
+                  <div style="margin-left: 20px;cursor: pointer;" fxLayout="row" fxLayoutAlign="center center" (click)="gotoUser(comment.author.user)">
+                    <p style="margin-bottom: 0;"><strong style="color: #000000;">{{comment.author.name}}</strong> {{comment.created}}</p>
+                  </div>
+                </div>
+                <div style="margin-left: 40px;" fxLayout="row">
+                  <div innerHTML="{{comment.text | marked: post : comment}}"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </mat-card>
-    </mat-card>
+      </div>
 
+    <!-- Gap -->
+    <div *ngIf="post.id === 0"></div>
+
+    <div style="position: fixed;bottom: 0;left: 0;width: 100%;pointer-events: none;">
+      <!-- Post Identity -->
+      <div fxLayout="row" fxLayoutAlign="space-between center" [className]="hasPostId ? 'hideEndorse' : ''" style="border-top-left-radius: 30px;border-top-right-radius: 30px;height: 10vh;background: #ffffff;padding-left: 2rem;padding-right: 2rem;pointer-events: all;">
+        <i *ngIf="post.id !== 0" class="material-icons" style="font-size: 40px;cursor: pointer;">outlined_flag</i>
+        <img class="icon-circle" (click)="gotoUser(post.author.user)" *ngIf="post.author.avatar" [src]="post.author.avatar" alt="Avatar of {{post.author.name}}"/>
+        <img class="icon-circle" (click)="gotoUser(post.author.user)" *ngIf="!post.author.avatar" src="/assets/logo.png" alt="Avatar of {{post.author.name}}"/>
+        <div fxLayout="column" (click)="gotoUser(post.author.user)" style="cursor: pointer;">
+          <h2 class="home-subtitle">{{post.author.name}}</h2>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <p>{{post.created}}</p>
+          </div>
+        </div>
+        <i *ngIf="post.id !== 0 && !post?.subscribed" class="material-icons" (click)="subscribe(true)" style="font-size: 40px;cursor: pointer;">bookmark_border</i>
+        <i *ngIf="post.id !== 0 && post?.subscribed" class="material-icons" (click)="subscribe(false)" style="font-size: 40px;cursor: pointer;">bookmark</i>
+        <div *ngIf="post.id !== 0" (click)="commentView()" fxLayout="row" fxLayoutAlign="center center">
+          <h2 *ngIf="post.comments.length !== 0" style="margin: 0;" class="home-subtitle">{{ getCommentLength(post.comments.length) }}</h2>
+          <i class="material-icons"style="font-size: 40px;cursor: pointer;">message</i>
+        </div>
+      </div>
+
+      <!-- Post Options -->
+      <div *ngIf="post.id !== 0 && !hasPostId" fxLayout="row" fxLayoutAlign="space-around center" style="height: 10vh;background: #ffffff;pointer-events: all;">
+        <div fxLayoutAlign="center center" style="background-color: #1289c1;height: 100%;width: 100%;cursor: pointer;" (click)="spread(false)"><h2 style="color: #ffffff;" class="home-subtitle">Extinguish</h2></div>
+        <div fxLayoutAlign="center center" style="background-color: #ef6c00;height: 100%;width: 100%;cursor: pointer;" (click)="spread(true)"><h2 style="color: #ffffff;" class="home-subtitle">Ignite</h2></div>
+      </div>
+
+      <!-- Comment Box -->
+      <div id="comment-box">
+        <div fxLayout="column" fxLayoutAlign="center start" *ngIf="commentForm" [formGroup]="commentForm" style="width: 90%;pointer-events: all;">
+          <div *ngIf="errors && errors.non_field_errors" fxLayout="row" fxFlexOffset="2rem" class="alert alert-danger">
+            <div *ngFor="let err of errors.non_field_errors">
+              <p>{{err}}</p>
+            </div>
+          </div>
+          <div *ngIf="!loading" fxLayout="row" class="home-input">
+            <i [routerLink]="['/tools/comment-image-upload']" class="material-icons" style="font-size: 40px;cursor: pointer;">add</i>
+            <input matInput placeholder="What's on your mind?" class="home-input" type="text" formControlName="comment" autocomplete="off" required />
+          </div>
+          <div *ngIf="submitted && !commentForm.controls.comment.valid">
+            <p>Comment is required</p>
+          </div>
+          <div *ngIf="errors && errors.token" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+            <div *ngFor="let err of errors.token">
+              <p>{{err}}</p>
+            </div>
+          </div>
+        </div>
+        <!-- <p style="margin: 0;" (click)="openComment()">What's on your mind?</p> -->
+        <p *ngIf="!loading" style="margin: 0;cursor: pointer;pointer-events: all;" (click)="postComment()">Send</p>
+      </div>
+    </div>
   </div>
-</mat-list>
-
-<mat-card class="refreshButton" (click)="ngOnInit()" *ngIf="(commentCount === 0) && !loading">
-    No comments, try commenting?
-    <button class="wideButtons" mat-button>Refresh <i class="material-icons">refresh</i></button>
-</mat-card>
+</div>

@@ -28,7 +28,7 @@ export class ImageUploadComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.profileService.getSelf().pipe(
+    this.profileService.self.pipe(
     takeUntil(this.componentDestroyed))
     .subscribe((self: Author) => {
       this.author = self;

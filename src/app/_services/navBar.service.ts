@@ -6,6 +6,7 @@ import { Link } from '../_models/link';
 
 @Injectable()
 export class NavBarService {
+  clearInputs: BehaviorSubject<boolean> = new BehaviorSubject(false);
   comment: BehaviorSubject<CommentData> = new BehaviorSubject(new CommentData('', null));
   currentArea: BehaviorSubject<Area> = new BehaviorSubject(new Area('', ''));
   hasPost: BehaviorSubject<boolean> = new BehaviorSubject(false);

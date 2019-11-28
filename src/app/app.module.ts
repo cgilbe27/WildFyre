@@ -20,7 +20,7 @@ import { ImageUploadComponent } from './_shared/imageUpload/imageUpload.componen
 import { LoginComponent } from './_shared/login/login.component';
 import { NavBarComponent } from './_shared/navBar/navBar.component';
 import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
-import { NotificationComponent } from './_shared/notification/notification.component';
+import { NotificationsComponent } from './_shared/notifications/notifications.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
 import { ProfileComponent } from './_shared/profile/profile.component';
 import { ProfileViewComponent } from './_shared/profileView/profileView.component';
@@ -133,7 +133,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     LoginComponent,
     NavBarComponent,
     NotificationArchiveComponent,
-    NotificationComponent,
+    NotificationsComponent,
     PostViewComponent,
     ProfileComponent,
     ProfileViewComponent,

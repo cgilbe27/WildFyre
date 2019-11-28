@@ -1,3 +1,65 @@
+<!-- Profile Component -->
+<div id="profile" fxLayout="column" fxLayoutAlign="center center" style="height: 100%;">
+  <div class="profile-image">
+    <img *ngIf="author?.avatar" [src]="author?.avatar" alt="Avatar of {{author?.name}}" style="object-fit: cover;" />
+    <img *ngIf="!author?.avatar" src="/assets/logo.png" alt="Avatar of {{author?.name}}" style="object-fit: cover;" />
+  </div>
+  <div fxLayout="column" class="profile-container">
+    <div fxLayout="row" fxFlexOffset="2rem" fxLayoutAlign="space-between start" (click)="goto('image')" style="width: 100%;height: 30vh;">
+      <!-- <i class="mate  rial-icons" style="font-size: 40px;">keyboard_arrow_left</i> -->
+      <div fxLayout="row" fxLayoutAlign="center center" (click)="backOrLogout($event)" style="cursor: pointer;">
+        <i class="material-icons" style="font-size: 40px;">keyboard_arrow_left</i>
+        <h2 class="home-title">Profile</h2>
+      </div>
+      <div style="cursor: pointer;">
+        <h2 *ngIf="self" class="profile-subtitle" (click)="goto('password')">Password</h2>
+        <h2 *ngIf="self" fxLayout="row" class="profile-subtitle" fxFlexOffset="1rem" (click)="info($event)">Info</h2>
+        <i *ngIf="!self" class="material-icons" fxFlexOffset="1rem" style="font-size: 40px;cursor: pointer;" (click)="goto('report')">outlined_flag</i>
+      </div>
+    </div>
+
+    <div fxLayout="column" style="height: 50vh;">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <h1 class="profile-title" (click)="infoNo()">{{author?.name}}</h1>
+      </div>
+
+      <div *ngIf="self" fxLayout="row" fxFlexOffset="0.5rem" class="profile-input" [formGroup]="emailForm">
+        <input matInput placeholder="Email" class="profile-input" style="font-size: 2rem;font-weight: 300;" type="email" autocomplete="current-email" formControlName="email" required />
+      </div>
+
+      <div *ngIf="((emailForm.controls.email && account?.email !== emailForm.controls.email.value) || editBio) && self" fxLayout="column" class="profile-button-group">
+        <div *ngIf="emailForm.controls.email && account?.email !== emailForm.controls.email.value" fxLayout="row" class="profile-button" fxFlexOffset="1rem">
+          <button mat-flat-button class="profile-button" style="background: #EA6C40;" [disabled]="loading || editBio" (click)="setEmail()">Send Email</button>
+        </div>
+        <div *ngIf="emailForm.controls.email && account?.email !== emailForm.controls.email.value" fxLayout="row" class="profile-button" fxFlexOffset="1rem">
+          <button mat-stroked-button class="profile-button" [disabled]="loading || editBio" (click)="undoEmail()">Undo</button>
+        </div>
+
+        <div *ngIf="editBio" fxLayout="row" class="profile-button" fxFlexOffset="1rem">
+          <button mat-flat-button class="profile-button" style="background: #EA6C40;" [disabled]="loading || (emailForm.controls.email && account?.email !== emailForm.controls.email.value)" (click)="setBio()">Save Bio</button>
+        </div>
+        <div *ngIf="editBio" fxLayout="row" class="profile-button" fxFlexOffset="1rem">
+          <button mat-stroked-button class="profile-button" [disabled]="loading || (emailForm.controls.email && account?.email !== emailForm.controls.email.value)" (click)="toggleBio()">Undo</button>
+        </div>
+      </div>
+
+      <div *ngIf="editBio" fxLayout="row" fxFlexOffset="1rem" class="profile-input" [formGroup]="bioForm">
+        <textarea matInput placeholder="Bio" class="profile-input" style="font-size: 100%;height: 35vh;overflow-y: scroll;" type="text" formControlName="bio" autocomplete="false" required></textarea>
+      </div>
+      <div *ngIf="!editBio" fxLayout="column" fxFlexOffset="1rem" class="profile-input">
+        <p [innerHTML]="author?.bio | marked" (click)="toggleBio()"></p>
+      </div>
+      <div *ngIf="errors && errors.non_field_errors" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
+        <div *ngFor="let err of errors.non_field_errors">
+          <p>{{err}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-nav-bar></app-nav-bar>
+
+<!--
 <mat-menu #appMenu="matMenu">
   <button mat-menu-item (click)="viewProfile()"><mat-icon>public</mat-icon>View Public Profile</button>
   <button mat-menu-item (click)="openBioDialog()"><mat-icon>mode_edit</mat-icon>Bio</button>
@@ -47,4 +109,4 @@
 <mat-card class="content">
   <span id="bio" [innerHTML]="author?.bio | marked"></span>
 </mat-card>
-<div id="userID">ID: {{author?.user}}</div>
+<div id="userID">ID: {{author?.user}}</div> -->

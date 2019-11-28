@@ -1,4 +1,4 @@
-import {of, Observable } from 'rxjs';
+import {of, Observable, BehaviorSubject } from 'rxjs';
 import {map, catchError} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Account, AccountError } from '../_models/account';
@@ -8,57 +8,58 @@ import { HttpService } from './http.service';
 
 @Injectable()
 export class ProfileService {
-  private account: Account;
-  private self: Author;
-  private superBans: SuperBan;
-  private userArray: Author[] = [];
+  public account: BehaviorSubject<Account> = new BehaviorSubject(undefined);
+  public self: BehaviorSubject<Author> = new BehaviorSubject(undefined);
+  public superBans: BehaviorSubject<SuperBan> = new BehaviorSubject(undefined);
+  public userArray: BehaviorSubject<Author[]> = new BehaviorSubject([]);
 
   constructor(
     private httpService: HttpService
   ) {}
 
-  getAccount(): Observable<Account> {
-    if (this.account) {
-      return of(this.account);
-    } else {
-    return this.httpService.GET('/account/').pipe(
-      map((response) => {
-        this.account = Account.parse(response); // cache
-        return this.account;
-      }));
-    }
+  getAccount() {
+    this.account.subscribe(account => {
+      if (account === undefined) {
+        this.httpService.GET('/account/')
+          .subscribe(response => {
+            this.account.next(Account.parse(response));
+          });
+      }
+    });
   }
 
-  getBans(limit: number, offset: number): Observable<SuperBan> {
-    return this.httpService.GET('/bans/?limit=' + limit + '&offset=' + offset).pipe(
-      map((response) => {
-        this.superBans = SuperBan.parse(response); // cache
-        return this.superBans;
-      }));
+  getBans(limit: number, offset: number) {
+    this.superBans.subscribe(superBans => {
+      if (superBans === undefined) {
+        this.httpService.GET('/bans/?limit=' + limit + '&offset=' + offset)
+          .subscribe(response => {
+            this.superBans.next(SuperBan.parse(response));
+          });
+      }
+    });
   }
 
-  getSelf(): Observable<Author> {
-    if (this.self) {
-      return of(this.self);
-    } else {
-      return this.httpService.GET('/users/').pipe(
-        map((response) => {
-          this.self = Author.parse(response);  // cache
-          return this.self;
-        }));
-    }
+  getSelf() {
+    this.self.subscribe(self => {
+      this.httpService.GET('/users/')
+        .subscribe(response => {
+          if (self === undefined) {
+            this.self.next(Author.parse(response));
+          }
+        });
+    });
   }
 
-  getUser(id: string): Observable<Author> {
-    if (this.userArray[Number(id)]) {
-      return of(this.userArray[Number(id)]);
-    } else {
-    return this.httpService.GET(`/users/${id}/`).pipe(
-      map((response) => {
-        this.userArray[Number(id)] = Author.parse(response); // cache
-        return this.userArray[Number(id)];
-      }));
-    }
+  getUser(id: string) {
+    this.userArray.subscribe(userArray => {
+      if (userArray[Number(id)] === undefined) {
+        this.httpService.GET(`/users/${id}/`)
+        .subscribe(response => {
+          userArray[Number(id)] = Author.parse(response)
+          this.userArray.next(userArray);
+        });
+      }
+    });
   }
 
   setBio(author: Author, bio: any): Observable<Author> {

@@ -5,14 +5,18 @@ import { Author } from '../_models/author';
 import { ProfileService } from '../_services/profile.service';
 
 @Injectable()
-export class ProfileResolver implements Resolve<Observable<Author>> {
+export class ProfileResolver implements Resolve<void> {
   constructor(
     private profileService: ProfileService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot) {
-    if (route.paramMap.get('id') !== undefined) {
-      return this.profileService.getUser(route.paramMap.get('id'));
+    this.profileService.getAccount();
+    this.profileService.getBans(10, 0);
+    this.profileService.getSelf();
+
+    if (route.paramMap.get('id') !== null) {
+      this.profileService.getUser(route.paramMap.get('id'))
     }
   }
 }

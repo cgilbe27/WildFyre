@@ -108,9 +108,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.wait = false;
     });
 
-    this.profileService.getSelf().pipe(
+    this.profileService.self.pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe( (author: Author) => {
+      .subscribe((author: Author) => {
         this.userID = author.user;
         this.loggedIn = true;
     });

@@ -1,0 +1,41 @@
+<!-- Area List Component -->
+<div id="notifications">
+  <div fxLayout="column" class="home-container">
+    <div fxLayout="column" style="margin-top: 2rem;">
+      <h2 class="home-title">Notifications</h2>
+      <div fxLayout="row" class="login-button" fxFlexOffset="2rem">
+        <button mat-stroked-button class="login-button" (click)="loadArchive()" [disabled]="loading">Notification Archive</button>
+      </div>
+      <div *ngIf="notifications.length !== 0" fxLayout="row" class="login-button" fxFlexOffset="2rem">
+        <button mat-flat-button class="login-button" style="background: #EA6C40;color: #ffffff;" [disabled]="loading">Delete All Notifications</button>
+      </div>
+      <div style="margin-top: 5vh;" *ngIf="notifications.length === 0" [innerHTML]="'No more notifications, try interacting more?' | marked"></div>
+      <div *ngFor="let notification of notifications" fxLayout="row" style="border-bottom: 1px solid #d3d3d3;">
+        <div fxLayout="column" fxLayoutAlign="center start" class="home-container" (click)="goto(notification)" style="cursor: pointer;">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 26px;">
+              <p style="margin-bottom: 0;"><strong style="color: #000000;">{{notification.post.author.name}}</strong></p>
+            </div>
+          </div>
+          <div fxLayout="row">
+            <div innerHTML="{{ notification.post.text | slice:0:100 | marked }}"></div>
+          </div>
+        </div>
+        <div style="margin-right: 20px;" fxLayoutAlign="center center">
+          <h2 class="home-title">{{notification.comments.length}}</h2>
+        </div>
+      </div>
+      <!-- <div>
+        <div fxLayout="row">
+          <div class="home-area-card" (click)="goto(notification)" fxLayoutAlign="space-evenly center">
+            <p style="color: #ffffff;margin: 0;">{{notification.comments.length}}</p>
+          </div>
+          <div (click)="goto(area, true)" class="home-area-card-add" fxLayoutAlign="center center">
+            <i style="color: #ffffff;" class="material-icons">delete</i>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<app-nav-bar></app-nav-bar>

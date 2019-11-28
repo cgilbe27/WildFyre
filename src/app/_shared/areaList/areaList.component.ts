@@ -53,12 +53,11 @@ export class AreaListComponent implements OnInit, OnDestroy {
     this.areaService.areas.pipe(
       takeUntil(this.componentDestroyed))
       .subscribe(areas => {
-        console.log(areas)
         this.areas = areas;
         for (let i = 0; i < this.areas.length; i++) {
           this.findImages(this.areas[i]);
-          this.loading = false;
         }
+        this.loading = false;
       });
   }
 
