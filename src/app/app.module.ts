@@ -21,6 +21,7 @@ import { LoginComponent } from './_shared/login/login.component';
 import { NavBarComponent } from './_shared/navBar/navBar.component';
 import { NotificationArchiveComponent } from './_shared/notificationArchive/notificationArchive.component';
 import { NotificationsComponent } from './_shared/notifications/notifications.component';
+import { PasswordComponent } from './_shared/password/password.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
 import { ProfileComponent } from './_shared/profile/profile.component';
 import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassword.component';
@@ -133,6 +134,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     NavBarComponent,
     NotificationArchiveComponent,
     NotificationsComponent,
+    PasswordComponent,
     PostViewComponent,
     ProfileComponent,
     RecoverPasswordComponent,
