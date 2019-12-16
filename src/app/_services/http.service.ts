@@ -154,7 +154,7 @@ export class HttpService {
   getOptions(): any {
     const header: { [name: string]: string | string[]; } = {};
     header['Content-Type'] = 'application/json';
-    console.log(this.authenticationService.token.token)
+
     if (this.authenticationService.token.token) {
       header['Authorization'] = `Token ${this.authenticationService.token.token}`;
     }

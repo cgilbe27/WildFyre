@@ -23,7 +23,6 @@ import { NotificationArchiveComponent } from './_shared/notificationArchive/noti
 import { NotificationsComponent } from './_shared/notifications/notifications.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
 import { ProfileComponent } from './_shared/profile/profile.component';
-import { ProfileViewComponent } from './_shared/profileView/profileView.component';
 import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassword.component';
 import { RecoverPassword2Component } from './_shared/recoverPassword2/recoverPassword2.component';
 import { RecoverUsernameComponent } from './_shared/recoverUsername/recoverUsername.component';
@@ -136,7 +135,6 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     NotificationsComponent,
     PostViewComponent,
     ProfileComponent,
-    ProfileViewComponent,
     RecoverPasswordComponent,
     RecoverPassword2Component,
     RecoverUsernameComponent,

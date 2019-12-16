@@ -15,7 +15,6 @@ import { RegisterComponent } from './_shared/register/register.component';
 import { RegisterSuccessComponent } from './_shared/registerSuccess/registerSuccess.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
 import { ProfileComponent } from './_shared/profile/profile.component';
-import { ProfileViewComponent } from './_shared/profileView/profileView.component';
 import { UserPostsComponent } from './_shared/userPosts/userPosts.component';
 import { AuthGuard } from './_guards/auth.guard';
 

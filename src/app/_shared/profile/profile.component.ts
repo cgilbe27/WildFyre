@@ -258,6 +258,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
 
+  share() {
+    // this.navBarService.link.next(
+    //   new Link('https://client.wildfyre.net/user/' + this.author.user,
+    //   String(this.author.bio).slice(0, 100),
+    //   this.author.name
+    // ));
+    // const dialogRef = this.dialog.open(ShareDialogComponent);
+    // dialogRef.afterClosed().pipe(
+    //   takeUntil(this.componentDestroyed))
+    //   .subscribe(() => { });
+  }
+
   toggleBio() {
     if (this.self) {
       this.editBio = !this.editBio;

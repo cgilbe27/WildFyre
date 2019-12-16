@@ -49,6 +49,9 @@
       <div *ngIf="!editBio" fxLayout="column" fxFlexOffset="1rem" class="profile-input">
         <p [innerHTML]="author?.bio | marked" (click)="toggleBio()"></p>
       </div>
+      <div *ngIf="author?.banned">
+        <p>User is currently banned</p>
+      </div>
       <div *ngIf="errors && errors.non_field_errors" fxLayout="column" fxFlexOffset="2rem" class="alert alert-danger">
         <div *ngFor="let err of errors.non_field_errors">
           <p>{{err}}</p>

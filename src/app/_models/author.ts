@@ -5,7 +5,13 @@ export class Author {
       obj.name,
       obj.banned,
       obj.avatar,
-      obj.bio
+      (() => {
+        if (obj.bio === '') {
+          obj.bio = "*This user doesn't know what they want to be yet.*";
+        }
+
+        return obj.bio
+      })() // Call method
     );
   }
 
