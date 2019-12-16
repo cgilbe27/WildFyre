@@ -16,7 +16,9 @@ export class AuthenticationService {
   ) {
     // set token if saved in local storage
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser && currentUser.token;
+    if (currentUser !== null) {
+      this.token = Auth.parse(currentUser);
+    }
     this.apiURL = 'https://api.wildfyre.net';
     // if (isDevMode()) {
     //   this.apiURL = 'http://localhost:8000';
@@ -32,8 +34,7 @@ export class AuthenticationService {
       return this.http.post(this.apiURL + '/account/auth/', JSON.stringify(login), options).pipe(
         map((response: any) => {
           // set token property
-          console.log(response)
-          this.token = new Auth(response);
+          this.token = Auth.parse(response);
           // store username and token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify({ username: login.username, token: this.token.token }));
 
