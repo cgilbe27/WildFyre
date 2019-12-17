@@ -1,5 +1,5 @@
 
-import {of, Observable } from 'rxjs';
+import {of, Observable, BehaviorSubject } from 'rxjs';
 import {mergeMap, catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Comment, CommentError } from '../_models/comment';
@@ -13,7 +13,8 @@ import { HttpService } from './http.service';
 export class PostService {
   private queuedPosts: { [area: string]: Post[]; } = {};
   private used: { [area: string]: number[]; } = {};
-  superPosts: { [area: string]: SuperPost; } = {};
+  public superPosts: { [area: string]: SuperPost; } = {};
+  public drafts: BehaviorSubject<{ [area: string]: SuperPost; }> = new BehaviorSubject({});
 
   constructor(
     private httpService: HttpService,
@@ -152,13 +153,16 @@ export class PostService {
       .subscribe();
   }
 
-  getDrafts(area: string, limit: number, offset: number): Observable<SuperPost> {
-      return this.httpService.GET('/areas/' + area + '/drafts/?limit=' + limit + '&offset=' + offset).pipe(
-        map((response) => {
-          this.superPosts[area] = SuperPost.parse(response);
-
-          return this.superPosts[area];
-      }));
+  getDrafts(area: string, limit: number, offset: number) {
+    this.drafts.subscribe(drafts => {
+      if (drafts === undefined) {
+        this.httpService.GET('/areas/' + area + '/drafts/?limit=' + limit + '&offset=' + offset)
+        .subscribe(response => {
+          drafts[area] = SuperPost.parse(response);
+          this.drafts.next(drafts);
+        });
+      }
+    });
   }
 
   getAllPosts(area: string): Observable<Post[]> {

@@ -5,7 +5,7 @@ import { Author } from '../_models/author';
 import { PostService } from '../_services/post.service';
 
 @Injectable()
-export class PostResolver implements Resolve<void> {
+export class CreatePostResolver implements Resolve<void> {
   constructor(
     private postService: PostService
   ) {}
