@@ -1,5 +1,6 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 import { AreaListResolver } from './_resolvers/areaList.resolver';
+import { PostResolver } from './_resolvers/post.resolver';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 import { Component404Component } from './_shared/404component/404.component';
 import { AreaListComponent } from './_shared/areaList/areaList.component';
@@ -22,8 +23,8 @@ import { AuthGuard } from './_guards/auth.guard';
 
 const appRoutes: Routes = [
   { path: '', component: AreaListComponent, canActivate: [AuthGuard], resolve: {areas: AreaListResolver} },
-  { path: 'areas/:area', component: PostViewComponent },
-  { path: 'areas/:area/:id', component: PostViewComponent },
+  { path: 'areas/:area', component: PostViewComponent, resolve: {areas: PostResolver}  },
+  { path: 'areas/:area/:id', component: PostViewComponent, resolve: {areas: PostResolver}  },
   { path: 'areas/:area/:id/:comments', component: PostViewComponent },
   { path: 'create', component: CreatePostComponent, canActivate: [AuthGuard] },
   { path: 'create/:id', component: CreatePostComponent, canActivate: [AuthGuard] },

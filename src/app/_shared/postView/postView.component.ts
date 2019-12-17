@@ -139,7 +139,9 @@ export class PostViewComponent implements OnInit, OnDestroy {
               areas[i].displayname,
             );
 
-            this.rep = Reputation.parse(result[areas[i].name])
+            if (result[areas[i].name] !== undefined) {
+              this.rep = Reputation.parse(result[areas[i].name]);
+            }
 
             this.areas.push(area);
             this.cdRef.detectChanges();

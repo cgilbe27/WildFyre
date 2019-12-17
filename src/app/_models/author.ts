@@ -6,7 +6,7 @@ export class Author {
       obj.banned,
       obj.avatar,
       (() => {
-        if (obj.bio === '') {
+        if (obj.bio === undefined || obj.bio === '') {
           obj.bio = "*This user doesn't know what they want to be yet.*";
         }
 

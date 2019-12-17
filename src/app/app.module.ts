@@ -53,6 +53,7 @@ import { MarkedPipe } from './_pipes/marked.pipe';
 
 // Core Resolvers
 import { AreaListResolver } from './_resolvers/areaList.resolver';
+import { PostResolver } from './_resolvers/post.resolver';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 
 // Core Services
@@ -163,6 +164,7 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
   providers: [
     // Resolvers
     AreaListResolver,
+    PostResolver,
     ProfileResolver,
 
     // Services
