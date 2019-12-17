@@ -122,27 +122,26 @@ export class DraftsComponent implements OnInit, OnDestroy {
           }
           this.loading = true;
           const posts: Post[] = [];
-
-          this.postService.getDrafts(currentArea.name, this.limit, 0).pipe(
-            takeUntil(this.componentDestroyed))
-            .subscribe(superPost => {
-              superPost.results.forEach((obj: any) => {
-                posts.push(Post.parse(obj));
-              });
-
-              // Removes binding to original 'superPost' variable
-              this.superPosts[currentArea.name] = JSON.parse(JSON.stringify(posts));
-              this.backupPosts[currentArea.name] = posts;
-              this.totalCount = superPost.count;
-
-              this.imageInPosts(this.superPosts[currentArea.name], currentArea.name);
-
-              for (let i = 0; i <= this.backupPosts[currentArea.name].length - 1; i++) {
-                this.backupPosts[currentArea.name][i].text = this.removeMarkdown(this.backupPosts[currentArea.name][i].text);
-              }
-              this.cdRef.detectChanges();
-              this.loading = false;
+          this.postService.drafts
+          .subscribe(superPosts => {
+            const superPost = superPosts[currentArea.name];
+            superPost.results.forEach((obj: any) => {
+              posts.push(Post.parse(obj));
             });
+
+            // Removes binding to original 'superPost' variable
+            this.superPosts[currentArea.name] = JSON.parse(JSON.stringify(posts));
+            this.backupPosts[currentArea.name] = posts;
+            this.totalCount = superPost.count;
+
+            this.imageInPosts(this.superPosts[currentArea.name], currentArea.name);
+
+            for (let i = 0; i <= this.backupPosts[currentArea.name].length - 1; i++) {
+              this.backupPosts[currentArea.name][i].text = this.removeMarkdown(this.backupPosts[currentArea.name][i].text);
+            }
+            this.cdRef.detectChanges();
+            this.loading = false;
+          });
         }
         });
   }
@@ -165,26 +164,26 @@ export class DraftsComponent implements OnInit, OnDestroy {
     this.loading = true;
     const posts: Post[] = [];
 
-    this.postService.getDrafts(this.currentArea, this.limit, (this.offset * page) - this.limit).pipe(
-      takeUntil(this.componentDestroyed))
-      .subscribe(superPost => {
-        superPost.results.forEach((obj: any) => {
-          posts.push(Post.parse(obj));
-        });
-
-        // Removes binding to original 'superPost' variable
-        this.superPosts[this.currentArea] = JSON.parse(JSON.stringify(posts));
-        this.backupPosts[this.currentArea] = posts;
-        this.imageInPosts(this.superPosts[this.currentArea], this.currentArea);
-
-        for (let i = 0; i <= this.backupPosts[this.currentArea].length - 1; i++) {
-          this.backupPosts[this.currentArea][i].text = this.removeMarkdown(this.backupPosts[this.currentArea][i].text);
-        }
-        this.index = page;
-        this.totalCount = superPost.count;
-        this.cdRef.detectChanges();
-        this.loading = false;
+    this.postService.drafts
+    .subscribe(superPosts => {
+      let superPost = superPosts[this.currentArea]
+      superPost.results.forEach((obj: any) => {
+        posts.push(Post.parse(obj));
       });
+
+      // Removes binding to original 'superPost' variable
+      this.superPosts[this.currentArea] = JSON.parse(JSON.stringify(posts));
+      this.backupPosts[this.currentArea] = posts;
+      this.imageInPosts(this.superPosts[this.currentArea], this.currentArea);
+
+      for (let i = 0; i <= this.backupPosts[this.currentArea].length - 1; i++) {
+        this.backupPosts[this.currentArea][i].text = this.removeMarkdown(this.backupPosts[this.currentArea][i].text);
+      }
+      this.index = page;
+      this.totalCount = superPost.count;
+      this.cdRef.detectChanges();
+      this.loading = false;
+    });
   }
 
   goto(postID: string) {

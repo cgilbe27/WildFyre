@@ -16,7 +16,6 @@ import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassw
 import { RecoverPassword2Component } from './_shared/recoverPassword2/recoverPassword2.component';
 import { RecoverUsernameComponent } from './_shared/recoverUsername/recoverUsername.component';
 import { RegisterComponent } from './_shared/register/register.component';
-import { RegisterSuccessComponent } from './_shared/registerSuccess/registerSuccess.component';
 import { PostViewComponent } from './_shared/postView/postView.component';
 import { ProfileComponent } from './_shared/profile/profile.component';
 import { UserPostsComponent } from './_shared/userPosts/userPosts.component';
@@ -43,7 +42,7 @@ const appRoutes: Routes = [
   { path: 'recover/password/:trans', component: RecoverPassword2Component }, //done
   { path: 'recover/username', component: RecoverUsernameComponent }, //done
   { path: 'register', component: RegisterComponent }, //done
-  { path: 'register/success', component: RegisterSuccessComponent },
+  { path: 'register/success', redirectTo: '/register', pathMatch: 'full' },
   { path: 'tools/image-upload', component: ImageUploadComponent },
   { path: 'tools/password', component: PasswordComponent },
   { path: 'user/:id', component: ProfileComponent, resolve: {areas: ProfileResolver} },

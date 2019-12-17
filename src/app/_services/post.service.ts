@@ -14,6 +14,7 @@ export class PostService {
   private queuedPosts: { [area: string]: Post[]; } = {};
   private used: { [area: string]: number[]; } = {};
   public superPosts: { [area: string]: SuperPost; } = {};
+  public currentPost: BehaviorSubject<Post> = new BehaviorSubject(undefined);
   public drafts: BehaviorSubject<{ [area: string]: SuperPost; }> = new BehaviorSubject({});
 
   constructor(
@@ -214,20 +215,24 @@ export class PostService {
       }));
   }
 
-  getPost(areaID: string, postID: number, draft: boolean = false): Observable<Post> {
-    let url = '/areas/' + areaID + '/';
+  getPost(areaID: string, postID: number, draft: boolean = false) {
+    this.currentPost.subscribe(post => {
+      if (post === undefined) {
+        let url = '/areas/' + areaID + '/';
 
-    if (draft === true) {
-      url += 'drafts/';
-    }
+        if (draft === true) {
+          url += 'drafts/';
+        }
 
-    return this.httpService.GET(url + postID + '/').pipe(
-      map((response) => {
-        return Post.parse(response);
-      }));
+        this.httpService.GET(url + postID + '/')
+          .subscribe(response => {
+            this.currentPost.next(Post.parse(response));
+          });
+      }
+    });
   }
 
-  publishDraft(area: string, postID: number): void {
+  publishDraft(area: string, postID: number) {
     this.httpService.POST('/areas/' + area + '/drafts/' + postID + '/publish/', {})
       .subscribe();
   }
@@ -280,7 +285,7 @@ export class PostService {
       }),);
   }
 
-  spread(area: string, post: Post, spread: boolean): void {
+  spread(area: string, post: Post, spread: boolean) {
     const body = {
       'spread': spread
     };

@@ -15,7 +15,6 @@ import { AreaListComponent } from './_shared/areaList/areaList.component';
 import { Component404Component } from './_shared/404component/404.component';
 import { CreatePostComponent } from './_shared/createPost/createPost.component';
 import { DraftsComponent } from './_shared/drafts/drafts.component';
-import { HomeComponent } from './_shared/home/home.component';
 import { ImageUploadComponent } from './_shared/imageUpload/imageUpload.component';
 import { LoginComponent } from './_shared/login/login.component';
 import { NavBarComponent } from './_shared/navBar/navBar.component';
@@ -28,7 +27,6 @@ import { RecoverPasswordComponent } from './_shared/recoverPassword/recoverPassw
 import { RecoverPassword2Component } from './_shared/recoverPassword2/recoverPassword2.component';
 import { RecoverUsernameComponent } from './_shared/recoverUsername/recoverUsername.component';
 import { RegisterComponent } from './_shared/register/register.component';
-import { RegisterSuccessComponent } from './_shared/registerSuccess/registerSuccess.component';
 import { UserPostsComponent } from './_shared/userPosts/userPosts.component';
 
 // Core Dialogs
@@ -130,7 +128,6 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     Component404Component,
     DraftsComponent,
     CreatePostComponent,
-    HomeComponent,
     ImageUploadComponent,
     LoginComponent,
     NavBarComponent,
@@ -143,7 +140,6 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     RecoverPassword2Component,
     RecoverUsernameComponent,
     RegisterComponent,
-    RegisterSuccessComponent,
     UserPostsComponent,
 
     // Dialogs

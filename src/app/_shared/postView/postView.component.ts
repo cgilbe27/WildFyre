@@ -165,14 +165,12 @@ export class PostViewComponent implements OnInit, OnDestroy {
             this.currentArea = area[params['area']];
             if (params['id']) {
               this.hasPostId = true;
-              this.postService.getPost(this.currentArea.name, params['id']).pipe(
-                takeUntil(this.componentDestroyed))
-                .subscribe(post => {
-                  this.post =  post;
-                  this.commentCount = this.post.comments.length;
-                  this.loading = false;
-                  this.navBarService.hasPost.next(true);
-                  this.cdRef.detectChanges();
+              this.postService.currentPost.subscribe(post => {
+                this.post =  post;
+                this.commentCount = this.post.comments.length;
+                this.loading = false;
+                this.navBarService.hasPost.next(true);
+                this.cdRef.detectChanges();
               });
 
               let commentIDArray = params['comments'];
@@ -424,15 +422,14 @@ export class PostViewComponent implements OnInit, OnDestroy {
                     }
                 });
               } else {
-                this.postService.getPost(this.currentArea.name, this.post.id, false).pipe(
-                  takeUntil(this.componentDestroyed))
-                  .subscribe(post => {
-                    this.post = post;
-                    this.commentCount = this.post.comments.length;
-                    this.loading = false;
-                    this.areaCheck = this.currentArea.name;
-                    this.navBarService.hasPost.next(true);
-                    this.cdRef.detectChanges();
+                this.postService.currentPost
+                .subscribe(post => {
+                  this.post = post;
+                  this.commentCount = this.post.comments.length;
+                  this.loading = false;
+                  this.areaCheck = this.currentArea.name;
+                  this.navBarService.hasPost.next(true);
+                  this.cdRef.detectChanges();
                 });
               }
             }

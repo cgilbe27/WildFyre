@@ -54,13 +54,11 @@ export class CreatePostComponent implements OnInit, OnDestroy {
             .subscribe((params: { [x: string]: number; }) => {
               if (params['id'] !== undefined) {
                 this.isDraft = true;
-
-                this.postService.getPost(this.currentArea.name, params['id'], true).pipe(
-                  takeUntil(this.componentDestroyed))
-                  .subscribe(post => {
-                    this.post = post;
-                    this.loading = false;
-                    this.cdRef.detectChanges();
+                this.postService.currentPost
+                .subscribe(post => {
+                  this.post = post;
+                  this.loading = false;
+                  this.cdRef.detectChanges();
                 });
               }
           });

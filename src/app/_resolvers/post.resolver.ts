@@ -18,8 +18,9 @@ export class PostResolver implements Resolve<void> {
     // if (route.paramMap.get('id') !== null) {
     //   this.profileService.getUser(route.paramMap.get('id'))
     // }
-
-    if (route.paramMap.get('area') !== null) {
+    if (route.paramMap.get('id') !== null && route.paramMap.get('area') !== null) {
+      this.postService.getPost(route.paramMap.get('area'), Number(route.paramMap.get('id')), false)
+    } else if (route.paramMap.get('area') !== null) {
       this.postService.getDrafts(route.paramMap.get('area'), 10, 0);
     }
   }

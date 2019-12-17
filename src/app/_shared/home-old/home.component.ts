@@ -253,15 +253,14 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
           } else if (currentArea.name === '') {
           } else {
-            this.postService.getPost(this.currentArea, this.post.id, false).pipe(
-              takeUntil(this.componentDestroyed))
-              .subscribe(post => {
-                this.post = post;
-                this.commentCount = this.post.comments.length;
-                this.loading = false;
-                this.areaCheck = this.currentArea;
-                this.navBarService.hasPost.next(true);
-                this.cdRef.detectChanges();
+            this.postService.currentPost
+            .subscribe(post => {
+              this.post = post;
+              this.commentCount = this.post.comments.length;
+              this.loading = false;
+              this.areaCheck = this.currentArea;
+              this.navBarService.hasPost.next(true);
+              this.cdRef.detectChanges();
             });
           }
         }
