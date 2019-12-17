@@ -1,7 +1,0 @@
-.*
-!.angular-cli.json
-arc-tslint
-LICENSE
-node_modules
-NOTICE
-tslint.json
