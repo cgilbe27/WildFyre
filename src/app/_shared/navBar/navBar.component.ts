@@ -27,13 +27,6 @@ export class NavBarComponent implements OnInit, OnDestroy, DoCheck {
     if (this.authenticationService.token) {
       this.setActiveIndex(this.router.url);
       this.loggedIn = true;
-
-      this.notificationService.getSuperNotification(10, 0).pipe(
-      takeUntil(this.componentDestroyed))
-      .subscribe(superNotification => {
-        this.notificationLength = superNotification.count;
-        this.cdRef.detectChanges();
-    });
     } else {
       this.activeLinkIndex = -1;
     }
@@ -45,7 +38,8 @@ export class NavBarComponent implements OnInit, OnDestroy, DoCheck {
           this.setActiveIndex(this.router.url);
           this.loggedIn = true;
 
-          this.notificationService.getSuperNotification(10, 0).pipe(
+          this.notificationService.getSuperNotification(10, 0);
+          this.notificationService.superNotification.pipe(
           takeUntil(this.componentDestroyed))
           .subscribe(superNotification => {
             this.notificationLength = superNotification.count;

@@ -81,11 +81,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 takeUntil(this.componentDestroyed))
                 .subscribe((result: Auth) => {
                   if (!result.getError()) {
-                    this.notificationService.getSuperNotification(10, 0).pipe(
-                      takeUntil(this.componentDestroyed))
-                      .subscribe(superNotification => {
-                        this.navBarService.notifications.next(superNotification.count);
-                    });
                     this.navBarService.loggedIn.next(true);
                     this.router.navigate(['/']);
                     this.submitted = false;

@@ -90,7 +90,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           this.index = params['index'];
         }
         // get notifications from secure api end point
-        this.notificationService.getSuperNotification(this.limit, (this.index * this.limit) - this.limit).pipe(
+        this.notificationService.superNotification.pipe(
           takeUntil(this.componentDestroyed))
           .subscribe(superNotification => {
             this.superNotification = superNotification;
@@ -144,8 +144,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.notifications = [];
 
-    this.notificationService.getSuperNotification(this.limit, (this.offset * page) - this.limit).pipe(
-      takeUntil(this.componentDestroyed))
+    this.notificationService.getSuperNotification(this.limit, (this.offset * page) - this.limit);
+
+    this.notificationService.superNotification
       .subscribe(superNotification => {
         this.superNotification = superNotification;
 

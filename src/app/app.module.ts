@@ -52,6 +52,8 @@ import { MarkedPipe } from './_pipes/marked.pipe';
 // Core Resolvers
 import { AreaListResolver } from './_resolvers/areaList.resolver';
 import { CreatePostResolver } from './_resolvers/createPost.resolver';
+import { NotificationArchiveResolver } from './_resolvers/notificationArchive.resolver';
+import { NotificationsResolver } from './_resolvers/notifications.resolver';
 import { PostResolver } from './_resolvers/post.resolver';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 
@@ -162,6 +164,8 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
     // Resolvers
     AreaListResolver,
     CreatePostResolver,
+    NotificationArchiveResolver,
+    NotificationsResolver,
     PostResolver,
     ProfileResolver,
 

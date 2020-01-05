@@ -1,6 +1,7 @@
 ﻿import { Routes, RouterModule } from '@angular/router';
 import { AreaListResolver } from './_resolvers/areaList.resolver';
 import { CreatePostResolver } from './_resolvers/createPost.resolver';
+import { NotificationsResolver } from './_resolvers/notifications.resolver';
 import { PostResolver } from './_resolvers/post.resolver';
 import { ProfileResolver } from './_resolvers/profile.resolver';
 import { Component404Component } from './_shared/404component/404.component';
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
   { path: 'create/:id', component: CreatePostComponent, canActivate: [AuthGuard], resolve: {areas: CreatePostResolver} },
   { path: 'drafts', component: DraftsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard], resolve: {areas: NotificationsResolver} },
   { path: 'notifications/:index', component: NotificationsComponent, canActivate: [AuthGuard] },
   { path: 'notification/archive', component: AreaListComponent, canActivate: [AuthGuard], resolve: {areas: AreaListResolver} },
   { path: 'notification/archive/:index', component: AreaListComponent, canActivate: [AuthGuard], resolve: {areas: AreaListResolver} },

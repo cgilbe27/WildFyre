@@ -123,9 +123,11 @@ export class NotificationArchiveComponent implements OnInit, OnDestroy {
               this.loading = true;
               const posts: Post[] = [];
 
-            this.notificationService.getArchive(currentArea.name, this.limit, 0).pipe(
+            this.notificationService.superPosts.pipe(
               takeUntil(this.componentDestroyed))
-              .subscribe(superPost => {
+              .subscribe(superPosts => {
+                let superPost = superPosts[this.currentArea];
+
                 superPost.results.forEach((obj: any) => {
                   posts.push(Post.parse(obj));
                 });
@@ -165,9 +167,11 @@ export class NotificationArchiveComponent implements OnInit, OnDestroy {
     this.loading = true;
     const posts: Post[] = [];
 
-    this.notificationService.getArchive(this.currentArea, this.limit, (this.offset * page) - this.limit).pipe(
+    this.notificationService.getArchive(this.currentArea, this.limit, (this.offset * page) - this.limit);
+    this.notificationService.superPosts.pipe(
       takeUntil(this.componentDestroyed))
-      .subscribe(superPost => {
+      .subscribe(superPosts => {
+        let superPost = superPosts[this.currentArea]
         superPost.results.forEach((obj: any) => {
           posts.push(Post.parse(obj));
         });

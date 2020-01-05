@@ -41,7 +41,7 @@ export class AreaService {
   //   }
   // }
 
-  getAreaRep(areas: Area[]) {
+  getAreaRep(areas: Area[]): void {
     this.reputation.subscribe(reputation => {
       let rep: Observable<any>[] = [];
 
@@ -67,7 +67,7 @@ export class AreaService {
     });
   }
 
-  getAreas() {
+  getAreas(): void {
     // get areas from api
     this.areas.subscribe(areas => {
       if (areas.length === 0) {

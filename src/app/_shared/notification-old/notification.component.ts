@@ -88,25 +88,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
         if (params['index'] !== undefined) {
           this.index = params['index'];
         }
-        // get notifications from secure api end point
-        this.notificationService.getSuperNotification(this.limit, (this.index * this.limit) - this.limit).pipe(
-          takeUntil(this.componentDestroyed))
-          .subscribe(superNotification => {
-            this.superNotification = superNotification;
-
-            superNotification.results.forEach((obj: any) => {
-              this.notifications.push(Notification.parse(obj));
-            });
-
-            for (let i = 0; i <= this.notifications.length - 1; i++) {
-              this.notifications[i].post.text = this.removeMarkdown(this.notifications[i].post.text);
-            }
-
-            this.totalCount = this.superNotification.count;
-            this.navBarService.notifications.next(this.superNotification.count);
-            this.loading = false;
-            this.cdRef.detectChanges();
-        });
       });
   }
 
@@ -142,22 +123,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   getNotifications(page: number) {
     this.loading = true;
     this.notifications = [];
-
-    this.notificationService.getSuperNotification(this.limit, (this.offset * page) - this.limit).pipe(
-      takeUntil(this.componentDestroyed))
-      .subscribe(superNotification => {
-        this.superNotification = superNotification;
-
-        superNotification.results.forEach((obj: any) => {
-          this.notifications.push(Notification.parse(obj));
-        });
-
-        this.index = page;
-        this.totalCount = this.superNotification.count;
-        this.navBarService.notifications.next(this.superNotification.count);
-        this.cdRef.detectChanges();
-        this.loading = false;
-    });
   }
 
   goto(areaID: string, postID: number, comments: number[] = []) {
